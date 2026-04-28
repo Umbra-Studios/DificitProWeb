@@ -256,7 +256,7 @@ export default function App() {
       </section>
 
       {/* AI Scanner Showcase */}
-      <section className="py-12 px-12 bg-[#0c0c0c] border-y border-brand-border overflow-hidden">
+      <section className="py-8 px-12 bg-[#0c0c0c] border-y border-brand-border overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-20">
           <div className="flex-1 space-y-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-500/10 text-orange-500 text-[10px] font-bold uppercase tracking-[0.2em] rounded border border-orange-500/20">
@@ -323,7 +323,7 @@ export default function App() {
       </section>
 
       {/* Coach Section */}
-      <section className="py-12 px-12 relative">
+      <section className="py-6 px-12 relative">
         <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-brand-emerald/5 blur-[120px] rounded-full -translate-y-1/2 -z-10"></div>
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-20">
           <div className="flex-1 space-y-8">
@@ -420,7 +420,7 @@ export default function App() {
       </section>
 
       {/* Daily Challenges Section */}
-      <section id="features" className="py-8 px-12 max-w-7xl mx-auto overflow-hidden">
+      <section id="features" className="py-6 px-12 max-w-7xl mx-auto overflow-hidden">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
