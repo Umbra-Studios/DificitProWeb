@@ -420,7 +420,7 @@ export default function App() {
       </section>
 
       {/* Daily Challenges Section */}
-      <section id="features" className="py-20 px-12 max-w-7xl mx-auto overflow-hidden">
+      <section id="features" className="py-8 px-12 max-w-7xl mx-auto overflow-hidden">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
@@ -519,7 +519,7 @@ export default function App() {
       </section>
 
       {/* Control Total Section */}
-      <section className="py-20 px-12 max-w-7xl mx-auto border-t border-brand-border">
+      <section className="py-12 px-12 max-w-7xl mx-auto border-t border-brand-border">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-20">
           <div>
             <span className="text-brand-emerald text-[10px] font-bold uppercase tracking-[0.3em]">Operational Precision</span>
