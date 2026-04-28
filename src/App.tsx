@@ -183,14 +183,14 @@ export default function App() {
                       <span className="text-[10px] text-neutral-400">kcal restantes</span>
                     </div>
                     {/* Floating Side Icons */}
-                    <div className="absolute top-[40%] -left-10 -translate-y-1/2 w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center shadow-lg shadow-blue-500/30 border-2 border-white/10">
-                       <ChefHat size={16} className="text-white" />
+                    <div className="absolute top-[45%] -left-8 -translate-y-1/2 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center shadow-lg shadow-blue-500/30 border-2 border-white/10">
+                       <ChefHat size={12} className="text-white" />
                     </div>
-                    <div className="absolute top-[25%] -right-10 w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/30 border-2 border-white/20">
-                       <Zap size={14} className="text-white" />
+                    <div className="absolute top-[28%] -right-8 w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/30 border-2 border-white/20">
+                       <Zap size={10} className="text-white" />
                     </div>
-                    <div className="absolute bottom-[25%] -right-10 w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-600/30 border-2 border-white/10">
-                       <ChefHat size={14} className="text-white" />
+                    <div className="absolute top-[40%] -right-8 w-6 h-6 rounded-full bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-600/30 border-2 border-white/10">
+                       <ChefHat size={10} className="text-white" />
                     </div>
                   </div>
 
