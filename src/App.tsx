@@ -86,8 +86,8 @@ export default function App() {
               Download App <ChevronRight size={10} />
             </a>
           </div>
-          <div className="md:hidden w-10 h-10 rounded-full border border-brand-border flex items-center justify-center">
-             <LayoutDashboard size={18} className="text-neutral-400" />
+          <div className="md:hidden">
+             <a href="#pricing" className="text-[10px] font-bold text-brand-emerald uppercase tracking-[0.2em] border border-brand-emerald/30 px-4 py-2 rounded-full">Planes</a>
           </div>
         </div>
       </nav>
@@ -186,10 +186,10 @@ export default function App() {
                     <div className="absolute top-[45%] -left-8 -translate-y-1/2 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center shadow-lg shadow-blue-500/30 border-2 border-white/10">
                        <ChefHat size={12} className="text-white" />
                     </div>
-                    <div className="absolute top-[28%] -right-8 w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/30 border-2 border-white/20">
+                    <div className="absolute top-[34%] -right-8 w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/30 border-2 border-white/20">
                        <Zap size={10} className="text-white" />
                     </div>
-                    <div className="absolute top-[40%] -right-8 w-6 h-6 rounded-full bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-600/30 border-2 border-white/10">
+                    <div className="absolute top-[44%] -right-8 w-6 h-6 rounded-full bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-600/30 border-2 border-white/10">
                        <ChefHat size={10} className="text-white" />
                     </div>
                   </div>
@@ -256,7 +256,7 @@ export default function App() {
       </section>
 
       {/* AI Scanner Showcase */}
-      <section className="py-20 px-12 bg-[#0c0c0c] border-y border-brand-border overflow-hidden">
+      <section className="py-12 px-12 bg-[#0c0c0c] border-y border-brand-border overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-20">
           <div className="flex-1 space-y-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-500/10 text-orange-500 text-[10px] font-bold uppercase tracking-[0.2em] rounded border border-orange-500/20">
@@ -323,7 +323,7 @@ export default function App() {
       </section>
 
       {/* Coach Section */}
-      <section className="py-20 px-12 relative">
+      <section className="py-12 px-12 relative">
         <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-brand-emerald/5 blur-[120px] rounded-full -translate-y-1/2 -z-10"></div>
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-20">
           <div className="flex-1 space-y-8">
@@ -457,13 +457,13 @@ export default function App() {
                     <div className="h-2 w-full bg-[#111827] rounded-full overflow-hidden mb-3">
                       <motion.div 
                         initial={{ width: 0 }}
-                        whileInView={{ width: "40%" }}
+                        whileInView={{ width: "100%" }}
                         transition={{ duration: 1.5 }}
                         className="h-full bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,0.5)]"
                       ></motion.div>
                     </div>
                     <div className="flex justify-between items-center text-[9px] font-bold">
-                       <span className="text-neutral-500 uppercase italic tracking-tighter">4 / 10 VASOS</span>
+                       <span className="text-neutral-500 uppercase italic tracking-tighter">10 / 10 VASOS</span>
                        <span className="text-brand-emerald uppercase tracking-tighter">¡COMPLETADO! +1 ★</span>
                     </div>
                   </div>
@@ -598,9 +598,9 @@ export default function App() {
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand-emerald/5 blur-[120px] rounded-full -z-10"></div>
         <div className="max-w-4xl mx-auto space-y-16">
           <div className="space-y-6">
-            <h2 className="text-4xl md:text-6xl font-light tracking-tighter uppercase italic leading-tight">
-              NO MÁS <span className="font-bold text-brand-emerald not-italic text-shadow-[0_0_20px_rgba(16,185,129,0.3)]">ENCUESTAS LARGUÍSIMAS</span> <br/>
-              ni aplicaciones complejas, vive el minimalismo con Deficit <span className="brand-logo lowercase text-[#00e5ff]">pro</span>
+            <h2 className="text-4xl md:text-5xl font-light tracking-tighter uppercase italic leading-tight">
+              Hazlo <span className="font-bold text-brand-emerald not-italic text-shadow-[0_0_20px_rgba(16,185,129,0.3)]">simple.</span> Hazlo <span className="font-bold text-brand-emerald not-italic text-shadow-[0_0_20px_rgba(16,185,129,0.3)]">real.</span> <br/>
+              Hazlo con Déficit <span className="brand-logo lowercase text-[#00e5ff]">pro</span>
             </h2>
             <p className="text-neutral-400 text-lg leading-relaxed font-light italic">
               Made in Chile. 🇨🇱
