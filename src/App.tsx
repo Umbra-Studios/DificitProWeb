@@ -16,7 +16,14 @@ import {
   MessageSquare, 
   User,
   CheckCircle2,
-  Apple
+  Apple,
+  Flame,
+  Star,
+  TrendingDown,
+  TrendingUp,
+  Calendar,
+  ArrowDown,
+  ArrowUp
 } from "lucide-react";
 
 const FeatureCard = ({ children, title, icon: Icon, className = "" }: any) => (
@@ -514,6 +521,262 @@ export default function App() {
                   <p className="text-xs text-neutral-500 leading-relaxed">Habla con tu Coach IA sin restricciones de mensajes diarios.</p>
                </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Streak (Racha) Section */}
+      <section className="py-20 px-12 bg-brand-dark relative overflow-hidden">
+        {/* ... (same streak code) ... */}
+        <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-orange-500/5 blur-[120px] rounded-full -translate-y-1/2 -z-10"></div>
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-20">
+          <div className="flex-1 space-y-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-orange/10 text-orange-500 text-[10px] font-bold uppercase tracking-[0.2em] rounded border border-orange-500/20">
+              <Flame size={12} className="fill-orange-500" /> Sistema de Rachas
+            </div>
+            <h2 className="text-5xl md:text-6xl font-light tracking-tighter leading-tight">
+              La Consistencia es <br/>
+              <span className="font-bold italic text-orange-500 brightness-125">Tu Mejor Aliada.</span>
+            </h2>
+            <p className="text-neutral-400 text-lg leading-relaxed font-light max-w-lg">
+              No rompas la cadena. Registra tus alimentos diariamente y mantén el fuego encendido. Cada semana de racha te acerca más a la experiencia completa.
+            </p>
+            
+            <div className="grid gap-6">
+              <motion.div 
+                whileHover={{ x: 10 }}
+                className="flex items-center gap-6 p-6 glass-card border-orange-500/10 group bg-orange-500/5"
+              >
+                <div className="w-14 h-14 rounded-2xl bg-orange-500/20 flex items-center justify-center text-orange-500 shadow-[0_0_20px_rgba(249,115,22,0.2)]">
+                  <Flame size={32} className="fill-orange-500" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-lg leading-tight uppercase tracking-tight">Cada 7 Días de Racha</h4>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-orange-500 text-sm font-bold uppercase tracking-widest">+5 ESTRELLAS</span>
+                    <Star size={14} className="fill-amber-500 text-amber-500" />
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div 
+                whileHover={{ x: 10 }}
+                className="flex items-center gap-6 p-6 glass-card border-amber-500/10 group bg-amber-500/5"
+              >
+                <div className="w-14 h-14 rounded-2xl bg-amber-500/20 flex items-center justify-center text-amber-500 shadow-[0_0_20px_rgba(245,158,11,0.2)]">
+                  <Star size={32} className="fill-amber-500" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-lg leading-tight uppercase tracking-tight">Canjea 50 Estrellas</h4>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-amber-500 text-sm font-bold uppercase tracking-widest">5 DÍAS DE FUNCIONES PRO</span>
+                    <Zap size={14} className="text-brand-emerald" />
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+
+          <div className="flex-1 relative">
+            {/* Streak Visual Mockup */}
+            <div className="glass-card p-10 border-orange-500/20 relative group">
+              <div className="absolute -top-12 -right-12 w-40 h-40 bg-orange-500/10 blur-[60px] rounded-full group-hover:bg-orange-500/20 transition-all"></div>
+              
+              <div className="text-center space-y-8">
+                <div className="relative inline-block">
+                  <div className="w-32 h-32 rounded-full border-4 border-orange-500/20 flex items-center justify-center relative">
+                    <Flame size={64} className="fill-orange-500 text-orange-500 drop-shadow-[0_0_25px_rgba(249,115,22,0.6)]" />
+                    <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-brand-emerald flex items-center justify-center border-4 border-brand-dark">
+                      <CheckCircle2 size={16} className="text-black font-bold" strokeWidth={3} />
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <h3 className="text-center text-xs font-bold uppercase tracking-[0.4em] text-neutral-500 italic">Tu Racha Actual</h3>
+                  <div className="text-6xl font-black italic tracking-tighter text-shadow-[0_0_30px_rgba(249,115,22,0.4)]">
+                    9 <span className="text-2xl not-italic uppercase tracking-widest text-neutral-500">Días</span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-7 gap-3">
+                  {['L', 'M', 'M', 'J', 'V', 'S', 'D'].map((day, i) => (
+                    <div key={i} className="space-y-3 flex flex-col items-center">
+                      <div className={`w-10 h-12 rounded-2xl flex items-center justify-center border transition-all ${i < 6 ? 'bg-orange-500 border-orange-400 shadow-[0_0_15px_rgba(249,115,22,0.5)]' : 'bg-neutral-900 border-white/5 opacity-30'}`}>
+                        {i < 6 && <Flame size={16} className="fill-white text-white" />}
+                      </div>
+                      <span className="text-[10px] font-bold text-neutral-500">{day}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold pt-4">Registra al menos 3 alimentos al día para mantener tu racha.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Progress History Section */}
+      <section className="py-20 px-12 bg-[#0c0c0c] border-y border-brand-border overflow-hidden">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row-reverse items-center gap-20">
+          <div className="flex-1 space-y-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-emerald/10 text-brand-emerald text-[10px] font-bold uppercase tracking-[0.2em] rounded border border-brand-emerald/20">
+              <TrendingUp size={12} /> Análisis de Déficit
+            </div>
+            <h2 className="text-5xl md:text-6xl font-light tracking-tighter leading-tight">
+              Visualiza tu <br/>
+              <span className="font-bold italic text-brand-emerald text-gradient">Éxito Diario.</span>
+            </h2>
+            <p className="text-neutral-400 text-lg leading-relaxed font-light max-w-lg">
+              La app registra cada caloría consumida y quemada para calcular tu déficit real. Identifica qué días cumpliste tus metas y cuáles requieren más atención con nuestro historial inteligente.
+            </p>
+            <div className="grid gap-6">
+              <div className="flex items-start gap-4">
+                <div className="w-8 h-8 rounded-lg bg-brand-emerald/10 flex items-center justify-center text-brand-emerald flex-shrink-0">
+                  <CheckCircle2 size={16} />
+                </div>
+                <div>
+                  <h4 className="font-bold uppercase tracking-widest text-xs mb-1">Déficit Logrado</h4>
+                  <p className="text-[10px] text-neutral-500 font-light">Días marcados en verde cuando tu balance calórico es negativo según tu plan.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center text-red-500 flex-shrink-0">
+                  <Flame size={16} />
+                </div>
+                <div>
+                  <h4 className="font-bold uppercase tracking-widest text-xs mb-1">Exceso Detectado</h4>
+                  <p className="text-[10px] text-neutral-500 font-light">Alertas en rojo cuando superas el límite calórico, permitiéndote ajustar el resto de tu semana.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex-1 relative w-full overflow-hidden flex justify-center">
+             {/* Progress Screen Mockup */}
+             <div className="w-full max-w-[360px] bg-[#030712] rounded-[3rem] border-8 border-neutral-800 shadow-2xl relative overflow-hidden pb-10">
+                {/* Apps Header */}
+                <div className="p-8 pb-4 flex items-center justify-between">
+                   <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-neutral-800 flex items-center justify-center">
+                         <ChevronRight size={16} className="rotate-180 text-neutral-400" />
+                      </div>
+                      <h3 className="text-xl font-display font-black tracking-tighter italic uppercase">Tu Progreso</h3>
+                   </div>
+                   <div className="text-[8px] font-bold text-neutral-500 uppercase tracking-widest border-l border-white/10 pl-3">7 Días Registrados</div>
+                </div>
+
+                <div className="px-6 space-y-6 mt-4">
+                   {/* Tabs */}
+                   <div className="flex bg-[#111827] rounded-xl p-1 gap-1">
+                      <div className="flex-1 bg-brand-card p-2 rounded-lg flex items-center justify-center gap-2 border border-white/10">
+                         <TrendingUp size={12} className="text-brand-emerald" />
+                         <span className="text-[10px] font-bold uppercase tracking-widest">Calorías</span>
+                      </div>
+                      <div className="flex-1 p-2 rounded-lg flex items-center justify-center gap-2 opacity-40">
+                         <Star size={12} />
+                         <span className="text-[10px] font-bold uppercase tracking-widest">Peso</span>
+                      </div>
+                   </div>
+
+                   {/* Stats Grid */}
+                   <div className="grid grid-cols-2 gap-3">
+                      <div className="glass-card p-4 border-blue-500/10">
+                         <div className="flex items-center gap-2 mb-2">
+                           <TrendingUp size={12} className="text-blue-400" />
+                           <span className="text-[8px] font-bold text-neutral-500 uppercase tracking-tighter">Promedio Consumido</span>
+                         </div>
+                         <div className="text-2xl font-black italic tracking-tighter">1233 <span className="text-[10px] not-italic text-neutral-500">kcal</span></div>
+                      </div>
+                      <div className="glass-card p-4 border-brand-emerald/10">
+                         <div className="flex items-center gap-2 mb-2">
+                           <TrendingDown size={12} className="text-brand-emerald" />
+                           <span className="text-[8px] font-bold text-neutral-500 uppercase tracking-tighter">Promedio Quemado</span>
+                         </div>
+                         <div className="text-2xl font-black italic tracking-tighter">428 <span className="text-[10px] not-italic text-neutral-500">kcal</span></div>
+                      </div>
+                   </div>
+
+                   {/* Mini Chart Mockup */}
+                   <div className="glass-card p-6 border-white/5 space-y-4">
+                      <div className="flex justify-between items-end">
+                         <div>
+                            <h4 className="text-[10px] font-black uppercase tracking-widest text-[#00e5ff] italic">Balance Calórico</h4>
+                            <p className="text-[8px] text-neutral-500 uppercase font-bold italic">Entrada vs Salida</p>
+                         </div>
+                      </div>
+                      <div className="h-24 w-full flex items-end gap-1.5 px-2">
+                         {[60, 90, 45, 55, 75, 100, 30].map((h, i) => (
+                           <div key={i} className="flex-1 space-y-1">
+                              <div className="relative w-full h-full flex flex-col justify-end">
+                                 <motion.div 
+                                    initial={{ height: 0 }}
+                                    whileInView={{ height: `${h}%` }}
+                                    className={`w-full rounded-t-sm ${i === 5 ? 'bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]' : 'bg-brand-emerald opacity-60'}`}
+                                 ></motion.div>
+                                 <motion.div 
+                                    initial={{ height: 0 }}
+                                    whileInView={{ height: `${h * 0.4}%` }}
+                                    className="w-full bg-blue-500 opacity-80 rounded-t-sm"
+                                 ></motion.div>
+                              </div>
+                              <div className="text-[6px] text-neutral-600 font-bold text-center">
+                                 {['J', 'V', 'S', 'D', 'L', 'M', 'M'][i]}
+                              </div>
+                           </div>
+                         ))}
+                      </div>
+                   </div>
+
+                   {/* Daily Detail List */}
+                   <div className="space-y-3 pb-8">
+                      <h4 className="text-[10px] font-black uppercase tracking-widest mb-4">Detalle Diario</h4>
+                      
+                      {/* Day 1 (Exito) */}
+                      <div className="flex items-center gap-4 bg-brand-card/50 p-4 rounded-2xl border border-white/5 relative overflow-hidden group">
+                         <div className="absolute left-0 top-0 bottom-0 w-1 bg-brand-emerald"></div>
+                         <div className="w-10 h-10 rounded-xl bg-neutral-900 border border-white/5 flex flex-col items-center justify-center">
+                            <span className="text-[8px] text-neutral-500 font-bold uppercase tracking-tighter">Abr</span>
+                            <span className="text-base font-black italic tracking-tighter leading-none mt-1">29</span>
+                         </div>
+                         <div className="flex-1">
+                            <h5 className="text-[10px] font-black uppercase tracking-tighter flex items-center gap-2">Miércoles <CheckCircle2 size={10} className="text-brand-emerald" /></h5>
+                            <div className="flex gap-2 mt-1">
+                               <span className="text-[8px] bg-blue-500/10 text-blue-400 px-1 py-0.5 rounded font-bold">+2630</span>
+                               <span className="text-[8px] bg-brand-emerald/10 text-brand-emerald px-1 py-0.5 rounded font-bold">-1055</span>
+                            </div>
+                         </div>
+                         <div className="text-right">
+                            <div className="text-xs font-black text-brand-emerald italic leading-tight tracking-tighter">+1994</div>
+                            <div className="text-[8px] text-neutral-500 font-bold uppercase tracking-widest">Margen</div>
+                         </div>
+                      </div>
+
+                      {/* Day 2 (Fracaso - Rojo) */}
+                      <div className="flex items-center gap-4 bg-red-500/5 p-4 rounded-2xl border border-red-500/10 relative overflow-hidden group">
+                         <div className="absolute left-0 top-0 bottom-0 w-1 bg-red-500"></div>
+                         <div className="w-10 h-10 rounded-xl bg-neutral-900 border border-red-500/10 flex flex-col items-center justify-center">
+                            <span className="text-[8px] text-neutral-500 font-bold uppercase tracking-tighter">Abr</span>
+                            <span className="text-base font-black italic tracking-tighter leading-none mt-1">28</span>
+                         </div>
+                         <div className="flex-1">
+                            <h5 className="text-[10px] font-black uppercase tracking-tighter flex items-center gap-2 text-red-400">Martes <Flame size={10} /></h5>
+                            <div className="flex gap-2 mt-1">
+                               <span className="text-[8px] bg-red-400/20 text-red-400 px-1 py-0.5 rounded font-bold">+3100</span>
+                               <span className="text-[8px] bg-brand-emerald/10 text-brand-emerald px-1 py-0.5 rounded font-bold">-250</span>
+                            </div>
+                         </div>
+                         <div className="text-right">
+                            <div className="text-xs font-black text-red-500 italic leading-tight tracking-tighter">-450</div>
+                            <div className="text-[8px] text-neutral-500 font-bold uppercase tracking-widest leading-none">Exceso</div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                {/* Notch detail */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-neutral-900 rounded-b-2xl"></div>
+             </div>
           </div>
         </div>
       </section>
