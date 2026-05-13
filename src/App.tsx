@@ -4,6 +4,7 @@
  */
 
 import { motion } from "motion/react";
+import { HashRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { 
   Zap, 
   Droplets, 
@@ -29,7 +30,14 @@ import {
   Brain,
   BookOpen,
   ChevronLeft,
-  Search
+  ChevronDown,
+  Search,
+  ArrowRight,
+  Globe,
+  Rocket,
+  Lightbulb,
+  Gift,
+  Share2,
 } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -78,7 +86,7 @@ const ProgressBar = ({ label, value, max, color = "bg-brand-emerald" }: any) => 
   </div>
 );
 
-export default function App() {
+const DeficitPro = () => {
   return (
     <div className="min-h-screen selection:bg-brand-emerald selection:text-black font-sans relative">
       {/* Background Ambient Motion */}
@@ -115,16 +123,18 @@ export default function App() {
       <nav className="fixed top-0 left-0 right-0 z-50 px-8 py-6 backdrop-blur-md bg-brand-dark/80 border-b border-brand-border">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 overflow-hidden rounded-xl shadow-lg shadow-[#00e5ff]/30 border border-white/10 group bg-[#020617] p-1.5 flex items-center justify-center relative">
-              <div className="w-full h-full rounded-full border-2 border-brand-emerald flex items-center justify-center relative">
-                 <div className="flex gap-0.5">
-                   <div className="w-1.5 h-4 bg-brand-emerald/40 rounded-full rotate-[-45deg] transform translate-x-1"></div>
-                   <div className="w-1.5 h-4 bg-brand-emerald rounded-full rotate-[45deg] transform -translate-x-1"></div>
-                 </div>
-                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[120%] w-2 h-2 bg-[#00e5ff] rounded-full animate-pulse shadow-[0_0_8px_#00e5ff]"></div>
+            <Link to="/" className="hover:opacity-80 transition-opacity">
+              <div className="w-10 h-10 overflow-hidden rounded-xl shadow-lg shadow-[#00e5ff]/30 border border-white/10 group bg-[#020617] p-1.5 flex items-center justify-center relative">
+                <div className="w-full h-full rounded-full border-2 border-brand-emerald flex items-center justify-center relative">
+                   <div className="flex gap-0.5">
+                     <div className="w-1.5 h-4 bg-brand-emerald/40 rounded-full rotate-[-45deg] transform translate-x-1"></div>
+                     <div className="w-1.5 h-4 bg-brand-emerald rounded-full rotate-[45deg] transform -translate-x-1"></div>
+                   </div>
+                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[120%] w-2 h-2 bg-[#00e5ff] rounded-full animate-pulse shadow-[0_0_8px_#00e5ff]"></div>
+                </div>
+                <div className="absolute inset-0 bg-brand-emerald/10 opacity-50 group-hover:opacity-100 transition-opacity"></div>
               </div>
-              <div className="absolute inset-0 bg-brand-emerald/10 opacity-50 group-hover:opacity-100 transition-opacity"></div>
-            </div>
+            </Link>
             <span className="brand-logo text-xl">
               Deficit <span className="text-[#00e5ff] glow-cyan lowercase">pro</span>
             </span>
@@ -132,6 +142,7 @@ export default function App() {
           <div className="hidden md:flex items-center gap-10 text-[10px] font-bold text-neutral-400 uppercase tracking-[0.2em]">
             <a href="#features" className="hover:text-brand-emerald transition-colors">Características</a>
             <a href="#pricing" className="hover:text-brand-emerald transition-colors">Planes</a>
+            <Link to="/Studio" className="hover:text-brand-emerald transition-colors">Studio</Link>
             <a 
               href="https://play.google.com/store/apps/details?id=com.deficitpro" 
               target="_blank" 
@@ -141,7 +152,8 @@ export default function App() {
               Download App <ChevronRight size={10} />
             </a>
           </div>
-          <div className="md:hidden">
+          <div className="md:hidden flex gap-2">
+             <Link to="/Studio" className="text-[10px] font-bold text-neutral-400 uppercase tracking-[0.2em] border border-white/10 px-4 py-2 rounded-full">Studio</Link>
              <a href="#pricing" className="text-[10px] font-bold text-brand-emerald uppercase tracking-[0.2em] border border-brand-emerald/30 px-4 py-2 rounded-full">Planes</a>
           </div>
         </div>
@@ -359,18 +371,8 @@ export default function App() {
               <span className="font-bold italic text-orange-500 text-shadow-[0_0_15px_rgba(249,115,22,0.4)]">Sabor Local.</span>
             </h2>
             <p className="text-neutral-400 text-lg leading-relaxed font-light max-w-lg">
-              Nuestra IA no solo cuenta calorías. Identifica platos específicos chilenos: desde una Cazuela hasta un Completo, ajustando los macros según la preparación local.
+              Nuestra IA no solo identifica el plato! También te dice las calorías que contiene y los macros asociados a esta. Puedes agregar o modificar ingredientes.
             </p>
-            <div className="flex flex-col sm:flex-row gap-6">
-              <div className="glass-card p-6 flex flex-col gap-2 hover:border-orange-500/30">
-                <span className="text-2xl font-bold flex items-center gap-2 font-display">98.4% <span className="text-[10px] text-orange-500 font-bold uppercase">Accuracy</span></span>
-                <span className="text-xs text-neutral-500 leading-tight">Garantía en gastronomía nacional.</span>
-              </div>
-              <div className="glass-card p-6 flex flex-col gap-2 hover:border-orange-500/30">
-                <span className="text-2xl font-bold flex items-center gap-2 font-display">&lt; 0.5s <span className="text-[10px] text-orange-500 font-bold uppercase">Latency</span></span>
-                <span className="text-xs text-neutral-500 leading-tight">Procesamiento visual en tiempo real.</span>
-              </div>
-            </div>
           </div>
           <div className="flex-1 relative">
             <div className="absolute inset-0 bg-orange-500/10 blur-[120px] rounded-full"></div>
@@ -427,7 +429,7 @@ export default function App() {
               <span className="font-bold italic text-brand-emerald text-gradient">Coach IA Chileno.</span>
             </h2>
             <p className="text-neutral-400 text-lg leading-relaxed font-light max-w-lg">
-              No es solo una IA, es tu compañero que entiende de asados, cazuelas y porotos con riendas. Consultas ilimitadas 24/7 con el modismo que te hace sentir en casa.
+              Conoce a tu Coach IA, integrado con una firme y chilena personalidad. Con su motivación te entregará consejos como. 
             </p>
             <div className="space-y-4">
               <div className="flex items-center gap-4 text-sm font-light text-neutral-300">
@@ -436,11 +438,11 @@ export default function App() {
               </div>
               <div className="flex items-center gap-4 text-sm font-light text-neutral-300">
                 <div className="w-1.5 h-1.5 rounded-full bg-brand-emerald shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
-                Sugerencias de colación para la pega.
+                Sugerencias de almuerzos para la pega o menús completos! 
               </div>
               <div className="flex items-center gap-4 text-sm font-light text-neutral-300">
                 <div className="w-1.5 h-1.5 rounded-full bg-brand-emerald shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
-                Recetas para el fin de semana largo.
+                Recetas para tu fin de semana, porciones faciles de manejar.
               </div>
             </div>
           </div>
@@ -478,9 +480,9 @@ export default function App() {
                   </div>
                   <div className="p-4 bg-[#141d33] border border-white/5 rounded-2xl rounded-tl-none space-y-2">
                     <p className="text-sm font-light leading-relaxed">
-                      ¡Wena! Soy tu Couch IA. Estoy aqui para ayudarte con tu plan nutricional y entrenamiento. ¿En qué te puedo apoyar hoy?
+                      Buena máquina! Estoy aquí para ayudarte con consejos y entrenamientos. Vamos con todo!
                     </p>
-                    <span className="text-[9px] text-neutral-500 italic">12:10</span>
+                    <span className="text-[9px] text-neutral-500 italic">12:20</span>
                   </div>
                 </div>
 
@@ -489,7 +491,7 @@ export default function App() {
                     <User size={14} className="text-brand-emerald" />
                   </div>
                   <div className="p-4 bg-brand-card border border-white/5 rounded-2xl rounded-tr-none">
-                    <p className="text-sm font-light">¿Qué puedo almorzar hoy con 500 kcal que sea chileno?</p>
+                    <p className="text-sm font-light">Hola! Quiero una rutina ligera, me duele la muñeca. También quiero un plato para la cena de hoy.</p>
                   </div>
                 </div>
               </div>
@@ -641,15 +643,23 @@ export default function App() {
             <p className="text-neutral-400 text-lg leading-relaxed font-light max-w-lg">
               Queremos que el hábito sea divertido. Cumple tus objetivos diarios para ganar estrellas y desbloquear funciones Premium de forma totalmente gratuita. ¡Tu esfuerzo se premia!
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-               <div className="p-6 bg-brand-card border border-brand-border rounded-2xl group hover:border-brand-emerald/30 transition-all">
-                  <div className="text-amber-500 font-bold mb-2 flex items-center gap-2 uppercase tracking-widest text-[10px]">★ Scan IA Premium</div>
-                  <p className="text-xs text-neutral-500 leading-relaxed">Detección avanzada de platos complejos chilenos ilimitada.</p>
-               </div>
-               <div className="p-6 bg-brand-card border border-brand-border rounded-2xl group hover:border-brand-emerald/30 transition-all">
-                  <div className="text-brand-emerald font-bold mb-2 flex items-center gap-2 uppercase tracking-widest text-[10px]">★ Coach ilimitado</div>
-                  <p className="text-xs text-neutral-500 leading-relaxed">Habla con tu Coach IA sin restricciones de mensajes diarios.</p>
-               </div>
+            
+            <div className="space-y-4">
+              <h3 className="text-sm font-bold uppercase tracking-widest text-neutral-500">Funciones PRO</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="p-6 bg-brand-card border border-brand-border rounded-2xl group hover:border-brand-emerald/30 transition-all">
+                   <div className="text-amber-500 font-bold mb-2 flex items-center gap-2 uppercase tracking-widest text-[10px]">★ Scan IA Premium</div>
+                   <p className="text-xs text-neutral-500 leading-relaxed">Detección avanzada de platos complejos chilenos ilimitada.</p>
+                </div>
+                <div className="p-6 bg-brand-card border border-brand-border rounded-2xl group hover:border-brand-emerald/30 transition-all">
+                   <div className="text-brand-emerald font-bold mb-2 flex items-center gap-2 uppercase tracking-widest text-[10px]">★ Coach ilimitado</div>
+                   <p className="text-xs text-neutral-500 leading-relaxed">Habla con tu Coach IA sin restricciones de mensajes diarios.</p>
+                </div>
+                <div className="p-6 bg-brand-card border border-brand-border rounded-2xl group hover:border-brand-emerald/30 transition-all sm:col-span-2 lg:col-span-1">
+                   <div className="text-blue-400 font-bold mb-2 flex items-center gap-2 uppercase tracking-widest text-[10px]">★ Búsqueda inteligente IA</div>
+                   <p className="text-xs text-neutral-500 leading-relaxed">Escribe tu plato completo: "arroz con filete de pollo y ensalada de tomates. Un vaso de jugo de piña" y la IA reconocerá todo su contenido.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1090,7 +1100,7 @@ export default function App() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           transition={{ staggerChildren: 0.15 }}
-          className="grid md:grid-cols-3 gap-8"
+          className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"
         >
           <FeatureCard title="Hidratación Avanzada" icon={Droplets}>
             <div className="flex justify-center mb-6">
@@ -1155,18 +1165,6 @@ export default function App() {
                   ></motion.div>
                 </div>
               </div>
-            </div>
-          </FeatureCard>
-
-          <FeatureCard title="Nivel de Energía" icon={Zap}>
-            <div className="h-32 flex items-center justify-center relative">
-               <div className="absolute inset-0 flex items-center justify-center opacity-10">
-                  <Zap size={80} className="text-purple-500" />
-               </div>
-               <div className="text-center relative z-10">
-                  <p className="text-6xl font-black italic tracking-tighter text-purple-400">88%</p>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-neutral-500 mt-2">Estado metabólico optimo</p>
-               </div>
             </div>
           </FeatureCard>
         </motion.div>
@@ -1282,8 +1280,66 @@ export default function App() {
                   Descargar
                 </a>
             </div>
-            <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold">Disponible en Play Store</p>
+            <div className="flex flex-col items-center gap-1">
+              <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold">Disponible en Play Store</p>
+              <p className="text-[9px] text-neutral-400 uppercase tracking-[0.3em] font-black italic opacity-50">Pronto en Appstore</p>
+            </div>
           </div>
+        </div>
+      </section>
+
+      {/* Referral / Promo Code Section */}
+      <section className="py-24 px-12 bg-black/30">
+        <div className="max-w-7xl mx-auto flex justify-center">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="p-8 bg-brand-card border border-brand-border rounded-3xl max-w-xl w-full"
+            >
+               <div className="flex items-center gap-3 mb-6">
+                 <div className="w-10 h-10 rounded-xl bg-pink-500/20 flex items-center justify-center text-pink-500">
+                    <Gift size={20} />
+                 </div>
+                 <h3 className="text-xl font-bold tracking-tight">¿Tienes un código?</h3>
+               </div>
+
+               <div className="flex gap-3 mb-8">
+                 <input 
+                   type="text" 
+                   placeholder="CÓDIGO" 
+                   className="flex-1 bg-neutral-900 border border-brand-border rounded-xl px-4 py-3 text-sm font-bold tracking-widest placeholder:text-neutral-600 focus:border-brand-emerald/50 outline-none transition-all uppercase"
+                 />
+                 <button className="bg-neutral-200 text-brand-dark px-6 py-3 rounded-xl font-bold text-sm hover:bg-white transition-colors">
+                   Aplicar
+                 </button>
+               </div>
+
+               <div className="p-6 bg-blue-500/10 border border-blue-500/20 rounded-2xl">
+                 <div className="flex items-start gap-4 mb-6">
+                   <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white shrink-0">
+                     <Share2 size={18} />
+                   </div>
+                   <div>
+                     <h4 className="font-bold text-blue-400">Comparte y Gana 1 Semana PRO</h4>
+                     <p className="text-[11px] text-blue-300/70 mt-1">Pasa tu código a un amigo. Cuando lo use, ¡ambos ganan 7 días!</p>
+                   </div>
+                 </div>
+
+                 <div className="flex items-center gap-3">
+                   <div className="flex-1 bg-black/40 border border-white/5 rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-lg flex items-center justify-center">
+                     RUGT2U
+                   </div>
+                   <button className="text-blue-400 font-bold text-xs uppercase tracking-widest px-4 hover:text-blue-300 transition-colors">
+                     Compartir
+                   </button>
+                 </div>
+               </div>
+               
+               <p className="text-center text-[10px] text-neutral-500 mt-6 italic">
+                 Cada alimento registrado es un compromiso con tu salud. 🍎
+               </p>
+            </motion.div>
         </div>
       </section>
 
@@ -1302,7 +1358,7 @@ export default function App() {
              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-neutral-500">© 2026 Deficit Pro</span>
           </div>
           <div className="flex gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-neutral-600">
-            <span className="hover:text-brand-emerald cursor-pointer transition-all">Política de Privacidad</span>
+            <Link to="/Politicas" className="hover:text-brand-emerald cursor-pointer transition-all">Política de Privacidad</Link>
           </div>
           <div className="flex gap-6">
             <div className="w-8 h-8 rounded-full border border-brand-border flex items-center justify-center hover:border-brand-emerald/30 transition-colors cursor-pointer">
@@ -1312,5 +1368,329 @@ export default function App() {
         </div>
       </footer>
     </div>
+  );
+};
+
+const UmbraLogo = ({ className = "w-12 h-12" }: { className?: string }) => (
+  <div className={`relative ${className} flex items-center justify-center`}>
+    <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-2xl">
+      {/* Círculo de fondo crema suave */}
+      <circle cx="50" cy="50" r="48" fill="#fcf8f0" />
+      
+      {/* Silueta Refinada de Perfil Humano (Mirando a la derecha) */}
+      <defs>
+        <clipPath id="humanProfileClip">
+          <path d="
+            M35,15 
+            C48,15 62,16 72,22 
+            C78,26 80,32 78,40 
+            C77,44 82,46 84,48 
+            C86,50 82,53 80,56 
+            C78,59 81,61 82,64 
+            C83,67 79,72 75,76 
+            C70,82 60,86 45,88 
+            L25,88 
+            C18,88 15,70 15,50 
+            C15,30 22,15 35,15 Z" 
+          />
+        </clipPath>
+      </defs>
+      
+      {/* Mitad Izquierda (Verde azulado oscuro) */}
+      <path 
+        d="M50,0 L50,100 L0,100 L0,0 Z" 
+        fill="#1e3a3a" 
+        clipPath="url(#humanProfileClip)"
+      />
+      
+      {/* Mitad Derecha (Ondas artísticas) */}
+      <g clipPath="url(#humanProfileClip)">
+        <path d="M50,15 Q65,25 55,45 T70,70 T55,88 L100,88 L100,15 Z" fill="#d1c4e9" />
+        <path d="M55,15 Q75,35 60,55 T75,85 L100,85 L100,15 Z" fill="#c4e7cb" />
+        <path d="M62,15 Q85,45 65,65 T85,88 L100,88 L100,15 Z" fill="#e1f5fe" />
+      </g>
+
+      {/* Texto UMBRA STUDIO (Sutil) */}
+      <text x="36" y="52" fontSize="4.5" fontWeight="950" textAnchor="middle" fill="#fcf8f0" style={{ fontFamily: 'system-ui', letterSpacing: '0.05em' }}>UMBRA</text>
+      <text x="36" y="58" fontSize="3" fontWeight="700" textAnchor="middle" fill="#fcf8f0" style={{ fontFamily: 'system-ui', letterSpacing: '0.2em' }}>STUDIO</text>
+    </svg>
+  </div>
+);
+
+const StudioPage = () => {
+  return (
+    <div className="min-h-screen selection:bg-purple-500 selection:text-white font-sans bg-[#020617] text-white overflow-hidden relative">
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <motion.div 
+          animate={{ x: [0, 100, 0], y: [0, 50, 0] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute -top-40 -left-40 w-[800px] h-[800px] bg-purple-500/10 blur-[150px] rounded-full"
+        />
+        <motion.div 
+          animate={{ x: [0, -100, 0], y: [0, 100, 0] }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute top-1/4 -right-40 w-[600px] h-[600px] bg-blue-500/5 blur-[120px] rounded-full"
+        />
+      </div>
+
+      <nav className="fixed top-0 left-0 right-0 z-50 px-8 py-8 backdrop-blur-sm bg-transparent">
+        <div className="max-w-7xl mx-auto flex justify-between items-center text-white">
+          <Link to="/" className="flex items-center gap-4 group">
+             <UmbraLogo className="w-14 h-14 shadow-2xl shadow-purple-500/20 group-hover:scale-105 transition-transform" />
+             <div className="flex flex-col leading-none">
+                <span className="text-3xl font-black italic tracking-tighter uppercase">Umbra</span>
+                <span className="text-xs font-black text-purple-500 tracking-[0.4em] uppercase">Studio</span>
+             </div>
+          </Link>
+          <div className="hidden md:flex gap-12 text-[10px] font-black uppercase tracking-[0.4em] text-neutral-500">
+             <Link to="/" className="hover:text-white transition-colors">Deficit Pro App</Link>
+             <Link to="/politicasyprivacidad" className="hover:text-white transition-colors">Políticas</Link>
+             <a href="mailto:deficitpro.soporte@gmail.com" className="hover:text-white transition-colors">Soporte</a>
+          </div>
+        </div>
+      </nav>
+
+      <main className="relative z-10 pt-48 pb-32">
+         <div className="max-w-7xl mx-auto px-12 text-center lg:text-left flex flex-col items-center">
+            <div className="w-full space-y-12 flex flex-col items-center text-center">
+               <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8 }}
+                  className="space-y-6"
+               >
+                  <span className="inline-flex items-center gap-2 px-5 py-2 bg-purple-500/10 text-purple-400 text-[10px] font-black uppercase tracking-[0.4em] rounded-full border border-purple-500/20 shadow-lg shadow-purple-500/5">
+                     <Rocket size={14} className="animate-bounce" /> Umbra Studios - Made in Chile
+                  </span>
+                  <h1 className="text-7xl md:text-[8rem] lg:text-[10rem] font-black italic tracking-tighter leading-[0.8] uppercase">
+                     IA que <br/>
+                     <span className="text-purple-500 underline decoration-white/10 underline-offset-8">Facilita</span> <br/>
+                     tu vida.
+                  </h1>
+                  <p className="text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed font-light pt-4 italic">
+                     Inspirados en las nuevas fronteras de la inteligencia artificial, en Umbra Studio creamos herramientas extraordinarias que transforman la complejidad en simplicidad.
+                  </p>
+               </motion.div>
+
+               <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 1, delay: 0.3 }}
+                  className="flex flex-col items-center gap-10 pt-12"
+               >
+                  <div className="flex flex-col items-center gap-4">
+                    <span className="text-4xl md:text-5xl font-black uppercase tracking-[0.3em] text-cyan-400 drop-shadow-[0_0_20px_rgba(34,211,238,1)] animate-pulse flex flex-col items-center gap-8">
+                      Nuestras Aplicaciones
+                      <ChevronDown size={64} className="text-cyan-400/80 drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]" />
+                    </span>
+                  </div>
+
+                  <Link 
+                     to="/deficitpro"
+                     className="group relative px-20 py-10 bg-cyan-400 text-black font-black rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(34,211,238,0.6)] hover:shadow-[0_0_100px_rgba(34,211,238,1)] transition-all duration-700 uppercase tracking-[0.2em] italic text-3xl"
+                  >
+                     <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                     <span className="relative z-10 flex items-center gap-6 group-hover:text-cyan-600 transition-colors">
+                        Déficit PRO APP <ArrowRight size={40} className="group-hover:translate-x-4 transition-transform" />
+                     </span>
+                     {/* Dynamic Aura */}
+                     <div className="absolute -inset-10 bg-cyan-400/25 blur-[100px] group-hover:bg-cyan-400/50 transition-all duration-500 -z-10 animate-pulse"></div>
+                  </Link>
+                  
+                  <div className="flex flex-col text-[10px] font-black uppercase tracking-[0.3em] text-neutral-500 italic">
+                     <span>Próximamente:</span>
+                     <span className="text-neutral-300">Umbra Scan IA v2.0</span>
+                  </div>
+               </motion.div>
+            </div>
+         </div>
+
+         <div className="max-w-7xl mx-auto px-12 pt-40">
+            <div className="grid md:grid-cols-3 gap-12">
+               {[
+                  { icon: Brain, title: "ADN de Innovación", desc: "Desde el corazón de Chile, hackeamos el status quo tecnológico con elegancia y propósito." },
+                  { icon: Lightbulb, title: "Diseño Radical", desc: "Creamos interfaces invisibles que potencian el flujo humano, eliminando distracciones para que te enfoques solo en tus metas." },
+                  { icon: Globe, title: "Escalabilidad", desc: "Soluciones locales con visión cosmopolita. Si lo construimos aquí, funciona en cualquier parte del mundo." }
+               ].map((item, i) => (
+                  <motion.div 
+                     key={i}
+                     initial={{ opacity: 0, y: 20 }}
+                     whileInView={{ opacity: 1, y: 0 }}
+                     viewport={{ once: true }}
+                     transition={{ delay: i * 0.15 }}
+                     className="group glass-card p-12 space-y-6 bg-white/[0.02] border-white/5 hover:bg-white/[0.04] hover:border-purple-500/40 transition-all duration-500"
+                  >
+                     <div className="w-16 h-16 rounded-3xl bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(168,85,247,0.3)] transition-all">
+                        <item.icon size={32} />
+                     </div>
+                     <h3 className="text-2xl font-black italic uppercase tracking-tighter">{item.title}</h3>
+                     <p className="text-neutral-500 text-base leading-relaxed italic">{item.desc}</p>
+                  </motion.div>
+               ))}
+            </div>
+         </div>
+      </main>
+
+      <footer className="py-32 border-t border-white/5 text-center relative overflow-hidden">
+         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-purple-500/5 blur-[120px] rounded-full"></div>
+         <div className="max-w-7xl mx-auto px-12 space-y-12 relative z-10">
+            <div className="flex flex-col items-center gap-6">
+                <span className="brand-logo text-3xl font-black italic lowercase opacity-40">Umbra Studio</span>
+                <div className="flex flex-col items-center gap-6">
+                   <Link to="/Politicas" className="text-[9px] font-black uppercase tracking-[0.4em] text-neutral-600 hover:text-purple-400 transition-colors cursor-pointer">Política privacidad</Link>
+                   <div className="flex flex-col items-center gap-1 font-black text-neutral-500">
+                      <span className="text-[8px] uppercase tracking-[0.3em] opacity-30">Contacto:</span>
+                      <a href="mailto:deficitpro.soporte@gmail.com" className="text-purple-400 hover:text-white transition-colors lowercase tracking-normal font-bold text-xs">deficitpro.soporte@gmail.com</a>
+                   </div>
+                </div>
+            </div>
+            <div className="pt-6 border-t border-white/5 inline-block px-10">
+               <span className="text-[10px] font-black uppercase tracking-[0.5em] text-neutral-700">© 2026 Chile — Digital Revolution</span>
+            </div>
+         </div>
+      </footer>
+    </div>
+  );
+};
+
+const Policies = () => {
+  return (
+    <div className="min-h-screen selection:bg-purple-500 selection:text-white font-sans bg-[#020617] text-white overflow-hidden relative flex flex-col items-center py-24 px-8">
+      {/* Background Accents */}
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-purple-500/5 blur-[120px] rounded-full"></div>
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-500/5 blur-[100px] rounded-full"></div>
+      </div>
+
+      <nav className="fixed top-0 left-0 right-0 z-50 px-8 py-8 backdrop-blur-sm border-b border-white/5">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <Link to="/" className="flex items-center gap-4">
+             <UmbraLogo className="w-10 h-10" />
+             <span className="text-xl font-black italic tracking-tighter uppercase">Umbra <span className="text-purple-500">Studio</span></span>
+          </Link>
+          <Link to="/" className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-500 hover:text-white transition-colors">Volver</Link>
+        </div>
+      </nav>
+
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="max-w-4xl w-full glass-card p-10 md:p-20 space-y-16 mt-20 relative overflow-hidden"
+      >
+        <div className="absolute top-0 right-0 p-10 opacity-5">
+           <UmbraLogo className="w-64 h-64 rotate-12" />
+        </div>
+
+        <div className="space-y-6 relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-500/10 text-purple-400 text-[8px] font-black uppercase tracking-[0.4em] rounded border border-purple-500/20">
+             Deficit Pro • Privacy
+          </div>
+          <h1 className="text-5xl md:text-7xl font-black italic uppercase tracking-tighter leading-[0.9]">Políticas de <br/><span className="text-purple-500">Privacidad</span></h1>
+          <div className="flex flex-col md:flex-row md:items-center gap-4 text-neutral-500 font-bold uppercase tracking-widest text-[9px]">
+             <span>Última revisión: 02 de Mayo, 2026</span>
+             <span className="hidden md:block opacity-30">•</span>
+             <span>Región: Global</span>
+          </div>
+        </div>
+
+        <div className="space-y-16 text-neutral-400 font-light leading-relaxed italic relative z-10">
+          {/* Section: Introduction */}
+          <section className="space-y-6">
+            <p className="pl-7 text-lg text-white font-medium">
+              En Deficit Pro, valoramos tu privacidad. Esta política describe cómo manejamos tus datos para brindarte la mejor experiencia en salud y bienestar.
+            </p>
+          </section>
+
+          {/* Section: Datos que Recopilamos */}
+          <section className="space-y-6">
+            <h2 className="text-2xl font-black uppercase tracking-widest text-white border-l-4 border-purple-500 pl-6 italic">01. Datos que Recopilamos</h2>
+            <p className="pl-7">
+              Recopilamos información básica de tu perfil de Google (nombre, email, foto) para identificarte de forma única. También guardamos tus registros de alimentos, ejercicio y metas de salud en nuestra base de datos segura.
+            </p>
+          </section>
+
+          {/* Section: Seguridad de Datos */}
+          <section className="space-y-6">
+            <h2 className="text-2xl font-black uppercase tracking-widest text-white border-l-4 border-cyan-400 pl-6 italic">02. Seguridad de Datos</h2>
+            <p className="pl-7">
+              Tus datos se almacenan en **Google Firebase**, utilizando encriptación y reglas de seguridad estrictas. No compartimos tu información personal con terceros bajo ninguna circunstancia comercial.
+            </p>
+          </section>
+
+          {/* Section: Uso de la Información */}
+          <section className="space-y-6">
+            <h2 className="text-2xl font-black uppercase tracking-widest text-white border-l-4 border-amber-500 pl-6 italic">03. Uso de la Información</h2>
+            <p className="pl-7">
+              Usamos tus datos exclusivamente para calcular tu déficit calórico, mostrarte tu progreso y personalizar tu experiencia. Si eres usuario **PRO**, procesamos pagos a través de plataformas seguras como la App Store o Google Play.
+            </p>
+          </section>
+
+          {/* Section: Tus Derechos */}
+          <section className="space-y-6">
+            <h2 className="text-2xl font-black uppercase tracking-widest text-white border-l-4 border-brand-emerald pl-6 italic">04. Tus Derechos</h2>
+            <p className="pl-7">
+              La transparencia es clave. Puedes eliminar tu cuenta y todos tus datos asociados en cualquier momento desde la configuración de la aplicación de forma instantánea.
+            </p>
+          </section>
+
+          {/* Section: Aviso Importante (CRITICAL) */}
+          <section className="space-y-6 pt-8">
+            <div className="p-8 bg-red-500/5 border-2 border-red-500/20 rounded-3xl space-y-4">
+               <div className="flex items-center gap-3 text-red-400">
+                  <Zap size={20} className="animate-pulse" />
+                  <span className="text-xs font-black uppercase tracking-[0.4em]">Aviso importante de salud</span>
+               </div>
+               <p className="text-lg text-white font-bold leading-relaxed tracking-tight">
+                 Deficit Pro no es un dispositivo médico ni reemplaza el consejo de un nutricionista o médico colegiado. Recomendamos encarecidamente consultar a un profesional antes de iniciar cambios drásticos en tu dieta o rutina de ejercicios.
+               </p>
+            </div>
+          </section>
+
+          {/* Section: Contacto */}
+          <section className="space-y-6">
+            <h2 className="text-xl font-black uppercase tracking-widest text-neutral-500 italic">¿Tienes dudas?</h2>
+            <div className="pl-7">
+              <p className="text-sm">Contáctanos directamente en nuestra línea de soporte oficial:</p>
+              <a href="mailto:deficitpro.soporte@gmail.com" className="text-purple-400 font-black hover:text-purple-300 transition-colors block mt-2 text-xl">
+                deficitpro.soporte@gmail.com
+              </a>
+            </div>
+          </section>
+        </div>
+
+        <div className="pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 relative z-10">
+          <Link to="/" className="inline-flex items-center gap-4 px-10 py-5 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 hover:border-purple-500/40 transition-all font-black uppercase tracking-[0.2em] text-[10px] group">
+            <ChevronLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Volver al Inicio
+          </Link>
+          <div className="flex items-center gap-4 text-neutral-600">
+             <span className="text-[10px] font-black uppercase tracking-widest">Umbra Studio © 2026</span>
+             <div className="w-1 h-1 rounded-full bg-neutral-800"></div>
+             <span className="text-[10px] font-black uppercase tracking-widest">Santiago, Chile</span>
+          </div>
+        </div>
+      </motion.div>
+
+      <footer className="mt-20 py-10 opacity-20 hover:opacity-100 transition-opacity">
+         <p className="text-[10px] font-black uppercase tracking-[0.6em] text-neutral-500">Innovation is the only way forward.</p>
+      </footer>
+    </div>
+  );
+};
+
+export default function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<DeficitPro />} />
+        <Route path="/DeficitPro" element={<DeficitPro />} />
+        <Route path="/deficitpro" element={<DeficitPro />} />
+        <Route path="/Studio" element={<StudioPage />} />
+        <Route path="/studio" element={<StudioPage />} />
+        <Route path="/Politicas" element={<Policies />} />
+        <Route path="/politicas" element={<Policies />} />
+        <Route path="/politica" element={<Policies />} />
+        <Route path="/politicasyprivacidad" element={<Policies />} />
+      </Routes>
+    </Router>
   );
 }
