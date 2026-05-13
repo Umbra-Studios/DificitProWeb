@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { useEffect } from "react";
 import { motion } from "motion/react";
-import { HashRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { HashRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
 import { 
   Zap, 
   Droplets, 
@@ -87,6 +88,23 @@ const ProgressBar = ({ label, value, max, color = "bg-brand-emerald" }: any) => 
 );
 
 const DeficitPro = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    // Handle scrolling to sections when pathname matches
+    const sectionId = pathname === "/features" ? "features" : pathname === "/pricing" ? "pricing" : null;
+    if (sectionId) {
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    } else if (pathname === "/" || pathname === "/deficitpro") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [pathname]);
+
   return (
     <div className="min-h-screen selection:bg-brand-emerald selection:text-black font-sans relative">
       {/* Background Ambient Motion */}
@@ -140,8 +158,8 @@ const DeficitPro = () => {
             </span>
           </div>
           <div className="hidden md:flex items-center gap-10 text-[10px] font-bold text-neutral-400 uppercase tracking-[0.2em]">
-            <a href="#features" className="hover:text-brand-emerald transition-colors">Características</a>
-            <a href="#pricing" className="hover:text-brand-emerald transition-colors">Planes</a>
+            <Link to="/features" className="hover:text-brand-emerald transition-colors">Características</Link>
+            <Link to="/pricing" className="hover:text-brand-emerald transition-colors">Planes</Link>
             <Link to="/Studio" className="hover:text-brand-emerald transition-colors">Studio</Link>
             <a 
               href="https://play.google.com/store/apps/details?id=com.deficitpro" 
@@ -154,7 +172,7 @@ const DeficitPro = () => {
           </div>
           <div className="md:hidden flex gap-2">
              <Link to="/Studio" className="text-[10px] font-bold text-neutral-400 uppercase tracking-[0.2em] border border-white/10 px-4 py-2 rounded-full">Studio</Link>
-             <a href="#pricing" className="text-[10px] font-bold text-brand-emerald uppercase tracking-[0.2em] border border-brand-emerald/30 px-4 py-2 rounded-full">Planes</a>
+             <Link to="/pricing" className="text-[10px] font-bold text-brand-emerald uppercase tracking-[0.2em] border border-brand-emerald/30 px-4 py-2 rounded-full">Planes</Link>
           </div>
         </div>
       </nav>
@@ -195,12 +213,12 @@ const DeficitPro = () => {
             </div>
 
             <div className="flex items-center gap-6 pt-4">
-              <a 
-                href="#pricing"
+              <Link 
+                to="/pricing"
                 className="px-12 py-5 bg-[#00e5ff] text-black font-bold rounded-xl hover:bg-[#33ebff] shadow-xl shadow-[#00e5ff]/30 transition-all uppercase tracking-wider text-sm glow-cyan inline-block"
               >
                 Planes
-              </a>
+              </Link>
             </div>
           </motion.div>
 
@@ -1684,6 +1702,8 @@ export default function App() {
         <Route path="/" element={<DeficitPro />} />
         <Route path="/DeficitPro" element={<DeficitPro />} />
         <Route path="/deficitpro" element={<DeficitPro />} />
+        <Route path="/pricing" element={<DeficitPro />} />
+        <Route path="/features" element={<DeficitPro />} />
         <Route path="/Studio" element={<StudioPage />} />
         <Route path="/studio" element={<StudioPage />} />
         <Route path="/Politicas" element={<Policies />} />
