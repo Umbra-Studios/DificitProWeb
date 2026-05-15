@@ -39,6 +39,7 @@ import {
   Lightbulb,
   Gift,
   Share2,
+  Plus,
 } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -229,150 +230,153 @@ const DeficitPro = () => {
             className="relative flex justify-center"
           >
             {/* iPhone Frame */}
-            <div className="w-[300px] h-[600px] md:w-[340px] md:h-[680px] bg-[#1a1a1a] rounded-[3.5rem] p-3 border-[6px] border-neutral-800 shadow-2xl relative">
+            <div className="w-[300px] h-[600px] md:w-[340px] md:h-[680px] bg-[#0c0c0c] rounded-[3.5rem] p-3 border-[6px] border-[#1a1a1a] shadow-2xl relative">
               {/* Screen Content */}
-              <div className="w-full h-full bg-[#030712] rounded-[2.8rem] overflow-hidden flex flex-col font-sans relative">
+              <div className="w-full h-full bg-[#020617] rounded-[2.8rem] overflow-hidden flex flex-col font-sans relative">
                 {/* Apps Header */}
-                <div className="px-6 pt-10 pb-4">
+                <div className="px-6 pt-12 pb-4">
                   <div className="flex justify-between items-start">
-                    <div>
-                      <span className="text-[10px] text-neutral-400 font-medium">Hola, Cristian Allende Haddad</span>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xl font-black italic tracking-tighter uppercase">Deficit <span className="text-[#00e5ff]">Pro</span></span>
+                    <div className="space-y-0.5">
+                      <span className="text-[11px] text-neutral-400 font-medium">Hola, Usuario</span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-lg font-black italic tracking-tighter uppercase text-white leading-none">Deficit <span className="text-[#00e5ff]">Pro</span></span>
                         <div className="flex items-center gap-1">
                           <Info size={12} className="text-neutral-500" />
                           <Settings size={12} className="text-neutral-500" />
                         </div>
                       </div>
                     </div>
-                    <div className="flex flex-col items-end gap-2">
+                    <div className="flex flex-col items-end gap-1.5">
                       <div className="flex items-center gap-1.5">
-                         <div className="bg-amber-500/90 rounded-lg px-2 py-0.5 flex items-center gap-1 shadow-[0_0_10px_rgba(245,158,11,0.3)]">
+                         <span className="text-base">🇨🇱</span>
+                         <div className="bg-[#facc15] rounded-xl px-2 py-0.5 flex items-center gap-1 shadow-[0_0_15px_rgba(250,204,21,0.3)]">
                            <Star size={10} className="fill-black text-black" />
-                           <span className="text-[10px] font-black text-black leading-tight">41</span>
+                           <span className="text-[10px] font-black text-black leading-tight">5</span>
                          </div>
                       </div>
-                      <div className="bg-orange-500 rounded px-3 py-1 text-[8px] font-black text-black tracking-widest uppercase shadow-[0_2px_10px_rgba(249,115,22,0.4)]">
+                      <div className="bg-[#f97316] rounded-lg px-2.5 py-1 text-[8px] font-black text-white tracking-widest uppercase shadow-[0_2px_15px_rgba(249,115,22,0.4)]">
                         Hazte Pro
                       </div>
                     </div>
                   </div>
 
                   <div className="flex justify-center mt-6">
-                    <div className="flex items-center gap-8">
-                       <ChevronLeft size={16} className="text-blue-400" />
-                       <div className="bg-[#111827] px-8 py-2 rounded-full border border-white/5 text-xs font-black tracking-widest text-blue-400 italic">HOY</div>
-                       <ChevronRight size={16} className="text-neutral-800" />
+                    <div className="flex items-center gap-6">
+                       <ChevronLeft size={14} className="text-[#0ea5e9]" />
+                       <div className="bg-[#0f172a] px-6 py-1.5 rounded-2xl border border-white/5 text-[10px] font-black tracking-[0.2em] text-[#0ea5e9] shadow-inner">HOY</div>
+                       <ChevronRight size={14} className="text-neutral-800" />
                     </div>
                   </div>
                 </div>
 
                 <div className="flex-1 px-6 flex flex-col items-center">
                   {/* Progress Circle container */}
-                  <div className="relative mt-4">
-                    <div className="relative w-48 h-48 flex items-center justify-center">
+                  <div className="relative mt-2">
+                    <div className="relative w-36 h-36 flex items-center justify-center">
                        {/* SVG Progress */}
                        <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                         <circle cx="50" cy="50" r="42" fill="none" stroke="#111827" strokeWidth="8" />
+                         <circle cx="50" cy="50" r="44" fill="none" stroke="#0f172a" strokeWidth="6" />
                          <motion.circle 
-                           cx="50" cy="50" r="42" fill="none" stroke="#10b981" strokeWidth="8"
-                           strokeDasharray="264" initial={{ strokeDashoffset: 264 }} animate={{ strokeDashoffset: 100 }}
-                           transition={{ duration: 2, ease: "easeOut" }} strokeLinecap="round"
-                           className="drop-shadow-[0_0_8px_rgba(16,185,129,0.4)]"
+                           cx="50" cy="50" r="44" fill="none" stroke="#10b981" strokeWidth="8"
+                           strokeDasharray="276" initial={{ strokeDashoffset: 276 }} animate={{ strokeDashoffset: 70 }}
+                           transition={{ duration: 2.5, ease: "easeOut" }} strokeLinecap="round"
+                           className="drop-shadow-[0_0_15px_rgba(16,185,129,0.7)]"
                          />
                        </svg>
-                       <div className="absolute inset-0 flex flex-col items-center justify-center">
-                         <span className="text-5xl font-black italic tracking-tighter text-brand-emerald">703</span>
-                         <span className="text-[10px] text-neutral-400 font-bold uppercase tracking-tight">kcal restantes</span>
+                       <div className="absolute inset-0 flex flex-col items-center justify-center pt-1">
+                         <span className="text-4xl font-black italic tracking-tighter text-[#10b981] drop-shadow-[0_0_10px_rgba(16,185,129,0.3)]">2541</span>
+                         <span className="text-[9px] text-neutral-400 font-bold uppercase tracking-tight -mt-1">kcal restantes</span>
                        </div>
                     </div>
 
                     {/* Floating Icons */}
                     <motion.div 
-                       initial={{ scale: 0 }} animate={{ scale: 1 }}
-                       className="absolute top-1/2 -left-8 -translate-y-1/2 w-10 h-10 rounded-2xl bg-blue-600 border border-white/10 flex items-center justify-center text-white shadow-xl shadow-blue-500/20"
+                       initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5 }}
+                       className="absolute top-1/2 -left-10 -translate-y-1/2 w-9 h-9 rounded-2xl bg-[#2563eb] border border-white/10 flex items-center justify-center text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]"
                     >
-                       <BookOpen size={20} />
+                       <BookOpen size={16} />
                     </motion.div>
 
-                    <div className="absolute top-[35%] -right-8 flex flex-col gap-3">
+                    <div className="absolute top-[35%] -right-10 flex flex-col gap-2.5">
                        <motion.div 
-                          initial={{ scale: 0 }} animate={{ scale: 1 }}
-                          className="w-10 h-10 rounded-2xl bg-[#ff6b00] border border-white/10 flex items-center justify-center text-white shadow-xl shadow-orange-500/20 relative"
+                          initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.6 }}
+                          className="w-9 h-9 rounded-2xl bg-[#1e293b] border border-white/10 flex items-center justify-center text-[#f97316] shadow-xl shadow-orange-500/10"
                        >
-                          <Flame size={20} className="fill-white" />
-                          <div className="absolute -top-1 -right-1 w-4 h-4 bg-brand-emerald rounded-full border border-brand-dark flex items-center justify-center">
-                             <CheckCircle2 size={8} className="text-black font-black" />
-                          </div>
+                          <Flame size={16} className="fill-[#f97316]/20" />
                        </motion.div>
                        <motion.div 
-                          initial={{ scale: 0 }} animate={{ scale: 1 }}
-                          className="w-10 h-10 rounded-2xl bg-[#a855f7] border border-white/10 flex items-center justify-center text-white shadow-xl shadow-purple-500/20"
+                          initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.7 }}
+                          className="w-9 h-9 rounded-2xl bg-[#a855f7] border border-white/10 flex items-center justify-center text-white shadow-[0_0_20px_rgba(168,85,247,0.4)]"
                        >
-                          <Brain size={20} />
+                          <Brain size={16} />
                        </motion.div>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3 w-full mt-10">
-                    <div className="bg-[#111827] border border-white/5 p-4 rounded-2xl flex flex-col items-center">
-                      <span className="text-[7px] text-neutral-500 uppercase font-black tracking-widest leading-none mb-2">CONSUMIDO</span>
-                      <span className="text-lg font-black text-blue-400 italic tracking-tighter">1291 kcal</span>
+                  <div className="grid grid-cols-2 gap-3 w-full mt-8">
+                    <div className="bg-[#0f172a] border border-white/5 p-3 rounded-2xl flex flex-col items-center shadow-lg">
+                      <span className="text-[8px] text-neutral-500 uppercase font-black tracking-widest leading-none mb-1.5">CONSUMIDO</span>
+                      <span className="text-lg font-black text-[#0ea5e9] tracking-tighter">0 <span className="text-[10px] text-neutral-500">kcal</span></span>
                     </div>
-                    <div className="bg-[#111827] border border-white/5 p-4 rounded-2xl flex flex-col items-center">
-                      <span className="text-[7px] text-neutral-500 uppercase font-black tracking-widest leading-none mb-2">QUEMADO</span>
-                      <span className="text-lg font-black text-brand-emerald italic tracking-tighter">0 kcal</span>
+                    <div className="bg-[#0f172a] border border-white/5 p-3 rounded-2xl flex flex-col items-center shadow-lg">
+                      <span className="text-[8px] text-neutral-500 uppercase font-black tracking-widest leading-none mb-1.5">QUEMADO</span>
+                      <span className="text-lg font-black text-[#10b981] tracking-tighter">0 <span className="text-[10px] text-neutral-500">kcal</span></span>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-3 w-full mt-4">
-                    <button className="bg-blue-400 text-black py-4 rounded-2xl font-black italic tracking-tighter flex items-center justify-center gap-2 text-sm uppercase shadow-lg shadow-blue-500/20">
-                      <div className="w-5 h-5 rounded-full border-2 border-black flex items-center justify-center text-sm font-black">+</div>
-                      Comida
+                    <button className="bg-[#0ea5e9] text-white py-3.5 rounded-2xl font-black tracking-[0.1em] flex items-center justify-center gap-2 text-[10px] uppercase shadow-lg shadow-[#0ea5e9]/20 hover:scale-105 transition-transform active:scale-95">
+                      <Plus size={16} strokeWidth={3} />
+                      COMIDA
                     </button>
-                    <button className="bg-brand-emerald text-black py-4 rounded-2xl font-black italic tracking-tighter flex items-center justify-center gap-2 text-sm uppercase shadow-lg shadow-brand-emerald/20">
-                      <div className="w-5 h-5 rounded-full border-2 border-black flex items-center justify-center text-sm font-black">+</div>
-                      Ejercicio
+                    <button className="bg-[#10b981] text-white py-3.5 rounded-2xl font-black tracking-[0.1em] flex items-center justify-center gap-2 text-[10px] uppercase shadow-lg shadow-[#10b981]/20 hover:scale-105 transition-transform active:scale-95">
+                      <Plus size={16} strokeWidth={3} />
+                      EJERCICIO
                     </button>
                   </div>
 
-                  <div className="w-full mt-6 space-y-3">
-                    <div className="flex justify-between items-center px-1">
-                      <span className="text-[9px] font-black text-neutral-400 uppercase tracking-widest italic">Agua <span className="text-[7px] lowercase font-light ml-1">* 1 vaso = 250cc</span></span>
+                  {/* Water Section */}
+                  <div className="w-full mt-6 bg-[#0f172a]/40 border border-white/5 p-4.5 rounded-[2rem] relative group overflow-hidden">
+                    <div className="flex justify-between items-start relative z-10">
+                      <div>
+                        <div className="flex items-center gap-2">
+                           <span className="text-[9px] font-black text-neutral-400 uppercase tracking-widest">AGUA</span>
+                           <span className="text-[8px] text-neutral-500 font-medium">* 1 vaso = 250cc</span>
+                        </div>
+                        <div className="flex items-baseline gap-1.5 mt-1">
+                           <span className="text-3xl font-black text-white leading-none">0</span>
+                           <span className="text-[11px] font-bold text-neutral-500 uppercase">/ 13</span>
+                        </div>
+                      </div>
+                      <button className="w-12 h-12 rounded-2xl bg-[#0ea5e9] flex items-center justify-center text-white shadow-xl shadow-[#0ea5e9]/30 hover:scale-110 transition-transform active:rotate-90">
+                         <Plus size={24} strokeWidth={3} />
+                      </button>
                     </div>
-                    <div className="bg-[#111827]/60 border border-white/5 p-4 rounded-[2rem] flex items-center justify-between">
-                       <div className="flex-1 mr-4">
-                          <div className="relative w-full h-10 bg-neutral-900 border border-white/5 rounded-xl overflow-hidden flex items-center p-1">
-                             <div className="absolute inset-y-1 left-1 w-[55%] bg-blue-500/80 shadow-[0_0_15px_rgba(59,130,246,0.5)] rounded-lg"></div>
-                             <div className="absolute left-1/2 -translate-x-1/2 w-px h-full bg-white/5"></div>
-                             {/* Small tick marks */}
-                             <div className="absolute right-2 flex flex-col gap-0.5">
-                                {[1,2,5].map(i => <div key={i} className="w-4 h-0.5 bg-white/5"></div>)}
-                             </div>
-                          </div>
-                          <div className="mt-1 text-center">
-                             <span className="text-2xl font-black italic leading-none">7 </span>
-                             <span className="text-[10px] text-neutral-500 uppercase font-black">/ 13</span>
+                    
+                    {/* Water Level Visualization */}
+                    <div className="mt-5 w-full h-14 bg-[#020617] rounded-2xl border border-white/5 relative overflow-hidden flex items-center px-1.5">
+                       <div className="w-full h-10 border-2 border-[#1e293b] rounded-xl flex items-center px-2">
+                          <div className="flex gap-1.5 opacity-20">
+                             {[1,2,3,4].map(i => <div key={i} className="w-1 h-6 bg-white/40 rounded-full"></div>)}
                           </div>
                        </div>
-                       <div className="flex flex-col gap-2">
-                          <button className="w-10 h-10 rounded-2xl bg-blue-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 border border-white/20">
-                             <span className="text-2xl font-light transform -translate-y-0.5">+</span>
-                          </button>
-                          <button className="w-10 h-8 rounded-xl bg-neutral-800 flex items-center justify-center text-neutral-400 border border-white/5">
-                             <div className="w-4 h-0.5 bg-neutral-400"></div>
-                          </button>
+                       {/* Floating minus button hidden in reference image but good for UX */}
+                       <div className="absolute right-4 w-10 h-10 bg-neutral-900/80 rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="w-4 h-1 bg-neutral-600 rounded-full"></div>
                        </div>
                     </div>
                   </div>
                 </div>
               </div>
-              {/* Notch */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-neutral-800 rounded-b-2xl"></div>
+              {/* Dynamic Island */}
+              <div className="absolute top-[2.5rem] left-1/2 -translate-x-1/2 w-28 h-8 bg-black rounded-full border border-white/5 flex items-center justify-center">
+                 <div className="w-2 h-2 rounded-full bg-blue-500/40 animate-pulse"></div>
+              </div>
             </div>
             
             {/* Background Glow */}
-            <div className="absolute w-[450px] h-[450px] bg-brand-emerald/10 blur-[100px] rounded-full -bottom-20 -right-20 -z-10"></div>
+            <div className="absolute w-[500px] h-[500px] bg-[#10b981]/10 blur-[120px] rounded-full -bottom-20 -right-20 -z-10 animate-pulse"></div>
+            <div className="absolute w-[400px] h-[400px] bg-[#0ea5e9]/10 blur-[100px] rounded-full -top-20 -left-20 -z-10"></div>
           </motion.div>
         </div>
       </section>
