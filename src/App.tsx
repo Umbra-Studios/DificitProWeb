@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { HashRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
 import { 
@@ -40,6 +40,9 @@ import {
   Gift,
   Share2,
   Plus,
+  Newspaper,
+  ShieldCheck,
+  Heart,
 } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -90,6 +93,7 @@ const ProgressBar = ({ label, value, max, color = "bg-brand-emerald" }: any) => 
 
 const DeficitPro = () => {
   const { pathname } = useLocation();
+  const [activeScreen, setActiveScreen] = useState<"home" | "news">("home");
 
   useEffect(() => {
     // Handle scrolling to sections when pathname matches
@@ -159,7 +163,6 @@ const DeficitPro = () => {
             </span>
           </div>
           <div className="hidden md:flex items-center gap-10 text-[10px] font-bold text-neutral-400 uppercase tracking-[0.2em]">
-            <Link to="/features" className="hover:text-brand-emerald transition-colors">Características</Link>
             <Link to="/pricing" className="hover:text-brand-emerald transition-colors">Planes</Link>
             <Link to="/Studio" className="hover:text-brand-emerald transition-colors">Studio</Link>
             <a 
@@ -233,8 +236,10 @@ const DeficitPro = () => {
             <div className="w-[300px] h-[600px] md:w-[340px] md:h-[680px] bg-[#0c0c0c] rounded-[3.5rem] p-3 border-[6px] border-[#1a1a1a] shadow-2xl relative">
               {/* Screen Content */}
               <div className="w-full h-full bg-[#020617] rounded-[2.8rem] overflow-hidden flex flex-col font-sans relative">
-                {/* Apps Header */}
-                <div className="px-6 pt-12 pb-4">
+                {activeScreen === "home" ? (
+                  <>
+                    {/* Apps Header */}
+                    <div className="px-6 pt-12 pb-4">
                   <div className="flex justify-between items-start">
                     <div className="space-y-0.5">
                       <span className="text-[11px] text-neutral-400 font-medium">Hola, Usuario</span>
@@ -290,12 +295,22 @@ const DeficitPro = () => {
                     </div>
 
                     {/* Floating Icons */}
-                    <motion.div 
-                       initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5 }}
-                       className="absolute top-1/2 -left-10 -translate-y-1/2 w-9 h-9 rounded-2xl bg-[#2563eb] border border-white/10 flex items-center justify-center text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]"
-                    >
-                       <BookOpen size={16} />
-                    </motion.div>
+                    <div className="absolute top-[35%] -left-10 flex flex-col gap-2.5">
+                       <motion.div 
+                          initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5 }}
+                          className="w-9 h-9 rounded-2xl bg-[#facc15] border border-white/10 flex items-center justify-center text-black shadow-[0_0_20px_rgba(250,204,21,0.4)] cursor-pointer hover:scale-110 active:scale-95 transition-transform"
+                          onClick={() => setActiveScreen("news")}
+                       >
+                          <BookOpen size={16} />
+                       </motion.div>
+                       <motion.div 
+                          initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.55 }}
+                          className="w-9 h-9 rounded-2xl bg-[#ef4444] border border-white/10 flex items-center justify-center text-white shadow-[0_0_20px_rgba(239,68,68,0.4)] cursor-pointer hover:scale-110 active:scale-95 transition-transform"
+                          onClick={() => setActiveScreen("news")}
+                       >
+                          <Newspaper size={16} />
+                       </motion.div>
+                    </div>
 
                     <div className="absolute top-[35%] -right-10 flex flex-col gap-2.5">
                        <motion.div 
@@ -367,6 +382,85 @@ const DeficitPro = () => {
                     </div>
                   </div>
                 </div>
+                  </>
+                ) : (
+                  <div className="flex-1 flex flex-col overflow-y-auto px-5 pt-12 pb-6 bg-[#030712] scrollbar-hide text-white relative">
+                    {/* Header */}
+                    <div className="flex justify-between items-center bg-[#030712] pb-3 border-b border-white/5 sticky top-0 z-20">
+                      <h2 className="text-[12px] font-black italic tracking-tighter uppercase leading-none text-white max-w-[170px] truncate">
+                        NOTICIAS DE SALUD DE ALTA REL...
+                      </h2>
+                      <div className="flex items-center gap-1.5">
+                        <button className="w-6 h-6 rounded-full border border-white/10 flex items-center justify-center text-[10px] font-bold text-neutral-400 hover:text-white transition-colors bg-white/5">
+                          Aa
+                        </button>
+                        <button 
+                          onClick={() => setActiveScreen("home")}
+                          className="w-6 h-6 rounded-full border border-white/10 flex items-center justify-center text-[10px] text-neutral-400 hover:text-white transition-colors bg-white/5 cursor-pointer"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 space-y-4">
+                      {/* Subtitle */}
+                      <p className="text-[11px] font-semibold text-[#00e5ff] leading-normal tracking-tight">
+                        Artículos reales, estudios de rigor clínico y soporte científico para potenciar tu disciplina.
+                      </p>
+
+                      {/* Card 1 */}
+                      <div className="bg-[#0a0f1d]/90 border border-white/5 p-3.5 rounded-2xl space-y-3 shadow-lg">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[7.5px] font-bold uppercase tracking-wider text-[#0ea5e9]">
+                            BALANCE CALÓRICO • MECANISMOS
+                          </span>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <div className="mt-0.5 p-1 rounded bg-[#ef4444]/15 text-[#ef4444] shrink-0 border border-[#ef4444]/30">
+                            <ShieldCheck size={11} />
+                          </div>
+                          <h3 className="text-xs font-bold text-white leading-tight">
+                            Deficit calórico, la importancia de la moderación y la constancia
+                          </h3>
+                        </div>
+                        <div className="border-l-2 border-dashed border-neutral-700/80 pl-2.5 py-0.5">
+                          <p className="text-[9.5px] text-neutral-400 font-light leading-relaxed italic">
+                            "Desde estos estudios nace nuestra motivación: comprender que la restricción absurda solo enferma, mientras que el déficit constante modela el cuerpo de verdad."
+                          </p>
+                        </div>
+                        <div className="text-[8px] font-bold text-[#00e5ff] tracking-wider uppercase hover:underline cursor-pointer flex items-center gap-1">
+                          &gt; EXPANDIR ANÁLISIS CLINICO
+                        </div>
+                      </div>
+
+                      {/* Card 2 */}
+                      <div className="bg-[#0a0f1d]/90 border border-[#ef4444]/15 p-3.5 rounded-2xl space-y-3 shadow-lg">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[7.5px] font-bold uppercase tracking-wider text-[#0ea5e9]">
+                            GLUCOSA • NUTRICIÓN
+                          </span>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <div className="mt-0.5 p-1 rounded bg-[#ef4444]/15 text-[#ef4444] shrink-0 border border-[#ef4444]/30">
+                            <ShieldCheck size={11} />
+                          </div>
+                          <h3 className="text-xs font-bold text-white leading-tight">
+                            La respuesta glucémica del pan
+                          </h3>
+                        </div>
+                        <div className="border-l-2 border-dashed border-neutral-700/80 pl-2.5 py-0.5">
+                          <p className="text-[9.5px] text-neutral-400 font-light leading-relaxed italic">
+                            "Recuerda reducir el consumo de pan, este suele ser denso en energía y carbohidratos simples, afectando la saciedad y el microbioma."
+                          </p>
+                        </div>
+                        <div className="text-[8px] font-bold text-[#00e5ff] tracking-wider uppercase hover:underline cursor-pointer flex items-center gap-1">
+                          &gt; EXPANDIR ANÁLISIS CLINICO
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
               {/* Dynamic Island */}
               <div className="absolute top-[2.5rem] left-1/2 -translate-x-1/2 w-28 h-8 bg-black rounded-full border border-white/5 flex items-center justify-center">
@@ -717,7 +811,7 @@ const DeficitPro = () => {
                     transition={{ duration: 2, repeat: Infinity }}
                     className="w-2 h-2 rounded-full bg-brand-emerald"
                   ></motion.div>
-                   <span className="text-sm font-medium italic">"sánguche de potito y un vaso de bebida"</span>
+                   <span className="text-sm font-medium italic">"sánguche de potito"</span>
                 </div>
               </div>
             </div>
@@ -753,25 +847,45 @@ const DeficitPro = () => {
                   </div>
                   
                   {[
-                    { name: 'Marraqueta', cal: 100 },
-                    { name: 'Recto de vacuno (Potito)', cal: 150 },
-                    { name: 'Longaniza', cal: 50 },
-                    { name: 'Cebolla y pimentón salteado', cal: 50 },
-                    { name: 'Mayonesa', cal: 20 },
-                    { name: 'Mostaza', cal: 10 }
+                    { name: 'Pan Marraqueta', cal: 270, weight: 100, p: 8, c: 56, g: 1 },
+                    { name: 'Potito (Recto de vacuno)', cal: 160, weight: 100, p: 18, c: 0, g: 10 },
+                    { name: 'Longaniza (Vienesa/Salc)', cal: 290, weight: 50, p: 12, c: 3, g: 25 },
+                    { name: 'Cebolla y Pebre', cal: 20, weight: 50, p: 0.5, c: 4.5, g: 0.1 },
+                    { name: 'Aceite de Oliva (Cocción)', cal: 44, weight: 5, p: 0, c: 0, g: 5 }
                   ].map((ing, i) => (
                     <motion.div 
                       key={i}
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.1 }}
-                      className="flex items-center justify-between group"
+                      className="space-y-2 group"
                     >
-                      <div className="flex items-center gap-3">
-                         <Zap size={14} className="text-neutral-500 italic" />
-                         <span className="text-sm font-black italic tracking-tighter uppercase text-neutral-300">{ing.name}</span>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                           <Zap size={16} className="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
+                           <span className="text-base font-bold text-white tracking-tight">{ing.name}</span>
+                        </div>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-lg font-bold text-[#38bdf8]">{ing.cal}</span>
+                          <span className="text-[10px] font-bold text-neutral-500 uppercase">KCAL</span>
+                        </div>
                       </div>
-                      <div className="w-20 h-10 bg-[#111827] border border-white/5 rounded-xl flex items-center justify-center text-xs font-black italic">{ing.cal} <span className="text-[10px] ml-1 opacity-40">g</span></div>
+                      <div className="flex items-center gap-2 pl-7">
+                        <div className="bg-[#1e293b]/50 border border-white/5 rounded-lg px-4 py-1.5 flex items-center justify-center text-xs font-bold text-white shadow-inner">
+                          {ing.weight} <span className="text-[10px] ml-1 opacity-50 font-normal">g</span>
+                        </div>
+                        <div className="flex gap-1">
+                          {[
+                            { label: 'P', val: ing.p },
+                            { label: 'C', val: ing.c },
+                            { label: 'G', val: ing.g }
+                          ].map(macro => (
+                            <div key={macro.label} className="bg-[#1e293b]/30 border border-white/5 rounded-lg px-2 py-1 flex items-center gap-1 text-[10px] font-bold text-neutral-400">
+                              <span className="opacity-50">{macro.label}:</span> {macro.val}g
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </motion.div>
                   ))}
 
@@ -780,16 +894,21 @@ const DeficitPro = () => {
                   </button>
                 </div>
 
-                <div className="grid grid-cols-4 gap-2 pt-4">
+                <div className="grid grid-cols-4 gap-2 pt-6">
                   {[
-                    { label: 'KCAL', val: '870', color: 'blue' },
-                    { label: 'PROTE', val: '42g', color: 'emerald' },
-                    { label: 'CARB', val: '63g', color: 'orange' },
-                    { label: 'GRASA', val: '49g', color: 'pink' }
+                    { label: 'KCAL', val: '784', glow: 'rgba(56,189,248,0.2)', bg: '#082f49' },
+                    { label: 'PROTE', val: '39 g', glow: 'rgba(16,185,129,0.2)', bg: '#064e3b' },
+                    { label: 'CARB', val: '64 g', glow: 'rgba(245,158,11,0.2)', bg: '#451a03' },
+                    { label: 'GRASA', val: '41 g', glow: 'rgba(157,23,77,0.2)', bg: '#500724' }
                   ].map((macro, i) => (
-                    <div key={i} className={`bg-${macro.color}-500/10 border border-${macro.color}-500/20 p-2 rounded-xl text-center`}>
-                       <div className={`text-[7px] font-black text-${macro.color}-500 mb-1`}>{macro.label}</div>
-                       <div className="text-sm font-black italic tracking-tighter">{macro.val}</div>
+                    <div 
+                      key={i} 
+                      className="rounded-2xl p-2.5 flex flex-col items-center justify-center border border-white/5 relative overflow-hidden group shadow-xl"
+                      style={{ backgroundColor: macro.bg }}
+                    >
+                       <div className="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity" style={{ boxShadow: `inset 0 0 20px ${macro.glow}` }}></div>
+                       <div className="text-[8px] font-black text-neutral-400 mb-1 tracking-widest relative z-10">{macro.label}</div>
+                       <div className="text-[13px] font-black text-white relative z-10">{macro.val}</div>
                     </div>
                   ))}
                 </div>
@@ -822,6 +941,127 @@ const DeficitPro = () => {
 
               {/* Notch detail */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-neutral-900 rounded-b-2xl"></div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Clinically Rigorous Health News Showcase */}
+      <section className="py-24 px-12 bg-[#020617] border-b border-brand-border relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-sky-500/5 blur-[150px] rounded-full -translate-y-1/2 -z-10 pointer-events-none"></div>
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-20">
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="flex-1 space-y-8"
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#ef4444]/15 text-[#ef4444] text-[10px] font-bold uppercase tracking-[0.2em] rounded border border-[#ef4444]/25">
+              <Newspaper size={12} /> Evidencia & Rigor Científico
+            </div>
+            <h2 className="text-5xl md:text-6xl font-light tracking-tighter leading-tight text-white">
+              Noticias de Salud de <br/>
+              <span className="font-bold italic text-[#00e5ff] glow-cyan">Alta Relevancia.</span>
+            </h2>
+            <p className="text-neutral-400 text-lg leading-relaxed font-light max-w-lg">
+              Estudios clínicos, mecanismos biológicos y artículos reales de rigor para potenciar tu disciplina de déficit calórico sin mitos ni falsedades.
+            </p>
+            
+            <div className="flex gap-4 pt-2">
+              <div className="bg-[#0a0f1d] border border-white/5 p-4 py-3.5 rounded-2xl flex items-center gap-4 shadow-xl">
+                <div className="p-3 bg-blue-500/10 text-blue-400 rounded-xl">
+                  <ShieldCheck size={24} />
+                </div>
+                <div>
+                  <h4 className="text-[10px] font-black uppercase text-neutral-400 tracking-wider">Sin fake news</h4>
+                  <p className="text-sm text-white font-medium mt-1">Soporte científico verificado</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex-1 w-full flex justify-center"
+          >
+            {/* Screen Content as a Showcase Dashboard Card */}
+            <div className="w-full max-w-[380px] bg-[#030712] rounded-[3rem] border-[6px] border-neutral-800 shadow-2xl relative overflow-hidden p-6 flex flex-col gap-6">
+              
+              {/* Header inside mockup */}
+              <div className="flex justify-between items-center bg-[#030712] pb-3 border-b border-white/5">
+                <h2 className="text-[12px] font-black italic tracking-tighter uppercase leading-none text-white">
+                  NOTICIAS DE SALUD DE ALTA REL...
+                </h2>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-6 h-6 rounded-full border border-white/10 flex items-center justify-center text-[10px] font-bold text-neutral-400 bg-white/5">
+                    Aa
+                  </div>
+                  <div className="w-6 h-6 rounded-full border border-white/10 flex items-center justify-center text-[10px] text-neutral-500 bg-white/5">
+                    ✕
+                  </div>
+                </div>
+              </div>
+
+              {/* Subheading text */}
+              <p className="text-[12px] font-semibold text-[#00e5ff] leading-normal tracking-tight">
+                Artículos reales, estudios de rigor clínico y soporte científico para potenciar tu disciplina.
+              </p>
+
+              {/* News cards stack */}
+              <div className="space-y-4">
+                {/* News Card 1 */}
+                <div className="bg-[#0a0f1d] border border-white/5 p-4 rounded-2xl space-y-3 shadow-lg hover:border-white/10 transition-colors text-left">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[8px] font-bold uppercase tracking-wider text-[#0ea5e9]">
+                      BALANCE CALÓRICO • MECANISMOS
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <div className="mt-0.5 p-1 rounded bg-[#ef4444]/15 text-[#ef4444] shrink-0 border border-[#ef4444]/30">
+                      <ShieldCheck size={11} />
+                    </div>
+                    <h3 className="text-xs font-bold text-white leading-tight">
+                      Deficit calórico, la importancia de la moderación y la constancia
+                    </h3>
+                  </div>
+                  <div className="border-l-2 border-dashed border-neutral-700/80 pl-2.5 py-0.5">
+                    <p className="text-[10px] text-neutral-400 font-light leading-relaxed italic">
+                      "Desde estos estudios nace nuestra motivación: comprender que la restricción absurda solo enferma, mientras que el déficit constante modela el cuerpo de verdad."
+                    </p>
+                  </div>
+                  <div className="text-[8.5px] font-bold text-[#00e5ff] tracking-wider uppercase hover:underline cursor-pointer">
+                    &gt; EXPANDIR ANÁLISIS CLÍNICO
+                  </div>
+                </div>
+
+                {/* News Card 2 */}
+                <div className="bg-[#0a0f1d] border border-white/5 p-4 rounded-2xl space-y-3 shadow-lg hover:border-white/10 transition-colors text-left">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[8px] font-bold uppercase tracking-wider text-[#0ea5e9]">
+                      GLUCOSA • NUTRICIÓN
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <div className="mt-0.5 p-1 rounded bg-[#ef4444]/15 text-[#ef4444] shrink-0 border border-[#ef4444]/30">
+                      <ShieldCheck size={11} />
+                    </div>
+                    <h3 className="text-xs font-bold text-white leading-tight">
+                      La respuesta glucémica del pan
+                    </h3>
+                  </div>
+                  <div className="border-l-2 border-dashed border-neutral-700/80 pl-2.5 py-0.5">
+                    <p className="text-[10px] text-neutral-400 font-light leading-relaxed italic">
+                      "Recuerda reducir el consumo de pan, este suele ser denso en energía y carbohidratos simples, afectando la saciedad y el microbioma."
+                    </p>
+                  </div>
+                  <div className="text-[8.5px] font-bold text-[#00e5ff] tracking-wider uppercase hover:underline cursor-pointer">
+                    &gt; EXPANDIR ANÁLISIS CLÍNICO
+                  </div>
+                </div>
+              </div>
+
             </div>
           </motion.div>
         </div>
