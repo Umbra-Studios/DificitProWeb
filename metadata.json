@@ -1,6 +1,6 @@
 {
   "name": "DeficitProWeb",
   "description": "Sitio web oficial de Deficit PRO: La app chilena que domina tu nutrición con IA y sabor local.",
-  "requestFramePermissions": ["camera", "microphone"],
+  "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
