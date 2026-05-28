@@ -1895,6 +1895,14 @@ const Policies = () => {
             </p>
           </section>
 
+          {/* Section: Uso de Cámara, Micrófono y Reconocimiento por IA */}
+          <section className="space-y-6">
+            <h2 className="text-2xl font-black uppercase tracking-widest text-white border-l-4 border-purple-500 pl-6 italic">05. Acceso a Cámara y Micrófono para Registro de Comidas</h2>
+            <p className="pl-7">
+              Para brindarte un registro ágil y cómodo, Deficit Pro solicitará acceso a la **cámara** y/o **micrófono** de tu dispositivo. El permiso de cámara se utiliza exclusivamente para capturar fotos de tus comidas o alimentos, y el permiso de micrófono te permite dictar por voz los ingredientes que has consumido. Nuestra Inteligencia Artificial procesa estas imágenes y audios de manera segura y confidencial únicamente para desglosar el plato en sus ingredientes individuales y calcular la información nutricional (calorías, raciones, proteínas, grasas y carbohidratos) correspondiente de manera automatizada.
+            </p>
+          </section>
+
           {/* Section: Aviso Importante (CRITICAL) */}
           <section className="space-y-6 pt-8">
             <div className="p-8 bg-red-500/5 border-2 border-red-500/20 rounded-3xl space-y-4">
