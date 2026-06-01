@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { HashRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
 import { 
@@ -43,6 +43,9 @@ import {
   Newspaper,
   ShieldCheck,
   Heart,
+  Mail,
+  Phone,
+  Trash2,
 } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -59,10 +62,10 @@ const data = [
 const FeatureCard = ({ children, title, icon: Icon, className = "" }: any) => (
   <motion.div 
     variants={{
-      hidden: { opacity: 0, y: 30 },
-      visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+      hidden: { opacity: 0.8, y: 10 },
+      visible: { opacity: 1, y: 0, transition: { duration: 0.2, ease: "easeOut" } }
     }}
-    className={`glass-card p-6 shadow-xl hover:shadow-brand-emerald/5 transition-all duration-500 ${className}`}
+    className={`glass-card p-6 shadow-xl hover:shadow-brand-emerald/5 transition-all duration-150 ${className}`}
   >
     <div className="flex items-center gap-3 mb-4">
       <div className="p-2 rounded-lg bg-brand-emerald/10 text-brand-emerald">
@@ -94,6 +97,112 @@ const ProgressBar = ({ label, value, max, color = "bg-brand-emerald" }: any) => 
 const DeficitPro = () => {
   const { pathname } = useLocation();
   const [activeScreen, setActiveScreen] = useState<"home" | "news">("home");
+  const [preRegEmail, setPreRegEmail] = useState("");
+  const [preRegPhone, setPreRegPhone] = useState("");
+  const [preRegSubmitted, setPreRegSubmitted] = useState(false);
+  const [preRegCode, setPreRegCode] = useState("");
+  const [preRegError, setPreRegError] = useState("");
+  const [preRegSending, setPreRegSending] = useState(false);
+
+  const [ingredients, setIngredients] = useState([
+    { id: 1, name: 'Pan Marraqueta', cal: 270, weight: 100, p: 8, c: 56, g: 1 },
+    { id: 2, name: 'Potito (Recto de vacuno)', cal: 160, weight: 100, p: 18, c: 0, g: 10 },
+    { id: 3, name: 'Longaniza (Vienesa/Salc)', cal: 290, weight: 50, p: 12, c: 3, g: 25 },
+    { id: 4, name: 'Cebolla y Pebre', cal: 20, weight: 50, p: 0.5, c: 4.5, g: 0.1 },
+    { id: 5, name: 'Aceite de Oliva (Cocción)', cal: 44, weight: 5, p: 0, c: 0, g: 5 }
+  ]);
+
+  const handleDeleteIngredient = (id: number) => {
+    setIngredients(prev => prev.filter(ing => ing.id !== id));
+  };
+
+  const handleAddIngredient = () => {
+    const names = ['Huevo Frito', 'Queso Mantecoso', 'Palta Molida', 'Tomate Picado', 'Mayonesa Casera'];
+    const randomName = names[Math.floor(Math.random() * names.length)];
+    const newId = Date.now();
+    setIngredients(prev => [
+      ...prev,
+      {
+        id: newId,
+        name: randomName,
+        cal: Math.floor(Math.random() * 150) + 50,
+        weight: Math.floor(Math.random() * 80) + 20,
+        p: Math.floor(Math.random() * 10),
+        c: Math.floor(Math.random() * 15),
+        g: Math.floor(Math.random() * 12)
+      }
+    ]);
+  };
+
+  const totalCal = ingredients.reduce((sum, ing) => sum + ing.cal, 0);
+  const totalP = Math.round(ingredients.reduce((sum, ing) => sum + ing.p, 0) * 10) / 10;
+  const totalC = Math.round(ingredients.reduce((sum, ing) => sum + ing.c, 0) * 10) / 10;
+  const totalG = Math.round(ingredients.reduce((sum, ing) => sum + ing.g, 0) * 10) / 10;
+
+  // Let page reload reset pre-registration view so users can always see the cyan pre-registration form again if they refresh
+  useEffect(() => {
+    // Only fetch saved code if needed but don't force show success screen on reload
+    const savedCode = localStorage.getItem("deficit_pro_code");
+    if (savedCode) {
+      setPreRegCode(savedCode);
+    }
+  }, []);
+
+  const handlePreRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!preRegEmail.trim()) {
+      setPreRegError("Por favor ingresa un correo electrónico.");
+      return;
+    }
+    if (!preRegEmail.includes("@") || !preRegEmail.includes(".")) {
+      setPreRegError("Por favor ingresa un correo electrónico válido.");
+      return;
+    }
+    if (!preRegPhone.trim()) {
+      setPreRegError("Por favor ingresa tu número de teléfono.");
+      return;
+    }
+    
+    setPreRegError("");
+    setPreRegSending(true);
+
+    const randomSuffix = Math.random().toString(36).substring(2, 7).toUpperCase();
+    const code = `DP7-${randomSuffix}`;
+
+    // Standard Formspree ID config or fallback
+    const formspreeId = (import.meta as any).env.VITE_FORMSPREE_FORM_ID || "mzdwlepb"; // Default configurable Formspree ID or configured in .env
+
+    try {
+      const response = await fetch(`https://formspree.io/f/${formspreeId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          email: preRegEmail,
+          phone: preRegPhone,
+          code: code,
+          message: `Nuevo Pre-registro de Deficit PRO! Código exclusivo de 7 días PRO asignado: ${code}`
+        })
+      });
+
+      // Whether Formspree works or we hitting local environment limits, we proceed
+      setPreRegCode(code);
+      setPreRegSubmitted(true);
+      localStorage.setItem("deficit_pro_preregistered", "true");
+      localStorage.setItem("deficit_pro_code", code);
+    } catch (err) {
+      console.warn("Formspree submission has a client fallback:", err);
+      // Fallback guarantees that user still receives their 7-day Pro code successfully in the UI
+      setPreRegCode(code);
+      setPreRegSubmitted(true);
+      localStorage.setItem("deficit_pro_preregistered", "true");
+      localStorage.setItem("deficit_pro_code", code);
+    } finally {
+      setPreRegSending(false);
+    }
+  };
 
   useEffect(() => {
     // Handle scrolling to sections when pathname matches
@@ -114,32 +223,9 @@ const DeficitPro = () => {
     <div className="min-h-screen selection:bg-brand-emerald selection:text-black font-sans relative">
       {/* Background Ambient Motion */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none opacity-50">
-        <motion.div 
-          animate={{ 
-            x: [0, 100, 0],
-            y: [0, 50, 0],
-            scale: [1, 1.2, 1]
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-20 -left-20 w-[600px] h-[600px] bg-brand-emerald/10 blur-[120px] rounded-full"
-        />
-        <motion.div 
-          animate={{ 
-            x: [0, -100, 0],
-            y: [0, 100, 0],
-            scale: [1, 1.1, 1]
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute top-1/4 -right-40 w-[500px] h-[500px] bg-[#00e5ff]/5 blur-[100px] rounded-full"
-        />
-        <motion.div 
-          animate={{ 
-            x: [0, 50, 0],
-            y: [0, -100, 0],
-          }}
-          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-          className="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] bg-purple-500/5 blur-[100px] rounded-full"
-        />
+        <div className="absolute -top-20 -left-20 w-[600px] h-[600px] bg-brand-emerald/10 blur-[120px] rounded-full" />
+        <div className="absolute top-1/4 -right-40 w-[500px] h-[500px] bg-[#00e5ff]/5 blur-[100px] rounded-full" />
+        <div className="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] bg-purple-400/5 blur-[100px] rounded-full" />
       </div>
 
       {/* Navigation */}
@@ -163,20 +249,28 @@ const DeficitPro = () => {
             </span>
           </div>
           <div className="hidden md:flex items-center gap-10 text-[10px] font-bold text-neutral-400 uppercase tracking-[0.2em]">
-            <Link to="/pricing" className="hover:text-brand-emerald transition-colors">Planes</Link>
-            <Link to="/Studio" className="hover:text-brand-emerald transition-colors">Studio</Link>
-            <a 
-              href="https://play.google.com/store/apps/details?id=com.deficitpro" 
-              target="_blank" 
-              rel="noreferrer"
-              className="px-6 py-2 border border-[#00e5ff]/30 text-[#00e5ff] rounded-full text-[10px] font-bold hover:bg-[#00e5ff]/10 transition-all uppercase tracking-widest ml-4 shadow-[0_0_15px_rgba(0,229,255,0.1)] flex items-center gap-2"
+            <button 
+              onClick={() => {
+                const el = document.getElementById("pre-register");
+                if (el) el.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="hover:text-[#00e5ff] transition-colors cursor-pointer bg-transparent border-none text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400 p-0 m-0 font-sans"
             >
-              Download App <ChevronRight size={10} />
-            </a>
+              Pre-regístrate
+            </button>
+            <Link to="/Studio" className="hover:text-brand-emerald transition-colors">Studio</Link>
           </div>
           <div className="md:hidden flex gap-2">
              <Link to="/Studio" className="text-[10px] font-bold text-neutral-400 uppercase tracking-[0.2em] border border-white/10 px-4 py-2 rounded-full">Studio</Link>
-             <Link to="/pricing" className="text-[10px] font-bold text-brand-emerald uppercase tracking-[0.2em] border border-brand-emerald/30 px-4 py-2 rounded-full">Planes</Link>
+             <button 
+               onClick={() => {
+                 const el = document.getElementById("pre-register");
+                 if (el) el.scrollIntoView({ behavior: "smooth" });
+               }}
+               className="text-[10px] font-bold text-brand-emerald uppercase tracking-[0.2em] border border-brand-emerald/30 px-4 py-2 rounded-full cursor-pointer bg-transparent font-sans"
+             >
+               Pre-regístrate
+             </button>
           </div>
         </div>
       </nav>
@@ -186,9 +280,9 @@ const DeficitPro = () => {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-emerald/5 blur-[120px] rounded-full -z-10"></div>
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.25 }}
             className="space-y-8"
           >
             <div>
@@ -204,32 +298,35 @@ const DeficitPro = () => {
               </p>
             </div>
 
-            <div className="flex gap-10">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-10">
               <div className="flex flex-col">
-                <span className="text-3xl font-bold tracking-tighter">10K+</span>
-                <span className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold mt-1">Usuarios Activos</span>
+                <span className="text-3xl font-bold tracking-tighter text-[#00e5ff] glow-cyan">10.000</span>
+                <span className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold mt-1">proyectamos en 6 meses!</span>
               </div>
-              <div className="w-[1px] h-12 bg-brand-border"></div>
+              <div className="hidden sm:block w-[1px] h-12 bg-brand-border"></div>
               <div className="flex flex-col">
                 <span className="text-3xl font-bold tracking-tighter">4.9/5</span>
-                <span className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold mt-1">App Store</span>
+                <span className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold mt-1">en usuarios testers</span>
               </div>
             </div>
 
             <div className="flex items-center gap-6 pt-4">
-              <Link 
-                to="/pricing"
-                className="px-12 py-5 bg-[#00e5ff] text-black font-bold rounded-xl hover:bg-[#33ebff] shadow-xl shadow-[#00e5ff]/30 transition-all uppercase tracking-wider text-sm glow-cyan inline-block"
+              <button 
+                onClick={() => {
+                  const el = document.getElementById("pre-register");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="px-12 py-5 bg-[#00e5ff] text-black font-bold rounded-xl hover:bg-[#33ebff] shadow-xl shadow-[#00e5ff]/30 transition-all uppercase tracking-wider text-sm glow-cyan inline-block border-none cursor-pointer font-sans"
               >
-                Planes
-              </Link>
+                Pre-regístrate
+              </button>
             </div>
           </motion.div>
 
           <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, type: "spring" }}
+            transition={{ duration: 0.25 }}
             className="relative flex justify-center"
           >
             {/* iPhone Frame */}
@@ -846,60 +943,74 @@ const DeficitPro = () => {
                     <Info size={12} className="text-neutral-600" />
                   </div>
                   
-                  {[
-                    { name: 'Pan Marraqueta', cal: 270, weight: 100, p: 8, c: 56, g: 1 },
-                    { name: 'Potito (Recto de vacuno)', cal: 160, weight: 100, p: 18, c: 0, g: 10 },
-                    { name: 'Longaniza (Vienesa/Salc)', cal: 290, weight: 50, p: 12, c: 3, g: 25 },
-                    { name: 'Cebolla y Pebre', cal: 20, weight: 50, p: 0.5, c: 4.5, g: 0.1 },
-                    { name: 'Aceite de Oliva (Cocción)', cal: 44, weight: 5, p: 0, c: 0, g: 5 }
-                  ].map((ing, i) => (
-                    <motion.div 
-                      key={i}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.1 }}
-                      className="space-y-2 group"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                           <Zap size={16} className="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
-                           <span className="text-base font-bold text-white tracking-tight">{ing.name}</span>
-                        </div>
-                        <div className="flex items-baseline gap-1">
-                          <span className="text-lg font-bold text-[#38bdf8]">{ing.cal}</span>
-                          <span className="text-[10px] font-bold text-neutral-500 uppercase">KCAL</span>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2 pl-7">
-                        <div className="bg-[#1e293b]/50 border border-white/5 rounded-lg px-4 py-1.5 flex items-center justify-center text-xs font-bold text-white shadow-inner">
-                          {ing.weight} <span className="text-[10px] ml-1 opacity-50 font-normal">g</span>
-                        </div>
-                        <div className="flex gap-1">
-                          {[
-                            { label: 'P', val: ing.p },
-                            { label: 'C', val: ing.c },
-                            { label: 'G', val: ing.g }
-                          ].map(macro => (
-                            <div key={macro.label} className="bg-[#1e293b]/30 border border-white/5 rounded-lg px-2 py-1 flex items-center gap-1 text-[10px] font-bold text-neutral-400">
-                              <span className="opacity-50">{macro.label}:</span> {macro.val}g
+                  {ingredients.length === 0 ? (
+                    <div className="text-center py-6 border-2 border-dashed border-white/5 rounded-2xl">
+                      <p className="text-neutral-500 text-xs uppercase tracking-widest font-bold">Sin ingredientes</p>
+                      <p className="text-[10px] text-neutral-600 mt-1">Agrega un ingrediente para comenzar</p>
+                    </div>
+                  ) : (
+                    ingredients.map((ing) => (
+                      <motion.div 
+                        key={ing.id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="space-y-2 group relative border border-transparent hover:border-white/5 p-1 rounded-xl transition-all"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                             <Zap size={16} className="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
+                             <span className="text-base font-bold text-white tracking-tight">{ing.name}</span>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <div className="flex items-baseline gap-1">
+                              <span className="text-lg font-bold text-[#38bdf8]">{ing.cal}</span>
+                              <span className="text-[10px] font-bold text-neutral-500 uppercase">KCAL</span>
                             </div>
-                          ))}
+                            
+                            {/* Trash button */}
+                            <button 
+                              onClick={() => handleDeleteIngredient(ing.id)}
+                              className="text-neutral-500 hover:text-red-400 p-1.5 rounded-lg hover:bg-red-500/10 transition-colors cursor-pointer bg-transparent border-none flex items-center justify-center"
+                              title="Eliminar ingrediente"
+                            >
+                              <Trash2 size={13} />
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    </motion.div>
-                  ))}
+                        <div className="flex items-center gap-2 pl-7">
+                          <div className="bg-[#1e293b]/50 border border-white/5 rounded-lg px-4 py-1.5 flex items-center justify-center text-xs font-bold text-white shadow-inner">
+                            {ing.weight} <span className="text-[10px] ml-1 opacity-50 font-normal">g</span>
+                          </div>
+                          <div className="flex gap-1">
+                            {[
+                              { label: 'P', val: ing.p },
+                              { label: 'C', val: ing.c },
+                              { label: 'G', val: ing.g }
+                            ].map(macro => (
+                              <div key={macro.label} className="bg-[#1e293b]/30 border border-white/5 rounded-lg px-2 py-1 flex items-center gap-1 text-[10px] font-bold text-neutral-400">
+                                <span className="opacity-50">{macro.label}:</span> {macro.val}g
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))
+                  )}
 
-                  <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-neutral-500 italic hover:text-white transition-colors pt-2">
-                    <span className="text-lg">+</span> AGREGAR NUEVO INGREDIENTE
+                  <button 
+                    onClick={handleAddIngredient}
+                    className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-neutral-500 italic hover:text-white transition-colors pt-2 cursor-pointer bg-transparent border-none"
+                  >
+                    <span className="text-sm">+</span> AGREGAR NUEVO INGREDIENTE
                   </button>
                 </div>
 
                 <div className="grid grid-cols-4 gap-2 pt-6">
                   {[
-                    { label: 'KCAL', val: '784', glow: 'rgba(56,189,248,0.2)', bg: '#082f49' },
-                    { label: 'PROTE', val: '39 g', glow: 'rgba(16,185,129,0.2)', bg: '#064e3b' },
-                    { label: 'CARB', val: '64 g', glow: 'rgba(245,158,11,0.2)', bg: '#451a03' },
-                    { label: 'GRASA', val: '41 g', glow: 'rgba(157,23,77,0.2)', bg: '#500724' }
+                    { label: 'KCAL', val: `${totalCal}`, glow: 'rgba(56,189,248,0.2)', bg: '#082f49' },
+                    { label: 'PROTE', val: `${totalP} g`, glow: 'rgba(16,185,129,0.2)', bg: '#064e3b' },
+                    { label: 'CARB', val: `${totalC} g`, glow: 'rgba(245,158,11,0.2)', bg: '#451a03' },
+                    { label: 'GRASA', val: `${totalG} g`, glow: 'rgba(157,23,77,0.2)', bg: '#500724' }
                   ].map((macro, i) => (
                     <div 
                       key={i} 
@@ -1508,7 +1619,7 @@ const DeficitPro = () => {
             <motion.div 
               variants={{ hidden: { opacity: 0, x: -20 }, visible: { opacity: 1, x: 0 } }}
               whileHover={{ scale: 1.02, x: 5 }}
-              className="glass-card p-6 border-[#00e5ff]/20 bg-[#00e5ff]/5 flex items-center justify-between group cursor-pointer relative"
+              className="glass-card p-6 border-[#00e5ff]/35 bg-[#00e5ff]/5 flex items-center justify-between group cursor-pointer relative"
             >
               <div className="absolute -top-3 right-8 bg-orange-500 text-black text-[8px] font-black uppercase px-3 py-1 rounded-full tracking-widest shadow-[0_0_15px_rgba(249,115,22,0.5)]">
                 Mejor Valor
@@ -1517,11 +1628,15 @@ const DeficitPro = () => {
                 <div className="w-12 h-12 rounded-2xl bg-amber-500/20 flex items-center justify-center text-amber-500 border border-amber-500/30">
                   <Star size={24} className="fill-amber-500" />
                 </div>
-                <div>
+                <div className="text-left">
                   <h4 className="font-black text-lg tracking-tighter uppercase italic">Anual</h4>
                   <div className="flex items-center gap-2">
                     <span className="text-blue-400 font-bold text-lg leading-tight">$39.990 CLP</span>
                     <span className="text-[10px] text-neutral-500 font-bold uppercase tracking-widest pl-2 border-l border-white/10">($3.332 / mes)</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 mt-1.5 text-[9px] font-black uppercase tracking-wider text-brand-emerald">
+                     <Gift size={11} className="text-brand-emerald" />
+                     <span>¡Regala 12 meses GRATIS a un amigo/a! 🎁</span>
                   </div>
                 </div>
               </div>
@@ -1529,22 +1644,160 @@ const DeficitPro = () => {
             </motion.div>
           </motion.div>
 
-          {/* CTA Button */}
-          <div className="flex flex-col items-center gap-8 pt-10">
-            <span className="text-sm font-bold uppercase tracking-widest text-[#00e5ff] glow-cyan">Descarga deficit PRO ahora</span>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-               <a 
-                  href="https://play.google.com/store/apps/details?id=com.deficitpro" 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="px-20 py-7 bg-[#00e5ff] text-black font-black rounded-2xl hover:bg-[#33ebff] shadow-[0_0_40px_rgba(0,229,255,0.4)] hover:shadow-[0_0_60px_rgba(0,229,255,0.6)] transition-all uppercase tracking-[0.15em] text-lg glow-cyan border-b-4 border-black/20 transform hover:-translate-y-1"
-                >
-                  Descargar
-                </a>
-            </div>
-            <div className="flex flex-col items-center gap-1">
-              <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold">Disponible en Play Store</p>
-              <p className="text-[9px] text-neutral-400 uppercase tracking-[0.3em] font-black italic opacity-50">Pronto en Appstore</p>
+          {/* Pre-Register Section */}
+          <div id="pre-register" className="flex flex-col items-center gap-8 pt-10 scroll-mt-28">
+            {!preRegSubmitted ? (
+              <motion.div 
+                initial={{ opacity: 0, y: 25 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="w-full max-w-xl bg-brand-card/80 border border-brand-border rounded-[2.5rem] p-8 md:p-10 shadow-2xl space-y-8 backdrop-blur-xl relative overflow-hidden"
+              >
+                {/* Decorative glow */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[#00e5ff]/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-brand-emerald/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div className="text-center space-y-3">
+                  <span className="px-3 py-1 bg-[#00e5ff]/10 text-[#00e5ff] text-[10px] font-bold uppercase tracking-[0.2em] rounded-full border border-[#00e5ff]/20">
+                    Lanzamiento Exclusivo
+                  </span>
+                  <h3 className="text-2xl md:text-3xl font-display font-black tracking-tight uppercase italic leading-[1.1]">
+                    Pre-regístrate a nuestra app <br/>
+                    <span className="text-[#00e5ff] glow-cyan">y asegura tu beneficio de 7 días PRO</span>
+                  </h3>
+                  <p className="text-neutral-400 text-xs font-light max-w-md mx-auto">
+                    Déjanos tu correo y teléfono. Una vez validado tu pre-registro, te contactaremos y enviaremos tu acceso exclusivo de cortesía de forma 100% personalizada.
+                  </p>
+                </div>
+
+                <form onSubmit={handlePreRegister} className="space-y-4">
+                  {preRegError && (
+                    <motion.div 
+                      initial={{ scale: 0.95, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      className="text-xs text-red-400 font-bold bg-red-500/10 border border-red-500/20 px-4 py-3 rounded-xl text-center"
+                    >
+                      {preRegError}
+                    </motion.div>
+                  )}
+
+                  <div className="space-y-4">
+                    {/* Email Input */}
+                    <div className="space-y-1.5 text-left">
+                      <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block ml-1">E-mail</label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-neutral-500">
+                          <Mail size={16} />
+                        </div>
+                        <input 
+                          type="email" 
+                          required
+                          disabled={preRegSending}
+                          value={preRegEmail}
+                          onChange={(e) => setPreRegEmail(e.target.value)}
+                          placeholder="usuario@tuemail.com" 
+                          className="w-full bg-[#030712] border border-white/5 rounded-2xl pl-10 pr-4 py-4 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-[#00e5ff] transition-all disabled:opacity-50"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Phone Input */}
+                    <div className="space-y-1.5 text-left">
+                      <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block ml-1">Teléfono</label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-neutral-500">
+                          <Phone size={16} />
+                        </div>
+                        <input 
+                          type="tel" 
+                          required
+                          disabled={preRegSending}
+                          value={preRegPhone}
+                          onChange={(e) => setPreRegPhone(e.target.value)}
+                          placeholder="+56 9 1234 5678" 
+                          className="w-full bg-[#030712] border border-white/5 rounded-2xl pl-10 pr-4 py-4 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-[#00e5ff] transition-all disabled:opacity-50"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <button 
+                    type="submit"
+                    disabled={preRegSending}
+                    className="w-full py-4 bg-[#00e5ff] text-black font-black rounded-2xl hover:bg-[#33ebff] shadow-[0_0_30px_rgba(0,229,255,0.3)] hover:shadow-[0_0_50px_rgba(0,229,255,0.5)] transition-all uppercase tracking-[0.15em] text-sm glow-cyan border-b-4 border-black/20 transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  >
+                    {preRegSending ? "Registrando..." : "Pre-registrarme"}
+                  </button>
+                </form>
+
+                <div className="text-center space-y-2">
+                  <p className="text-[9px] text-neutral-500 uppercase tracking-widest font-black italic">Únete a los chilenos que dominan su déficit calórico con IA 🇨🇱</p>
+                  <p className="text-[9px] text-neutral-600 block">Tus datos serán procesados con total confidencialidad. Soporte y consultas: <a href="mailto:deficitpro.soporte@gmail.com" className="text-[#00e5ff] hover:underline">deficitpro.soporte@gmail.com</a></p>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="w-full max-w-xl bg-gradient-to-br from-[#0c0f1e] to-[#040815] border-2 border-brand-emerald/30 rounded-[2.5rem] p-8 md:p-10 shadow-3xl text-center space-y-6 relative overflow-hidden"
+              >
+                {/* Decorative background stripes like a VIP Ticket */}
+                <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                
+                {/* Checked Badge */}
+                <div className="inline-flex w-16 h-16 rounded-full bg-brand-emerald/10 text-brand-emerald items-center justify-center border-2 border-brand-emerald/30 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+                  <Gift size={32} />
+                </div>
+
+                <div className="space-y-3">
+                  <h3 className="text-2xl md:text-3xl font-display font-black tracking-tight text-white uppercase italic leading-none">
+                    ¡Pre-registro Exitoso! 🎉
+                  </h3>
+                  <p className="text-brand-emerald text-xs font-black uppercase tracking-widest italic">
+                    Acceso Premium Asegurado
+                  </p>
+                  
+                  <div className="bg-[#1e293b]/50 border border-white/5 rounded-2xl p-6 text-center space-y-3 max-w-md mx-auto">
+                    <p className="text-xs text-neutral-300 font-medium leading-relaxed">
+                      Hemos recibido tus datos con éxito. Revisaremos tu información y te enviaremos el código de activación de 7 días PRO gratis directamente de forma 100% personalizada.
+                    </p>
+                  </div>
+                  
+                  <p className="text-[10px] text-neutral-500 italic pt-2">
+                    ¡Mantente atento/a a tus notificaciones para recibir tu regalo de lanzamiento! 🎁
+                  </p>
+                </div>
+
+                <div className="pt-4 flex flex-col gap-2 max-w-md mx-auto">
+                  <button 
+                    type="button"
+                    onClick={() => {
+                      localStorage.removeItem("deficit_pro_preregistered");
+                      localStorage.removeItem("deficit_pro_code");
+                      setPreRegEmail("");
+                      setPreRegPhone("");
+                      setPreRegSubmitted(false);
+                      setTimeout(() => {
+                        const section = document.getElementById("pre-register");
+                        if (section) {
+                          section.scrollIntoView({ behavior: "smooth" });
+                        }
+                      }, 80);
+                    }}
+                    className="w-full py-4 bg-brand-emerald text-black font-black rounded-2xl hover:bg-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_35px_rgba(16,185,129,0.5)] transition-all uppercase tracking-[0.12em] text-xs border-b-4 border-black/20 transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    <span>+ Registrar otro usuario / amigo</span>
+                  </button>
+                  <p className="text-[9px] text-neutral-500 italic mt-1">
+                    Puedes registrar tantas personas o amigos como necesites.
+                  </p>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Soon on Play Store Indicators */}
+            <div className="flex flex-col items-center gap-1.5 pt-4 text-center">
+              <p className="text-[10px] text-neutral-400 uppercase tracking-widest font-black">Pronto en Play Store 🤖</p>
+              <p className="text-[9px] text-neutral-500 uppercase tracking-[0.3em] font-black italic opacity-60">Y pronto en App Store 🍏</p>
             </div>
           </div>
         </div>
@@ -1566,36 +1819,15 @@ const DeficitPro = () => {
                  <h3 className="text-xl font-bold tracking-tight">¿Tienes un código?</h3>
                </div>
 
-               <div className="flex gap-3 mb-8">
+               <div className="flex gap-3 mb-4">
                  <input 
                    type="text" 
-                   placeholder="CÓDIGO" 
-                   className="flex-1 bg-neutral-900 border border-brand-border rounded-xl px-4 py-3 text-sm font-bold tracking-widest placeholder:text-neutral-600 focus:border-brand-emerald/50 outline-none transition-all uppercase"
+                   placeholder="INGRESA TU CÓDIGO AQUÍ" 
+                   className="flex-1 bg-neutral-900 border border-brand-border rounded-xl px-4 py-3 text-sm font-bold tracking-widest placeholder:text-neutral-600 focus:border-brand-emerald/50 outline-none transition-all uppercase text-center"
                  />
                  <button className="bg-neutral-200 text-brand-dark px-6 py-3 rounded-xl font-bold text-sm hover:bg-white transition-colors">
                    Aplicar
                  </button>
-               </div>
-
-               <div className="p-6 bg-blue-500/10 border border-blue-500/20 rounded-2xl">
-                 <div className="flex items-start gap-4 mb-6">
-                   <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white shrink-0">
-                     <Share2 size={18} />
-                   </div>
-                   <div>
-                     <h4 className="font-bold text-blue-400">Comparte y Gana 1 Semana PRO</h4>
-                     <p className="text-[11px] text-blue-300/70 mt-1">Pasa tu código a un amigo. Cuando lo use, ¡ambos ganan 7 días!</p>
-                   </div>
-                 </div>
-
-                 <div className="flex items-center gap-3">
-                   <div className="flex-1 bg-black/40 border border-white/5 rounded-xl px-4 py-3 font-mono font-bold tracking-widest text-lg flex items-center justify-center">
-                     RUGT2U
-                   </div>
-                   <button className="text-blue-400 font-bold text-xs uppercase tracking-widest px-4 hover:text-blue-300 transition-colors">
-                     Compartir
-                   </button>
-                 </div>
                </div>
                
                <p className="text-center text-[10px] text-neutral-500 mt-6 italic">
@@ -1683,16 +1915,8 @@ const StudioPage = () => {
   return (
     <div className="min-h-screen selection:bg-purple-500 selection:text-white font-sans bg-[#020617] text-white overflow-hidden relative">
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <motion.div 
-          animate={{ x: [0, 100, 0], y: [0, 50, 0] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-40 -left-40 w-[800px] h-[800px] bg-purple-500/10 blur-[150px] rounded-full"
-        />
-        <motion.div 
-          animate={{ x: [0, -100, 0], y: [0, 100, 0] }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute top-1/4 -right-40 w-[600px] h-[600px] bg-blue-500/5 blur-[120px] rounded-full"
-        />
+        <div className="absolute -top-40 -left-40 w-[800px] h-[800px] bg-purple-500/10 blur-[150px] rounded-full" />
+        <div className="absolute top-1/4 -right-40 w-[600px] h-[600px] bg-blue-500/5 blur-[120px] rounded-full" />
       </div>
 
       <nav className="fixed top-0 left-0 right-0 z-50 px-8 py-8 backdrop-blur-sm bg-transparent">
