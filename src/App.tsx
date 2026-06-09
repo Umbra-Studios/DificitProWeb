@@ -44,8 +44,9 @@ import {
   ShieldCheck,
   Heart,
   Mail,
-  Phone,
   Trash2,
+  Sparkles,
+  Ban
 } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -98,7 +99,6 @@ const DeficitPro = () => {
   const { pathname } = useLocation();
   const [activeScreen, setActiveScreen] = useState<"home" | "news">("home");
   const [preRegEmail, setPreRegEmail] = useState("");
-  const [preRegPhone, setPreRegPhone] = useState("");
   const [preRegSubmitted, setPreRegSubmitted] = useState(false);
   const [preRegCode, setPreRegCode] = useState("");
   const [preRegError, setPreRegError] = useState("");
@@ -158,10 +158,6 @@ const DeficitPro = () => {
       setPreRegError("Por favor ingresa un correo electrónico válido.");
       return;
     }
-    if (!preRegPhone.trim()) {
-      setPreRegError("Por favor ingresa tu número de teléfono.");
-      return;
-    }
     
     setPreRegError("");
     setPreRegSending(true);
@@ -181,7 +177,6 @@ const DeficitPro = () => {
         },
         body: JSON.stringify({
           email: preRegEmail,
-          phone: preRegPhone,
           code: code,
           message: `Nuevo Pre-registro de Deficit PRO! Código exclusivo de 7 días PRO asignado: ${code}`
         })
@@ -857,20 +852,88 @@ const DeficitPro = () => {
               Queremos que el hábito sea divertido. Cumple tus objetivos diarios para ganar estrellas y desbloquear funciones Premium de forma totalmente gratuita. ¡Tu esfuerzo se premia!
             </p>
             
-            <div className="space-y-4">
-              <h3 className="text-sm font-bold uppercase tracking-widest text-neutral-500">Funciones PRO</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="p-6 bg-brand-card border border-brand-border rounded-2xl group hover:border-brand-emerald/30 transition-all">
-                   <div className="text-amber-500 font-bold mb-2 flex items-center gap-2 uppercase tracking-widest text-[10px]">★ Scan IA Premium</div>
-                   <p className="text-xs text-neutral-500 leading-relaxed">Detección avanzada de platos complejos chilenos ilimitada.</p>
+            <div className="space-y-6 pt-4">
+              <div className="flex items-center gap-3">
+                <div className="h-[2px] w-8 bg-[#00e5ff] shadow-[0_0_8px_#00e5ff]"></div>
+                <h3 className="text-xl font-black uppercase tracking-[0.13em] text-[#00e5ff] glow-cyan italic">★ FUNCIONES PRO ★</h3>
+                <div className="h-[2px] flex-1 bg-neutral-800"></div>
+              </div>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Card 1: Scan IA */}
+                <div className="p-6 bg-[#040813]/60 border border-white/5 rounded-2xl group hover:border-[#00e5ff]/35 transition-all shadow-xl hover:shadow-[#00e5ff]/5 flex flex-col justify-between">
+                   <div>
+                     <div className="text-[#00e5ff] font-black mb-2.5 flex items-center gap-2 uppercase tracking-widest text-xs">
+                        <Sparkles size={14} className="animate-pulse" /> SCAN IA
+                     </div>
+                     <p className="text-xs text-neutral-300 leading-relaxed font-normal">
+                        Tómale una foto a tu alimento o sube una foto de la galería.
+                     </p>
+                   </div>
+                   <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[10px]">
+                      <span className="text-neutral-500 font-bold uppercase tracking-wider">Límites diarios</span>
+                      <span className="text-[#00e5ff] font-black uppercase tracking-wider bg-[#00e5ff]/5 px-2.5 py-1 rounded border border-[#00e5ff]/20">5 Intentos Diarios</span>
+                   </div>
                 </div>
-                <div className="p-6 bg-brand-card border border-brand-border rounded-2xl group hover:border-brand-emerald/30 transition-all">
-                   <div className="text-brand-emerald font-bold mb-2 flex items-center gap-2 uppercase tracking-widest text-[10px]">★ Coach ilimitado</div>
-                   <p className="text-xs text-neutral-500 leading-relaxed">Habla con tu Coach IA sin restricciones de mensajes diarios.</p>
+
+                {/* Card 2: Coach IA */}
+                <div className="p-6 bg-[#040813]/60 border border-white/5 rounded-2xl group hover:border-purple-500/30 transition-all shadow-xl hover:shadow-purple-500/5 flex flex-col justify-between">
+                   <div>
+                     <div className="text-purple-400 font-black mb-2.5 flex items-center gap-2 uppercase tracking-widest text-xs">
+                        <MessageSquare size={14} /> COACH IA
+                     </div>
+                     <p className="text-xs text-neutral-300 leading-relaxed font-normal">
+                        Disfruta del mejor entrenador, elige su estilo <span className="text-purple-300 underline underline-offset-2">chileno-neutro</span> para guiar tus metas.
+                     </p>
+                   </div>
+                   <div className="mt-4 pt-3 border-t border-white/5 flex flex-col gap-1.5 text-[10px]">
+                      <div className="flex justify-between items-center text-neutral-500">
+                        <span className="uppercase tracking-wider font-bold">Gratuita</span>
+                        <span className="font-bold">2 Intentos</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-purple-400 uppercase tracking-widest font-black">Versión PRO</span>
+                        <span className="text-purple-400 font-black uppercase tracking-wider bg-purple-500/10 px-2.5 py-1 rounded border border-purple-500/20">50 Intentos</span>
+                      </div>
+                   </div>
                 </div>
-                <div className="p-6 bg-brand-card border border-brand-border rounded-2xl group hover:border-brand-emerald/30 transition-all sm:col-span-2 lg:col-span-1">
-                   <div className="text-blue-400 font-bold mb-2 flex items-center gap-2 uppercase tracking-widest text-[10px]">★ Búsqueda inteligente IA</div>
-                   <p className="text-xs text-neutral-500 leading-relaxed">Escribe tu plato completo: "arroz con filete de pollo y ensalada de tomates. Un vaso de jugo de piña" y la IA reconocerá todo su contenido.</p>
+
+                {/* Card 3: Búsqueda IA inteligente */}
+                <div className="p-6 bg-[#040813]/60 border border-white/5 rounded-2xl group hover:border-amber-400/30 transition-all shadow-xl hover:shadow-amber-500/5 flex flex-col justify-between">
+                   <div>
+                     <div className="text-amber-500 font-black mb-2.5 flex items-center gap-2 uppercase tracking-widest text-xs">
+                        <Zap size={14} /> Búsqueda IA Inteligente
+                     </div>
+                     <p className="text-xs text-neutral-300 leading-relaxed font-normal">
+                        Nuestra novedad: escríbele a la IA todo lo que comiste y lo desglosará, además puedes quitar o agregar ingredientes de forma simple.
+                     </p>
+                   </div>
+                   <div className="mt-4 pt-3 border-t border-white/5 flex flex-col gap-1.5 text-[10px]">
+                      <div className="flex justify-between items-center text-neutral-500">
+                        <span className="uppercase tracking-wider font-bold">Gratuita</span>
+                        <span className="font-bold">2 Intentos</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-amber-400 uppercase tracking-widest font-black">Versión PRO</span>
+                        <span className="text-amber-400 font-black uppercase tracking-wider bg-amber-500/10 px-2.5 py-1 rounded border border-amber-500/20">10 Intentos</span>
+                      </div>
+                   </div>
+                </div>
+
+                {/* Card 4: Cero Publicidad */}
+                <div className="p-6 bg-[#040813]/60 border border-white/5 rounded-2xl group hover:border-brand-emerald/30 transition-all shadow-xl hover:shadow-emerald-500/5 flex flex-col justify-between">
+                   <div>
+                     <div className="text-brand-emerald font-black mb-2.5 flex items-center gap-2 uppercase tracking-widest text-xs">
+                        <Ban size={14} /> Cero Publicidad
+                     </div>
+                     <p className="text-xs text-neutral-300 leading-relaxed font-normal">
+                        Elimina por completo las publicidades de la aplicación y todos los molestos mensajes en pantalla solicitando suscribirte o de apoyo al equipo.
+                     </p>
+                   </div>
+                   <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[10px]">
+                      <span className="text-neutral-500 font-bold uppercase tracking-wider">Experiencia PRO</span>
+                      <span className="text-brand-emerald font-black uppercase tracking-wider bg-brand-emerald/5 px-2.5 py-1 rounded border border-brand-emerald/20">100% Ininterrumpido</span>
+                   </div>
                 </div>
               </div>
             </div>
@@ -1570,7 +1633,9 @@ const DeficitPro = () => {
               className="text-center mb-8"
             >
               <h3 className="text-3xl font-display font-black tracking-tighter italic uppercase mb-4">Elige tu Plan Pro</h3>
-              <p className="text-neutral-400 text-sm font-light leading-relaxed">Sin anuncios, 30 mensajes con IA, 5 fotografías scan diarias.</p>
+              <p className="text-neutral-400 text-sm font-light leading-relaxed">
+                Sin anuncios, sin alertas solicitando suscribirte o apoyo al equipo, con hasta 50 consultas de Coach IA y 10 de búsqueda inteligente.
+              </p>
             </motion.div>
 
             {/* Monthly */}
@@ -1665,7 +1730,7 @@ const DeficitPro = () => {
                     <span className="text-[#00e5ff] glow-cyan">y asegura tu beneficio de 7 días PRO</span>
                   </h3>
                   <p className="text-neutral-400 text-xs font-light max-w-md mx-auto">
-                    Déjanos tu correo y teléfono. Una vez validado tu pre-registro, te contactaremos y enviaremos tu acceso exclusivo de cortesía de forma 100% personalizada.
+                    Déjanos tu correo. Una vez validado tu pre-registro, te contactaremos y enviaremos tu acceso exclusivo de cortesía de forma 100% personalizada.
                   </p>
                 </div>
 
@@ -1695,25 +1760,6 @@ const DeficitPro = () => {
                           value={preRegEmail}
                           onChange={(e) => setPreRegEmail(e.target.value)}
                           placeholder="usuario@tuemail.com" 
-                          className="w-full bg-[#030712] border border-white/5 rounded-2xl pl-10 pr-4 py-4 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-[#00e5ff] transition-all disabled:opacity-50"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Phone Input */}
-                    <div className="space-y-1.5 text-left">
-                      <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block ml-1">Teléfono</label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-neutral-500">
-                          <Phone size={16} />
-                        </div>
-                        <input 
-                          type="tel" 
-                          required
-                          disabled={preRegSending}
-                          value={preRegPhone}
-                          onChange={(e) => setPreRegPhone(e.target.value)}
-                          placeholder="+56 9 1234 5678" 
                           className="w-full bg-[#030712] border border-white/5 rounded-2xl pl-10 pr-4 py-4 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-[#00e5ff] transition-all disabled:opacity-50"
                         />
                       </div>
@@ -1774,7 +1820,6 @@ const DeficitPro = () => {
                       localStorage.removeItem("deficit_pro_preregistered");
                       localStorage.removeItem("deficit_pro_code");
                       setPreRegEmail("");
-                      setPreRegPhone("");
                       setPreRegSubmitted(false);
                       setTimeout(() => {
                         const section = document.getElementById("pre-register");
