@@ -46,7 +46,9 @@ import {
   Mail,
   Trash2,
   Sparkles,
-  Ban
+  Ban,
+  Download,
+  Play
 } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -244,28 +246,26 @@ const DeficitPro = () => {
             </span>
           </div>
           <div className="hidden md:flex items-center gap-10 text-[10px] font-bold text-neutral-400 uppercase tracking-[0.2em]">
-            <button 
-              onClick={() => {
-                const el = document.getElementById("pre-register");
-                if (el) el.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="hover:text-[#00e5ff] transition-colors cursor-pointer bg-transparent border-none text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400 p-0 m-0 font-sans"
+            <a 
+              href="https://play.google.com/store/apps/details?id=app.deficitpro.android"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#39ff14] transition-colors cursor-pointer text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400 font-sans"
             >
-              Pre-regístrate
-            </button>
+              Descargar
+            </a>
             <Link to="/Studio" className="hover:text-brand-emerald transition-colors">Studio</Link>
           </div>
           <div className="md:hidden flex gap-2">
              <Link to="/Studio" className="text-[10px] font-bold text-neutral-400 uppercase tracking-[0.2em] border border-white/10 px-4 py-2 rounded-full">Studio</Link>
-             <button 
-               onClick={() => {
-                 const el = document.getElementById("pre-register");
-                 if (el) el.scrollIntoView({ behavior: "smooth" });
-               }}
-               className="text-[10px] font-bold text-brand-emerald uppercase tracking-[0.2em] border border-brand-emerald/30 px-4 py-2 rounded-full cursor-pointer bg-transparent font-sans"
+             <a 
+               href="https://play.google.com/store/apps/details?id=app.deficitpro.android"
+               target="_blank"
+               rel="noopener noreferrer"
+               className="text-[10px] font-bold text-[#39ff14] uppercase tracking-[0.2em] border border-[#39ff14]/30 bg-[#39ff14]/5 px-4 py-2 rounded-full cursor-pointer font-sans"
              >
-               Pre-regístrate
-             </button>
+               descargar
+             </a>
           </div>
         </div>
       </nav>
@@ -305,15 +305,25 @@ const DeficitPro = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-6 pt-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-4">
+              <a 
+                href="https://play.google.com/store/apps/details?id=app.deficitpro.android"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-5 bg-[#39ff14] text-black font-black rounded-xl hover:bg-[#5aff3d] shadow-[0_0_30px_rgba(57,255,20,0.55)] hover:shadow-[0_0_50px_rgba(57,255,20,0.9)] transition-all duration-300 uppercase tracking-wider text-[11px] md:text-xs inline-flex items-center justify-center gap-2 border-b-4 border-black/25 transform hover:-translate-y-1 active:translate-y-0 cursor-pointer font-sans text-center"
+              >
+                <Download size={16} className="stroke-[3px] animate-bounce" />
+                <span>DESCARGA EN PLAYSTORE AHORA</span>
+              </a>
+              
               <button 
                 onClick={() => {
                   const el = document.getElementById("pre-register");
                   if (el) el.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="px-12 py-5 bg-[#00e5ff] text-black font-bold rounded-xl hover:bg-[#33ebff] shadow-xl shadow-[#00e5ff]/30 transition-all uppercase tracking-wider text-sm glow-cyan inline-block border-none cursor-pointer font-sans"
+                className="px-8 py-5 bg-[#00e5ff]/10 hover:bg-[#00e5ff]/20 text-[#00e5ff] border border-[#00e5ff]/30 font-bold rounded-xl transition-all uppercase tracking-wider text-[11px] md:text-xs cursor-pointer font-sans"
               >
-                Pre-regístrate
+                deja tu correo y gana 7 días gratis PRO
               </button>
             </div>
           </motion.div>
@@ -1839,9 +1849,20 @@ const DeficitPro = () => {
               </motion.div>
             )}
 
-            {/* Soon on Play Store Indicators */}
-            <div className="flex flex-col items-center gap-1.5 pt-4 text-center">
-              <p className="text-[10px] text-neutral-400 uppercase tracking-widest font-black">Pronto en Play Store 🤖</p>
+            {/* Soon on Play Store Indicators & Google Play Download Button */}
+            <div className="flex flex-col items-center gap-4 pt-8 text-center border-t border-white/5 mt-8">
+              <p className="text-[10px] text-[#39ff14] uppercase tracking-widest font-black animate-pulse">¡Ya disponible en Android! 🤖</p>
+              
+              <a 
+                href="https://play.google.com/store/apps/details?id=app.deficitpro.android"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-10 py-5 bg-[#39ff14] text-black font-black rounded-xl hover:bg-[#5aff3d] shadow-[0_0_30px_rgba(57,255,20,0.55)] hover:shadow-[0_0_50px_rgba(57,255,20,0.95)] transition-all duration-300 uppercase tracking-widest text-[11px] md:text-xs inline-flex items-center justify-center gap-2 border-b-4 border-black/25 transform hover:-translate-y-1 active:translate-y-0 cursor-pointer font-sans text-center"
+              >
+                <Download size={16} className="stroke-[3px] animate-bounce" />
+                <span>DESCARGA EN PLAYSTORE AHORA</span>
+              </a>
+
               <p className="text-[9px] text-neutral-500 uppercase tracking-[0.3em] font-black italic opacity-60">Y pronto en App Store 🍏</p>
             </div>
           </div>
