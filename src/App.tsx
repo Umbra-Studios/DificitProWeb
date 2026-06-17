@@ -1736,8 +1736,8 @@ const DeficitPro = () => {
                     Lanzamiento Exclusivo
                   </span>
                   <h3 className="text-2xl md:text-3xl font-display font-black tracking-tight uppercase italic leading-[1.1]">
-                    Pre-regístrate a nuestra app <br/>
-                    <span className="text-[#00e5ff] glow-cyan">y asegura tu beneficio de 7 días PRO</span>
+                    envíanos tu correo <br/>
+                    <span className="text-[#00e5ff] glow-cyan">y recibe 7 días PRO</span>
                   </h3>
                   <p className="text-neutral-400 text-xs font-light max-w-md mx-auto">
                     Déjanos tu correo. Una vez validado tu pre-registro, te contactaremos y enviaremos tu acceso exclusivo de cortesía de forma 100% personalizada.
@@ -1779,9 +1779,16 @@ const DeficitPro = () => {
                   <button 
                     type="submit"
                     disabled={preRegSending}
-                    className="w-full py-4 bg-[#00e5ff] text-black font-black rounded-2xl hover:bg-[#33ebff] shadow-[0_0_30px_rgba(0,229,255,0.3)] hover:shadow-[0_0_50px_rgba(0,229,255,0.5)] transition-all uppercase tracking-[0.15em] text-sm glow-cyan border-b-4 border-black/20 transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    className="w-full py-4 bg-[#00e5ff] text-black font-black rounded-2xl hover:bg-[#33ebff] shadow-[0_0_30px_rgba(0,229,255,0.3)] hover:shadow-[0_0_50px_rgba(0,229,255,0.5)] transition-all uppercase tracking-[0.1em] text-sm glow-cyan border-b-4 border-black/20 transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex flex-col items-center justify-center gap-0.5"
                   >
-                    {preRegSending ? "Registrando..." : "Pre-registrarme"}
+                    {preRegSending ? (
+                      <span>Registrando...</span>
+                    ) : (
+                      <>
+                        <span className="text-base font-black">solicitar código</span>
+                        <span className="text-[10px] lowercase font-medium tracking-normal opacity-80">(promoción por tiempo limitado)</span>
+                      </>
+                    )}
                   </button>
                 </form>
 
@@ -1850,56 +1857,22 @@ const DeficitPro = () => {
             )}
 
             {/* Soon on Play Store Indicators & Google Play Download Button */}
-            <div className="flex flex-col items-center gap-4 pt-8 text-center border-t border-white/5 mt-8">
-              <p className="text-[10px] text-[#39ff14] uppercase tracking-widest font-black animate-pulse">¡Ya disponible en Android! 🤖</p>
+            <div className="flex flex-col items-center gap-6 pt-8 text-center border-t border-white/5 mt-8">
+              <p className="text-xs text-[#39ff14] uppercase tracking-widest font-black animate-pulse">¡Ya disponible en Android! 🤖</p>
               
               <a 
                 href="https://play.google.com/store/apps/details?id=app.deficitpro.android"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-10 py-5 bg-[#39ff14] text-black font-black rounded-xl hover:bg-[#5aff3d] shadow-[0_0_30px_rgba(57,255,20,0.55)] hover:shadow-[0_0_50px_rgba(57,255,20,0.95)] transition-all duration-300 uppercase tracking-widest text-[11px] md:text-xs inline-flex items-center justify-center gap-2 border-b-4 border-black/25 transform hover:-translate-y-1 active:translate-y-0 cursor-pointer font-sans text-center"
+                className="px-14 py-6 sm:px-16 sm:py-7 md:px-20 md:py-8 bg-[#39ff14] text-black font-black rounded-2xl hover:bg-[#5aff3d] shadow-[0_0_40px_rgba(57,255,20,0.65)] hover:shadow-[0_0_65px_rgba(57,255,20,1)] transition-all duration-300 uppercase tracking-widest text-xs md:text-sm lg:text-base inline-flex items-center justify-center gap-3 border-b-4 border-black/25 transform hover:-translate-y-1 active:translate-y-0 cursor-pointer font-sans text-center"
               >
-                <Download size={16} className="stroke-[3px] animate-bounce" />
+                <Download size={22} className="stroke-[3.5px] animate-bounce" />
                 <span>DESCARGA EN PLAYSTORE AHORA</span>
               </a>
 
-              <p className="text-[9px] text-neutral-500 uppercase tracking-[0.3em] font-black italic opacity-60">Y pronto en App Store 🍏</p>
+              <p className="text-[10px] text-neutral-500 uppercase tracking-[0.3em] font-black italic opacity-60">Y pronto en App Store 🍏</p>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Referral / Promo Code Section */}
-      <section className="py-24 px-12 bg-black/30">
-        <div className="max-w-7xl mx-auto flex justify-center">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="p-8 bg-brand-card border border-brand-border rounded-3xl max-w-xl w-full"
-            >
-               <div className="flex items-center gap-3 mb-6">
-                 <div className="w-10 h-10 rounded-xl bg-pink-500/20 flex items-center justify-center text-pink-500">
-                    <Gift size={20} />
-                 </div>
-                 <h3 className="text-xl font-bold tracking-tight">¿Tienes un código?</h3>
-               </div>
-
-               <div className="flex gap-3 mb-4">
-                 <input 
-                   type="text" 
-                   placeholder="INGRESA TU CÓDIGO AQUÍ" 
-                   className="flex-1 bg-neutral-900 border border-brand-border rounded-xl px-4 py-3 text-sm font-bold tracking-widest placeholder:text-neutral-600 focus:border-brand-emerald/50 outline-none transition-all uppercase text-center"
-                 />
-                 <button className="bg-neutral-200 text-brand-dark px-6 py-3 rounded-xl font-bold text-sm hover:bg-white transition-colors">
-                   Aplicar
-                 </button>
-               </div>
-               
-               <p className="text-center text-[10px] text-neutral-500 mt-6 italic">
-                 Cada alimento registrado es un compromiso con tu salud. 🍎
-               </p>
-            </motion.div>
         </div>
       </section>
 
