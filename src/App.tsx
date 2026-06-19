@@ -48,7 +48,11 @@ import {
   Sparkles,
   Ban,
   Download,
-  Play
+  Play,
+  Minus,
+  Utensils,
+  Battery,
+  ClipboardList
 } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -100,6 +104,10 @@ const ProgressBar = ({ label, value, max, color = "bg-brand-emerald" }: any) => 
 const DeficitPro = () => {
   const { pathname } = useLocation();
   const [activeScreen, setActiveScreen] = useState<"home" | "news">("home");
+  const [mobCaloriesConsumed, setMobCaloriesConsumed] = useState(1539);
+  const [mobCaloriesBurned, setMobCaloriesBurned] = useState(900);
+  const [mobGlassesWater, setMobGlassesWater] = useState(10);
+  const mobRemainingCalories = Math.max(0, 1810 - mobCaloriesConsumed + mobCaloriesBurned);
   const [preRegEmail, setPreRegEmail] = useState("");
   const [preRegSubmitted, setPreRegSubmitted] = useState(false);
   const [preRegCode, setPreRegCode] = useState("");
@@ -284,24 +292,30 @@ const DeficitPro = () => {
               <span className="inline-block px-3 py-1 bg-brand-emerald/10 text-brand-emerald text-[10px] font-bold uppercase tracking-[0.2em] rounded border border-brand-emerald/20 mb-6">
                 El nuevo estándar en apps de déficit calórico
               </span>
-              <h1 className="text-5xl md:text-8xl leading-[1.1] mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80">
-                Lleva el control <br/>
-                <span className="brand-logo italic text-[#00e5ff] glow-cyan">de manera simple.</span>
+              <h1 className="text-4xl md:text-7xl leading-[1.1] mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white to-white/90 font-black tracking-tight">
+                Tu déficit calórico, <br className="hidden md:block" />
+                <span className="brand-logo italic text-[#00e5ff] glow-cyan">más simple</span> y con identidad chilena.
               </h1>
-              <p className="text-lg text-neutral-400 max-w-md leading-relaxed font-light">
-                Deficit PRO es desarrollada por un grupo pequeño de chilenos que busca traer minimalismo al conteo calórico. ¡Apóyate con escaneos IA y un Coach IA con todo el estilo chileno! 🇨🇱
+              <p className="text-base md:text-lg text-neutral-400 max-w-xl leading-relaxed font-light">
+                Déficit PRO combina minimalismo y tecnología para facilitar tu alimentación. Olvídate de lo complicado: escanea tus platos con IA y recibe la guía de un Coach IA que te habla y te motiva con el sello único de Chile. 🇨🇱
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-10">
               <div className="flex flex-col">
-                <span className="text-3xl font-bold tracking-tighter text-[#00e5ff] glow-cyan">10.000</span>
-                <span className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold mt-1">proyectamos en 6 meses!</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xl font-bold text-neutral-400">🚀</span>
+                  <span className="text-2xl md:text-3xl font-black tracking-tighter text-[#00e5ff] glow-cyan">10.000</span>
+                </div>
+                <span className="text-[9px] md:text-[10px] text-neutral-500 uppercase tracking-widest font-black mt-1">Rumbo a los 10.000 usuarios en 6 meses</span>
               </div>
-              <div className="hidden sm:block w-[1px] h-12 bg-brand-border"></div>
+              <div className="hidden sm:block w-[1px] h-12 bg-white/10"></div>
               <div className="flex flex-col">
-                <span className="text-3xl font-bold tracking-tighter">4.9/5</span>
-                <span className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold mt-1">en usuarios testers</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xl">⭐</span>
+                  <span className="text-2xl md:text-3xl font-black tracking-tighter text-white">4.9/5</span>
+                </div>
+                <span className="text-[9px] md:text-[10px] text-neutral-500 uppercase tracking-widest font-black mt-1">en usuarios testers</span>
               </div>
             </div>
 
@@ -337,153 +351,270 @@ const DeficitPro = () => {
             {/* iPhone Frame */}
             <div className="w-[300px] h-[600px] md:w-[340px] md:h-[680px] bg-[#0c0c0c] rounded-[3.5rem] p-3 border-[6px] border-[#1a1a1a] shadow-2xl relative">
               {/* Screen Content */}
-              <div className="w-full h-full bg-[#020617] rounded-[2.8rem] overflow-hidden flex flex-col font-sans relative">
+              <div className="w-full h-full bg-[#040815] rounded-[2.8rem] overflow-hidden flex flex-col font-sans relative shadow-inner">
+                {/* Tech Radar Concentric Background Circles */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-25 z-0">
+                  <div className="absolute top-[80px] left-1/2 -translate-x-1/2 w-[520px] h-[520px] border border-[#00e5ff]/5 rounded-full" />
+                  <div className="absolute top-[80px] left-1/2 -translate-x-1/2 w-[420px] h-[420px] border border-[#00e5ff]/10 rounded-full" />
+                  <div className="absolute top-[80px] left-1/2 -translate-x-1/2 w-[320px] h-[320px] border border-[#00e5ff]/15 rounded-full" />
+                  <div className="absolute top-[80px] left-1/2 -translate-x-1/2 w-[220px] h-[220px] border border-[#39ff14]/20 rounded-full border-dashed animate-[spin_100s_linear_infinite]" />
+                  <div className="absolute top-[80px] left-1/2 -translate-x-1/2 w-[120px] h-[120px] border border-[#00e5ff]/10 rounded-full" />
+                  {/* Radar line offsets */}
+                  <div className="absolute top-[340px] left-1/2 -translate-x-1/2 w-[400px] h-[1px] bg-white/[0.03] rotate-45" />
+                  <div className="absolute top-[340px] left-1/2 -translate-x-1/2 w-[400px] h-[1px] bg-white/[0.03] -rotate-45" />
+                </div>
+
+                {/* Android Status Bar */}
+                <div className="px-5 pt-3 pb-1 flex justify-between items-center text-[9px] text-neutral-400 font-bold z-10 select-none opacity-90">
+                  <span>1:56</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[7.5px] scale-90 tracking-tight font-black">5G</span>
+                    <Battery size={11} className="rotate-90 origin-center text-neutral-400 fill-neutral-400/40" />
+                    <span>58%</span>
+                  </div>
+                </div>
+
                 {activeScreen === "home" ? (
                   <>
                     {/* Apps Header */}
-                    <div className="px-6 pt-12 pb-4">
-                  <div className="flex justify-between items-start">
-                    <div className="space-y-0.5">
-                      <span className="text-[11px] text-neutral-400 font-medium">Hola, Usuario</span>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-lg font-black italic tracking-tighter uppercase text-white leading-none">Deficit <span className="text-[#00e5ff]">Pro</span></span>
-                        <div className="flex items-center gap-1">
-                          <Info size={12} className="text-neutral-500" />
-                          <Settings size={12} className="text-neutral-500" />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex flex-col items-end gap-1.5">
-                      <div className="flex items-center gap-1.5">
-                         <span className="text-base">🇨🇱</span>
-                         <div className="bg-[#facc15] rounded-xl px-2 py-0.5 flex items-center gap-1 shadow-[0_0_15px_rgba(250,204,21,0.3)]">
-                           <Star size={10} className="fill-black text-black" />
-                           <span className="text-[10px] font-black text-black leading-tight">5</span>
-                         </div>
-                      </div>
-                      <div className="bg-[#f97316] rounded-lg px-2.5 py-1 text-[8px] font-black text-white tracking-widest uppercase shadow-[0_2px_15px_rgba(249,115,22,0.4)]">
-                        Hazte Pro
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-center mt-6">
-                    <div className="flex items-center gap-6">
-                       <ChevronLeft size={14} className="text-[#0ea5e9]" />
-                       <div className="bg-[#0f172a] px-6 py-1.5 rounded-2xl border border-white/5 text-[10px] font-black tracking-[0.2em] text-[#0ea5e9] shadow-inner">HOY</div>
-                       <ChevronRight size={14} className="text-neutral-800" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex-1 px-6 flex flex-col items-center">
-                  {/* Progress Circle container */}
-                  <div className="relative mt-2">
-                    <div className="relative w-36 h-36 flex items-center justify-center">
-                       {/* SVG Progress */}
-                       <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                         <circle cx="50" cy="50" r="44" fill="none" stroke="#0f172a" strokeWidth="6" />
-                         <motion.circle 
-                           cx="50" cy="50" r="44" fill="none" stroke="#10b981" strokeWidth="8"
-                           strokeDasharray="276" initial={{ strokeDashoffset: 276 }} animate={{ strokeDashoffset: 70 }}
-                           transition={{ duration: 2.5, ease: "easeOut" }} strokeLinecap="round"
-                           className="drop-shadow-[0_0_15px_rgba(16,185,129,0.7)]"
-                         />
-                       </svg>
-                       <div className="absolute inset-0 flex flex-col items-center justify-center pt-1">
-                         <span className="text-4xl font-black italic tracking-tighter text-[#10b981] drop-shadow-[0_0_10px_rgba(16,185,129,0.3)]">2541</span>
-                         <span className="text-[9px] text-neutral-400 font-bold uppercase tracking-tight -mt-1">kcal restantes</span>
-                       </div>
-                    </div>
-
-                    {/* Floating Icons */}
-                    <div className="absolute top-[35%] -left-10 flex flex-col gap-2.5">
-                       <motion.div 
-                          initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5 }}
-                          className="w-9 h-9 rounded-2xl bg-[#facc15] border border-white/10 flex items-center justify-center text-black shadow-[0_0_20px_rgba(250,204,21,0.4)] cursor-pointer hover:scale-110 active:scale-95 transition-transform"
-                          onClick={() => setActiveScreen("news")}
-                       >
-                          <BookOpen size={16} />
-                       </motion.div>
-                       <motion.div 
-                          initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.55 }}
-                          className="w-9 h-9 rounded-2xl bg-[#ef4444] border border-white/10 flex items-center justify-center text-white shadow-[0_0_20px_rgba(239,68,68,0.4)] cursor-pointer hover:scale-110 active:scale-95 transition-transform"
-                          onClick={() => setActiveScreen("news")}
-                       >
-                          <Newspaper size={16} />
-                       </motion.div>
-                    </div>
-
-                    <div className="absolute top-[35%] -right-10 flex flex-col gap-2.5">
-                       <motion.div 
-                          initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.6 }}
-                          className="w-9 h-9 rounded-2xl bg-[#1e293b] border border-white/10 flex items-center justify-center text-[#f97316] shadow-xl shadow-orange-500/10"
-                       >
-                          <Flame size={16} className="fill-[#f97316]/20" />
-                       </motion.div>
-                       <motion.div 
-                          initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.7 }}
-                          className="w-9 h-9 rounded-2xl bg-[#a855f7] border border-white/10 flex items-center justify-center text-white shadow-[0_0_20px_rgba(168,85,247,0.4)]"
-                       >
-                          <Brain size={16} />
-                       </motion.div>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3 w-full mt-8">
-                    <div className="bg-[#0f172a] border border-white/5 p-3 rounded-2xl flex flex-col items-center shadow-lg">
-                      <span className="text-[8px] text-neutral-500 uppercase font-black tracking-widest leading-none mb-1.5">CONSUMIDO</span>
-                      <span className="text-lg font-black text-[#0ea5e9] tracking-tighter">0 <span className="text-[10px] text-neutral-500">kcal</span></span>
-                    </div>
-                    <div className="bg-[#0f172a] border border-white/5 p-3 rounded-2xl flex flex-col items-center shadow-lg">
-                      <span className="text-[8px] text-neutral-500 uppercase font-black tracking-widest leading-none mb-1.5">QUEMADO</span>
-                      <span className="text-lg font-black text-[#10b981] tracking-tighter">0 <span className="text-[10px] text-neutral-500">kcal</span></span>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3 w-full mt-4">
-                    <button className="bg-[#0ea5e9] text-white py-3.5 rounded-2xl font-black tracking-[0.1em] flex items-center justify-center gap-2 text-[10px] uppercase shadow-lg shadow-[#0ea5e9]/20 hover:scale-105 transition-transform active:scale-95">
-                      <Plus size={16} strokeWidth={3} />
-                      COMIDA
-                    </button>
-                    <button className="bg-[#10b981] text-white py-3.5 rounded-2xl font-black tracking-[0.1em] flex items-center justify-center gap-2 text-[10px] uppercase shadow-lg shadow-[#10b981]/20 hover:scale-105 transition-transform active:scale-95">
-                      <Plus size={16} strokeWidth={3} />
-                      EJERCICIO
-                    </button>
-                  </div>
-
-                  {/* Water Section */}
-                  <div className="w-full mt-6 bg-[#0f172a]/40 border border-white/5 p-4.5 rounded-[2rem] relative group overflow-hidden">
-                    <div className="flex justify-between items-start relative z-10">
-                      <div>
-                        <div className="flex items-center gap-2">
-                           <span className="text-[9px] font-black text-neutral-400 uppercase tracking-widest">AGUA</span>
-                           <span className="text-[8px] text-neutral-500 font-medium">* 1 vaso = 250cc</span>
-                        </div>
-                        <div className="flex items-baseline gap-1.5 mt-1">
-                           <span className="text-3xl font-black text-white leading-none">0</span>
-                           <span className="text-[11px] font-bold text-neutral-500 uppercase">/ 13</span>
-                        </div>
-                      </div>
-                      <button className="w-12 h-12 rounded-2xl bg-[#0ea5e9] flex items-center justify-center text-white shadow-xl shadow-[#0ea5e9]/30 hover:scale-110 transition-transform active:rotate-90">
-                         <Plus size={24} strokeWidth={3} />
-                      </button>
-                    </div>
-                    
-                    {/* Water Level Visualization */}
-                    <div className="mt-5 w-full h-14 bg-[#020617] rounded-2xl border border-white/5 relative overflow-hidden flex items-center px-1.5">
-                       <div className="w-full h-10 border-2 border-[#1e293b] rounded-xl flex items-center px-2">
-                          <div className="flex gap-1.5 opacity-20">
-                             {[1,2,3,4].map(i => <div key={i} className="w-1 h-6 bg-white/40 rounded-full"></div>)}
+                    <div className="px-5 pt-3 pb-1 z-10 relative">
+                      <div className="flex justify-between items-start">
+                        <div className="space-y-0.5">
+                          <span className="text-[10px] text-neutral-400 font-medium tracking-tight">Hola, Cristian Lab</span>
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-lg font-black tracking-tight text-white leading-none">
+                              Deficit <span className="text-[#00e5ff] font-display glow-cyan">Pro</span>
+                            </span>
+                            <div className="flex items-center gap-1">
+                              <button className="w-5 h-5 border border-[#00e5ff]/30 rounded-full flex items-center justify-center text-[#00e5ff] hover:bg-[#00e5ff]/10 transition-colors bg-[#00e5ff]/5 shadow-[0_0_8px_rgba(0,229,255,0.2)]">
+                                <Info size={11} className="stroke-[2.5px]" />
+                              </button>
+                              <button className="w-5 h-5 border border-white/10 rounded-full flex items-center justify-center text-neutral-400 hover:text-white transition-colors bg-white/5">
+                                <Settings size={11} />
+                              </button>
+                            </div>
                           </div>
-                       </div>
-                       {/* Floating minus button hidden in reference image but good for UX */}
-                       <div className="absolute right-4 w-10 h-10 bg-neutral-900/80 rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <div className="w-4 h-1 bg-neutral-600 rounded-full"></div>
-                       </div>
+                        </div>
+                        <div className="flex flex-col items-end">
+                          <button className="bg-gradient-to-r from-[#f97316] to-[#facc15] hover:scale-105 active:scale-95 transition-transform rounded-2xl px-3 py-1 flex items-center gap-1 shadow-[0_0_20px_rgba(249,115,22,0.55)] border border-white/15">
+                            <Star size={11} className="fill-white text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]" />
+                            <span className="text-xs font-black text-white leading-none">13</span>
+                          </button>
+                          <span className="text-[9px] font-black tracking-widest text-[#39ff14] mt-1.5 animate-pulse skew-x-3 italic">PRO</span>
+                        </div>
+                      </div>
+
+                      {/* Date Indicator with Single Left Arrow */}
+                      <div className="flex items-center justify-between mt-4 px-2 relative z-10">
+                        <button 
+                          onClick={() => {
+                            // Reset state metrics back to values in screenshot
+                            setMobCaloriesConsumed(1539);
+                            setMobCaloriesBurned(900);
+                            setMobGlassesWater(10);
+                          }}
+                          className="text-[#00e5ff] hover:scale-125 transition-all p-1 active:scale-90 bg-white/5 rounded-full border border-white/5 cursor-pointer shadow-[0_0_10px_rgba(0,229,255,0.15)]"
+                          title="Volver a los valores iniciales"
+                        >
+                          <ChevronLeft size={16} className="stroke-[3.5px]" />
+                        </button>
+                        
+                        <div className="absolute left-1/2 -translate-x-1/2">
+                          <div className="px-6 py-1 rounded-full border-2 border-[#00e5ff]/80 bg-[#020617] text-[10px] font-black tracking-widest text-[#00e5ff] shadow-[0_0_20px_rgba(0,229,255,0.4)] flex items-center justify-center font-display italic">
+                            HOY
+                          </div>
+                        </div>
+                        <div className="w-6 h-6" /> {/* Spacer for symmetry with the screenshot */}
+                      </div>
                     </div>
-                  </div>
-                </div>
+
+                    <div className="flex-1 px-5 flex flex-col items-center z-10 relative">
+                      {/* Central Capsule Card with Ring & Side Controls */}
+                      <div className="w-full bg-[#030919]/80 backdrop-blur-xl border border-white/[0.06] rounded-[2rem] p-3 py-4 flex items-center justify-between relative mt-4 shadow-[0_12px_40px_rgba(0,0,0,0.5)]">
+                        {/* Left Side Column Icons (No square backgrounds, floating, matching screenshot) */}
+                        <div className="flex flex-col items-center gap-7 pl-2 select-none">
+                          <button 
+                            onClick={() => {
+                              // Simulate removing/deleting last food item
+                              setMobCaloriesConsumed(prev => Math.max(0, prev - 150));
+                            }}
+                            className="text-[#faba3a] hover:scale-125 transition-all active:scale-90 cursor-pointer flex items-center justify-center drop-shadow-[0_0_8px_rgba(250,186,58,0.5)]"
+                            title="Deshacer última comida"
+                          >
+                            <Utensils size={23} className="stroke-[2px]" />
+                          </button>
+                          
+                          <button 
+                            onClick={() => {
+                              setActiveScreen("news");
+                            }}
+                            className="text-[#00e5ff] hover:scale-125 transition-all active:scale-90 cursor-pointer flex items-center justify-center drop-shadow-[0_0_8px_rgba(0,229,255,0.5)]"
+                            title="Ver análisis de salud"
+                          >
+                            <ClipboardList size={23} className="stroke-[2px]" />
+                          </button>
+                        </div>
+
+                        {/* Central Calorie Gauge */}
+                        <div className="relative w-36 h-36 flex items-center justify-center">
+                          <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                            {/* Dark background track */}
+                            <circle cx="50" cy="50" r="41" fill="none" stroke="#050a16" strokeWidth="6.5" />
+                            {/* Dynamic progress track in super bright neon green (#39ff14) */}
+                            <motion.circle 
+                              cx="50" cy="50" r="41" fill="none" stroke="#39ff14" strokeWidth="7"
+                              strokeDasharray="257.6"
+                              animate={{ strokeDashoffset: 257.6 - (Math.min(100, Math.max(0, (mobRemainingCalories / 1810) * 100)) / 100) * 257.6 }}
+                              transition={{ type: "spring", stiffness: 60, damping: 12 }}
+                              strokeLinecap="round"
+                              className="drop-shadow-[0_0_12px_rgba(57,255,20,0.6)]"
+                            />
+                          </svg>
+                          
+                          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-1 select-none font-display">
+                            <span className="text-3xl font-black tracking-tight text-white leading-none font-sans drop-shadow-[0_2px_6px_rgba(0,0,0,0.7)]">
+                              {mobRemainingCalories}
+                            </span>
+                            <span className="text-[8px] text-white font-black uppercase tracking-wider mt-1">
+                              KCAL RESTANTES
+                            </span>
+                            <span className="text-[6.5px] text-neutral-400 font-bold uppercase tracking-tight opacity-75 mt-0.5 leading-none">
+                              AÚN PARA META DE HOY
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Right Side Column Icons */}
+                        <div className="flex flex-col items-center gap-7 pr-2 select-none">
+                          <div className="relative">
+                            <button className="text-[#f43f5e] hover:scale-125 transition-all cursor-pointer flex items-center justify-center drop-shadow-[0_0_8px_rgba(244,63,94,0.5)]">
+                              <Flame size={23} className="fill-[#f43f5e]/15 stroke-[2px]" />
+                            </button>
+                            {/* Small Rounded Notification Badge */}
+                            <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#f43f5e] text-white text-[8px] font-black flex items-center justify-center shadow-[0_0_6px_#f43f5e] border border-[#030919]">
+                              1
+                            </div>
+                          </div>
+                          
+                          <button className="text-[#c084fc] hover:scale-125 transition-all active:scale-90 cursor-pointer flex items-center justify-center drop-shadow-[0_0_8px_rgba(192,132,252,0.5)]">
+                            <Brain size={23} className="stroke-[2px]" />
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Consumed & Burned Stats Grid */}
+                      <div className="grid grid-cols-2 gap-3 w-full mt-3">
+                        <div className="bg-[#030919]/90 border border-white/[0.04] p-3 rounded-2xl flex flex-col items-center shadow-md">
+                          <span className="text-[8px] text-neutral-400 uppercase font-black tracking-wider leading-none mb-1.5">CONSUMIDO</span>
+                          <span className="text-base font-black text-[#00abff] tracking-tight">
+                            {mobCaloriesConsumed} <span className="text-[10px] text-[#00abff]/70 font-medium font-sans">kcal</span>
+                          </span>
+                        </div>
+                        <div className="bg-[#030919]/90 border border-white/[0.04] p-3 rounded-2xl flex flex-col items-center shadow-md">
+                          <span className="text-[8px] text-neutral-400 uppercase font-black tracking-wider leading-none mb-1.5">QUEMADO</span>
+                          <span className="text-base font-black text-[#39ff14] tracking-tight">
+                            {mobCaloriesBurned} <span className="text-[10px] text-[#39ff14]/70 font-medium font-sans">kcal</span>
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Food & Exercise Buttons Grid */}
+                      <div className="grid grid-cols-2 gap-3 w-full mt-3.5">
+                        <button 
+                          onClick={() => {
+                            // Register food consumed nicely
+                            setMobCaloriesConsumed(prev => prev + 350);
+                          }}
+                          className="bg-[#00abff] hover:bg-[#33beff] text-white py-3 px-2 rounded-full font-display font-black italic tracking-wide flex items-center justify-center gap-1.5 text-[11px] uppercase shadow-[0_4px_15px_rgba(0,171,255,0.3)] hover:shadow-[0_4px_25px_rgba(0,171,255,0.5)] hover:-translate-y-0.5 active:translate-y-0 transition-all text-center cursor-pointer border-none"
+                        >
+                          <Plus size={13} strokeWidth={4} />
+                          <span>COMIDA</span>
+                        </button>
+                        
+                        <button 
+                          onClick={() => {
+                            // Register exercise calories
+                            setMobCaloriesBurned(prev => prev + 150);
+                          }}
+                          className="bg-[#39ff14] hover:bg-[#5aff3d] text-white py-3 px-2 rounded-full font-display font-black italic tracking-wide flex items-center justify-center gap-1.5 text-[11px] uppercase shadow-[0_4px_15px_rgba(57,255,20,0.3)] hover:shadow-[0_4px_25px_rgba(57,255,20,0.5)] hover:-translate-y-0.5 active:translate-y-0 transition-all text-center cursor-pointer border-none text-shadow-[0_1px_2px_rgba(0,0,0,0.5)]"
+                        >
+                          <Plus size={13} strokeWidth={4} />
+                          <span>EJERCICIO</span>
+                        </button>
+                      </div>
+
+                      {/* Water Section */}
+                      <div className="w-full mt-4 bg-[#030919]/50 border border-white/[0.05] p-3.5 rounded-3xl relative overflow-hidden bg-[radial-gradient(#ffffff04_1px,transparent_1px)] [background-size:12px_12px] group">
+                        <div className="flex justify-between items-center relative z-10">
+                          <div className="flex items-center gap-3">
+                            {/* Sports Water Bottle */}
+                            <div className="w-8 h-14 relative flex flex-col items-center shrink-0">
+                              {/* Lid */}
+                              <div className="w-3.5 h-1.5 bg-neutral-600 rounded-t" />
+                              <div className="w-5.5 h-1.5 bg-[#0ea5e9] rounded" />
+                              {/* Bottle body Container */}
+                              <div className="w-7.5 h-11 border-2 border-[#1e293b] rounded-lg relative overflow-hidden bg-black/40 flex items-end">
+                                {/* Water level Fill */}
+                                <motion.div 
+                                  className="w-full bg-gradient-to-t from-[#00abff] to-[#0ea5e9] shadow-[0_0_12px_rgba(0,171,255,0.7)]"
+                                  style={{ height: `${(mobGlassesWater / 14) * 100}%` }}
+                                  animate={{ height: `${(mobGlassesWater / 14) * 100}%` }}
+                                  transition={{ type: "spring", stiffness: 80, damping: 14 }}
+                                />
+                                {/* Sports Bottle Rib Lines */}
+                                <div className="absolute inset-0 pointer-events-none flex flex-col justify-around py-1.5 px-0.5">
+                                  <div className="w-full h-[1px] bg-white/10" />
+                                  <div className="w-full h-[1px] bg-white/10" />
+                                </div>
+                                {/* Shine strip */}
+                                <div className="absolute top-0 left-1 w-1 h-full bg-white/10 rounded-full blur-[0.5px]" />
+                              </div>
+                            </div>
+
+                            <div className="space-y-0.5">
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-[8px] font-black text-neutral-400 tracking-wider">AGUA</span>
+                                <span className="text-[7.5px] text-neutral-500 font-bold">* 1 vaso = 250cc</span>
+                              </div>
+                              
+                              <div className="flex items-baseline gap-1 mt-0.5">
+                                <span className="text-2xl font-black text-white leading-none font-sans">{mobGlassesWater}</span>
+                                <span className="text-[10px] font-bold text-neutral-500 uppercase">/ 14</span>
+                              </div>
+                              
+                              <div className="text-[8px] font-black text-[#0ea5e9] tracking-wider leading-none uppercase italic font-display">
+                                VASOS LOGRADOS
+                              </div>
+                              
+                              <div className="inline-block mt-1 px-2 py-0.5 rounded-md bg-black/60 border border-white/5 text-[7px] font-bold text-neutral-300">
+                                {mobGlassesWater * 250} ml
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex flex-col items-center gap-1.5 select-none">
+                            <button 
+                              onClick={() => {
+                                setMobGlassesWater(prev => Math.min(14, prev + 1));
+                              }}
+                              className="w-9 h-9 rounded-full bg-[#0ea5e9] hover:bg-[#38bdf8] flex items-center justify-center text-white shadow-md shadow-[#0ea5e9]/30 hover:scale-110 active:scale-90 transition-all cursor-pointer"
+                              title="Agregar vaso"
+                            >
+                              <Plus size={18} strokeWidth={3} />
+                            </button>
+                            <button 
+                              onClick={() => {
+                                setMobGlassesWater(prev => Math.max(0, prev - 1));
+                              }}
+                              className="w-7 h-4 rounded-full bg-neutral-900 border border-white/5 hover:bg-neutral-800 flex items-center justify-center text-neutral-400 hover:text-white transition-all cursor-pointer text-[9px]"
+                              title="Quitar vaso"
+                            >
+                              <Minus size={9} strokeWidth={3} />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </>
                 ) : (
                   <div className="flex-1 flex flex-col overflow-y-auto px-5 pt-12 pb-6 bg-[#030712] scrollbar-hide text-white relative">
