@@ -101,9 +101,455 @@ const ProgressBar = ({ label, value, max, color = "bg-brand-emerald" }: any) => 
   </div>
 );
 
+const detectDefaultLanguage = (): "es" | "en" => {
+  const saved = localStorage.getItem("deficitpro_lang");
+  if (saved === "es" || saved === "en") return saved;
+  
+  if (typeof navigator !== "undefined") {
+    const langs = navigator.languages || [navigator.language];
+    for (const lang of langs) {
+      if (lang.toLowerCase().startsWith("es")) return "es";
+      if (lang.toLowerCase().startsWith("en")) return "en";
+    }
+    if (navigator.language && !navigator.language.toLowerCase().startsWith("es")) {
+      return "en";
+    }
+  }
+  return "es";
+};
+
+const translations = {
+  es: {
+    navDownload: "Descargar",
+    navStudio: "Studio",
+    heroBadge: "El nuevo estándar en apps de déficit calórico",
+    heroTitleLine1: "Domina tu nutrición",
+    heroTitleLine2: "con el ",
+    heroTitlePower: "poder de la IA.",
+    heroDesc: "Déficit PRO es tu centro de mando nutricional. Usa nuestro escáner fotográfico para registrar comidas al instante, consulta nuestro buscador inteligente para desglosar cada ingrediente y conversa con tu Coach IA personal para recibir ajustes en tiempo real.",
+    heroSub: "Del diseño minimalista a la inteligencia máxima. Desde Chile ahora disponible en todo Latinoamérica y Estados Unidos",
+    heroUsers: "Rumbo a los 10.000 usuarios en 6 meses",
+    heroTesters: "en usuarios testers",
+    heroDownloadBtn: "DESCARGA EN PLAYSTORE AHORA",
+    heroPreRegBtn: "deja tu correo y gana 7 días gratis PRO",
+    // Scanner section
+    scanBadge: "Visual Intelligence",
+    scanTitle1: "Escaneo Inteligente",
+    scanTitle2: "en Segundos",
+    scanDesc: "¡Nuestra IA hace el trabajo por ti! Con solo una foto, identifica tu plato, calcula las calorías y desglosa los macronutrientes al instante. Además, tienes total libertad para editar o agregar ingredientes a tu gusto.",
+    scanDetected: "Detected",
+    scanFoodName: "Crema de zapallo",
+    scanCalories: "Calorías",
+    scanProtein: "Proteína",
+    scanFats: "Grasas",
+    scanCarbs: "Carbohidratos",
+    // Coach section
+    coachBadge: "Exclusivo PRO",
+    coachTitle1: "Tu Personal",
+    coachTitle2: "Coach IA Chileno.",
+    coachDesc: "Conoce a tu Coach IA, integrado con una firme y chilena personalidad. Con su motivación te entregará consejos como.",
+    coachBullet1: "Planes de entrenamiento personalizados.",
+    coachBullet2: "Sugerencias de almuerzos para la pega o menús completos!",
+    coachBullet3: "Recetas para tu fin de semana, porciones fáciles de manejar.",
+    coachMsgAi: "Buena máquina! Estoy aquí para ayudarte con consejos y entrenamientos. Vamos con todo!",
+    coachMsgUser: "Hola! Quiero una rutina ligera, me duele la muñeca. También quiero un plato para la cena de hoy.",
+    coachInputPlaceholder: "Pregunta sobre dietas, ejercicios...",
+    coachActiveConsults: "Consultas hoy: 2/20",
+    // Challenges Section
+    chalBadge: "Gamificación Inteligente",
+    chalTitle1: "Gana Estrellas.",
+    chalTitle2: "Desbloquea lo PRO.",
+    chalDesc: "Queremos que el hábito sea divertido. Cumple tus objetivos diarios para ganar estrellas y desbloquear funciones Premium de forma totalmente gratuita. ¡Tu esfuerzo se premia!",
+    chalHeader: "DESAFÍOS DIARIOS",
+    chalSub: "Completa estos objetivos diarios para ganar ★ estrellas y canjearlas por acceso a funciones exclusivas. ¡Motívate y cumple tus metas cada día!",
+    chalItem1Title: "Hidratación Completa",
+    chalItem1Desc: "BEBE TODOS TUS VASOS DE AGUA.",
+    chalItem1Status: "7 / 13 VASOS",
+    chalItem1Complete: "¡COMPLETADO! +1",
+    chalItem2Title: "Nutrición Constante",
+    chalItem2Desc: "REGISTRA AL MENOS 3 COMIDAS.",
+    chalItem2Status: "3 / 3 COMIDAS",
+    chalItem2Complete: "¡COMPLETADO! +1",
+    chalItem3Title: "Desafío Especial",
+    chalItem3Desc: "USA EL SCANNER IA.",
+    chalItem3Status: "2 / 1",
+    chalItem3Complete: "¡COMPLETADO! +1",
+    chalCloseBtn: "Cerrar",
+    // Pro Features Cards
+    proFeaturesTitle: "★ FUNCIONES PRO ★",
+    proScanTitle: "SCAN IA",
+    proScanDesc: "Tómale una foto a tu alimento o sube una foto de la galería.",
+    proScanLimitsLabel: "Límites diarios",
+    proScanLimitsVal: "5 Intentos Diarios",
+    proCoachTitle: "COACH IA",
+    proCoachDesc: "Disfruta del mejor entrenador, elige su estilo chileno-neutro para guiar tus metas.",
+    proCoachFreeLabel: "Gratuita",
+    proCoachFreeVal: "2 Intentos",
+    proCoachProLabel: "Versión PRO",
+    proCoachProVal: "50 Intentos",
+    proSearchTitle: "Búsqueda IA Inteligente",
+    proSearchDesc: "Nuestra novedad: escríbele a la IA todo lo que comiste y lo desglosará, además puedes quitar o agregar ingredientes de forma simple.",
+    proSearchFreeLabel: "Gratuita",
+    proSearchFreeVal: "2 Intentos",
+    proSearchProLabel: "Versión PRO",
+    proSearchProVal: "10 Intentos",
+    proAdsTitle: "Cero Publicidad",
+    proAdsDesc: "Elimina por completo las publicidades de la aplicación y todos los molestos mensajes en pantalla solicitando suscribirte o de apoyo al equipo.",
+    proAdsLabel: "Experiencia PRO",
+    proAdsVal: "100% Ininterrumpido",
+    // AI Food Log section
+    foodBadge: "Scanner IA de Comida Completa",
+    foodTitle1: "Dile lo que comiste,",
+    foodTitle2: "Ella Entiende Todo.",
+    foodDesc: "No pierdas tiempo buscando ingrediente por ingrediente. Nuestra IA descompone platos complejos como un completo o un sánguche de potito en segundos.",
+    foodSearchLabel: "Búsqueda Inteligente:",
+    foodSearchPlaceholder: "sánguche de potito",
+    foodMockHeader: "REGISTRAR COMIDA",
+    foodMockSubtitle: "SÁNGUCHE DE POTITO",
+    foodMockPortions: "PORCIÓN(ES)",
+    foodMockDetectedLabel: "INGREDIENTES DETECTADOS POR IA",
+    foodMockNoIngs: "Sin ingredientes",
+    foodMockNoIngsDesc: "Agrega un ingrediente para comenzar",
+    foodMockAddIngBtn: "AGREGAR NUEVO INGREDIENTE",
+    foodMockMacroKcal: "KCAL",
+    foodMockMacroProte: "PROTE",
+    foodMockMacroCarb: "CARB",
+    foodMockMacroGrasa: "GRASA",
+    foodMockRetry: "Reintentar",
+    foodMockSave: "GUARDAR",
+    foodMockSearchTitle: "BUSCAR ALIMENTO",
+    foodMockOfflineLabel: "- por si no tienes internet",
+    foodMockSearchPlaceholder: "Escribir nombre del alimento",
+    foodMockCancel: "Cancelar",
+    foodMockSaveAlt: "Guardar",
+    foodDeleteIngredient: "Eliminar ingrediente",
+    // News section
+    newsBadge: "Evidencia & Rigor Científico",
+    newsTitle1: "Noticias de Salud de",
+    newsTitle2: "Alta Relevancia.",
+    newsDesc: "Estudios clínicos, mecanismos biológicos y artículos reales de rigor para potenciar tu disciplina de déficit calórico sin mitos ni falsedades.",
+    newsNoFake: "Sin fake news",
+    newsVerified: "Soporte científico verificado",
+    newsHeader: "NOTICIAS DE SALUD DE ALTA REL...",
+    newsSubhead: "Artículos reales, estudios de rigor clínico y soporte científico para potenciar tu disciplina.",
+    newsCard1Category: "BALANCE CALÓRICO • MECANISMOS",
+    newsCard1Title: "Deficit calórico, la importancia de la moderación y la constancia",
+    newsCard1Quote: '"Desde estos estudios nace nuestra motivación: comprender que la restricción absurda solo enferma, mientras que el déficit constante modela el cuerpo de verdad."',
+    newsCard1Expand: "> EXPANDIR ANÁLISIS CLÍNICO",
+    newsCard2Category: "GLUCOSA • NUTRICIÓN",
+    newsCard2Title: "La respuesta glucémica del pan",
+    newsCard2Quote: '"Recuerda reducir el consumo de pan, este suele ser denso en energía y carbohidratos simples, afectando la saciedad y el microbioma."',
+    newsCard2Expand: "> EXPANDIR ANÁLISIS CLÍNICO",
+    // Streak section
+    streakBadge: "Sistema de Rachas",
+    streakTitle1: "La Consistencia es",
+    streakTitle2: "Tu Mejor Aliada.",
+    streakDesc: "No rompas la cadena. Registra tus alimentos diariamente y mantén el fuego encendido. Cada semana de racha te acerca más a la experiencia completa.",
+    streakBonusTitle: "Cada 7 Días de Racha",
+    streakBonusSub: "+5 ESTRELLAS",
+    streakRedeemTitle: "Canjea 50 Estrellas",
+    streakRedeemSub: "5 DÍAS DE FUNCIONES PRO",
+    streakCurrentLabel: "Tu Racha Actual",
+    streakCurrentDays: "Días",
+    streakInfo: "Registra al menos 3 alimentos al día para mantener tu racha.",
+    // Progress section
+    progBadge: "Análisis de Déficit",
+    progTitle1: "Visualiza tu",
+    progTitle2: "Éxito Diario.",
+    progDesc: "La app registra cada caloría consumida y quemada para calcular tu déficit real. Identifica qué días cumpliste tus metas y cuáles requieren más atención con nuestro historial inteligente.",
+    progSuccessTitle: "Déficit Logrado",
+    progSuccessDesc: "Días marcados en verde cuando tu balance calórico es negativo según tu plan.",
+    progFailTitle: "Exceso Detectado",
+    progFailDesc: "Alertas en rojo cuando superas el límite calórico, permitiéndote ajustar el resto de tu semana.",
+    progHeader: "Tu Progreso",
+    progDaysLogged: "7 Días Registrados",
+    progTabCalories: "Calorías",
+    progTabWeight: "Peso",
+    progAverageConsumed: "Promedio Consumido",
+    progAverageBurned: "Promedio Quemado",
+    progChartTitle: "Balance Calórico",
+    progChartSubtitle: "Análisis Entrada vs Salida",
+    progDetailTitle: "Detalle Diario",
+    progWednesday: "Miércoles",
+    progTuesday: "Martes",
+    progMargin: "Margen",
+    progSurplus: "Exceso",
+    // Control Section
+    controlBadge: "Operational Precision",
+    controlTitle1: "Control",
+    controlTitle2: "Total",
+    controlDesc: "Monitorea cada variable de tu salud con herramientas diseñadas para el rigor científico.",
+    controlHydration: "Hidratación Avanzada",
+    controlHydrationUnit: "Vasos",
+    controlHydrationStatus: "55% de la meta diaria",
+    controlMacros: "Distribución Macros",
+    controlMacrosProte: "Proteína",
+    controlMacrosCarbs: "Carbos",
+    controlMacrosFats: "Grasas",
+    // CTA & Pricing Section
+    ctaTitle1: "Hazlo",
+    ctaTitleSimple: "simple.",
+    ctaTitle2: "Hazlo",
+    ctaTitleReal: "real.",
+    ctaTitle3: "Hazlo con Déficit",
+    ctaMadeIn: "Made in Chile. 🇨🇱",
+    priceHeader: "Elige tu Plan Pro",
+    priceSubhead: "Sin anuncios, sin alertas solicitando suscribirte o apoyo al equipo, con hasta 50 consultas de Coach IA y 10 de búsqueda inteligente.",
+    pricePlanMonthly: "Mensual",
+    priceFreeTrial: "3 días gratis",
+    pricePlanThreeMonths: "3 Meses",
+    priceSaveLabel: "Ahorra 20%",
+    pricePlanAnnual: "Anual",
+    priceBestValue: "Mejor Valor",
+    priceMonthlyCalc: "($3.332 / mes)",
+    priceGiftLabel: "¡Regala 12 meses GRATIS a un amigo/a! 🎁",
+    // Pre-register section
+    preBadge: "Lanzamiento Exclusivo",
+    preTitle: "envíanos tu correo",
+    preTitleSub: "y recibe 7 días PRO",
+    preDesc: "Déjanos tu correo. Una vez validado tu pre-registro, te contactaremos y enviaremos tu acceso exclusivo de cortesía de forma 100% personalizada.",
+    preBtnLabel: "solicitar código",
+    preBtnSub: "(promoción por tiempo limitado)",
+    preFooterInfo: "Únete a los chilenos que dominan su déficit calórico con IA 🇨🇱",
+    preFooterPrivacy: "Tus datos serán procesados con total confidencialidad. Soporte y consultas: ",
+    preSuccessTitle: "¡Pre-registro Exitoso! 🎉",
+    preSuccessSub: "Acceso Premium Asegurado",
+    preSuccessDesc: "Hemos recibido tus datos con éxito. Revisaremos tu información y te enviaremos el código de activación de 7 días PRO gratis directamente de forma 100% personalizada.",
+    preSuccessNotice: "¡Mantente atento/a a tus notificaciones para recibir tu regalo de lanzamiento! 🎁",
+    preRegisterAnother: "+ Registrar otro usuario / amigo",
+    preRegisterAnotherNotice: "Puedes registrar tantas personas o amigos como necesites.",
+    playStoreStatus: "¡Ya disponible en Android! 🤖",
+    appStoreStatus: "Y pronto en App Store 🍏",
+    playStoreDownload: "DESCARGA EN PLAYSTORE AHORA",
+    // Footer
+    footerPhrase: "¡Que nos vaiga bien!",
+    footerPrivacy: "Política de Privacidad",
+    footerCopyright: "© 2026 Deficit Pro"
+  },
+  en: {
+    navDownload: "Download",
+    navStudio: "Studio",
+    heroBadge: "The new standard in calorie deficit apps",
+    heroTitleLine1: "Master your nutrition",
+    heroTitleLine2: "with the ",
+    heroTitlePower: "power of AI.",
+    heroDesc: "Déficit PRO is your nutritional command center. Use our photo scanner to log meals instantly, query our smart search to break down every ingredient, and talk to your personal AI Coach for real-time adjustments.",
+    heroSub: "From minimalist design to maximum intelligence. Made in Chile, now available across Latin America and the United States",
+    heroUsers: "On our way to 10,000 users in 6 months",
+    heroTesters: "among tester users",
+    heroDownloadBtn: "DOWNLOAD ON THE PLAY STORE NOW",
+    heroPreRegBtn: "leave your email and get 7 free PRO days",
+    // Scanner section
+    scanBadge: "Visual Intelligence",
+    scanTitle1: "Smart Scanning",
+    scanTitle2: "in Seconds",
+    scanDesc: "Our AI does the work for you! With just one photo, it identifies your plate, calculates calories, and breaks down macronutrients instantly. Plus, you have total freedom to edit or add ingredients as you wish.",
+    scanDetected: "Detected",
+    scanFoodName: "Pumpkin Soup",
+    scanCalories: "Calories",
+    scanProtein: "Protein",
+    scanFats: "Fats",
+    scanCarbs: "Carbohydrates",
+    // Coach section
+    coachBadge: "PRO Exclusive",
+    coachTitle1: "Your Personal",
+    coachTitle2: "Chilean AI Coach.",
+    coachDesc: "Meet your AI Coach, integrated with a strong Chilean personality. With their motivation, they will give you tips like:",
+    coachBullet1: "Custom personalized training plans.",
+    coachBullet2: "Lunch suggestions for work or complete menus!",
+    coachBullet3: "Recipes for your weekend, with easy-to-manage portions.",
+    coachMsgAi: "Buena máquina! I am here to help you with tips and workouts. Let's go all in!",
+    coachMsgUser: "Hi! I want a light workout, my wrist hurts. I also want a recipe for tonight's dinner.",
+    coachInputPlaceholder: "Ask about diets, exercises...",
+    coachActiveConsults: "Queries today: 2/20",
+    // Challenges Section
+    chalBadge: "Smart Gamification",
+    chalTitle1: "Earn Stars.",
+    chalTitle2: "Unlock PRO.",
+    chalDesc: "We want habit-building to be fun. Complete your daily goals to earn stars and unlock Premium features absolutely free. Your effort is rewarded!",
+    chalHeader: "DAILY CHALLENGES",
+    chalSub: "Complete these daily objectives to earn ★ stars and redeem them for access to exclusive features. Get motivated and hit your goals every day!",
+    chalItem1Title: "Complete Hydration",
+    chalItem1Desc: "DRINK ALL YOUR GLASSES OF WATER.",
+    chalItem1Status: "7 / 13 GLASSES",
+    chalItem1Complete: "COMPLETED! +1",
+    chalItem2Title: "Consistent Nutrition",
+    chalItem2Desc: "LOG AT LEAST 3 MEALS.",
+    chalItem2Status: "3 / 3 MEALS",
+    chalItem2Complete: "COMPLETED! +1",
+    chalItem3Title: "Special Challenge",
+    chalItem3Desc: "USE THE AI SCANNER.",
+    chalItem3Status: "2 / 1",
+    chalItem3Complete: "COMPLETED! +1",
+    chalCloseBtn: "Close",
+    // Pro Features Cards
+    proFeaturesTitle: "★ PRO FEATURES ★",
+    proScanTitle: "AI SCAN",
+    proScanDesc: "Take a photo of your food or upload one from your gallery.",
+    proScanLimitsLabel: "Daily limits",
+    proScanLimitsVal: "5 Daily Attempts",
+    proCoachTitle: "AI COACH",
+    proCoachDesc: "Enjoy the best coach, choose their Chilean-neutral style to guide your goals.",
+    proCoachFreeLabel: "Free",
+    proCoachFreeVal: "2 Attempts",
+    proCoachProLabel: "PRO Version",
+    proCoachProVal: "50 Attempts",
+    proSearchTitle: "Smart AI Search",
+    proSearchDesc: "Our latest feature: write everything you ate to the AI and it will break it down. Plus, easily add or remove ingredients.",
+    proSearchFreeLabel: "Free",
+    proSearchFreeVal: "2 Attempts",
+    proSearchProLabel: "PRO Version",
+    proSearchProVal: "10 Attempts",
+    proAdsTitle: "Zero Ads",
+    proAdsDesc: "Completely remove ads from the app and all annoying on-screen subscription or support popups.",
+    proAdsLabel: "PRO Experience",
+    proAdsVal: "100% Uninterrupted",
+    // AI Food Log section
+    foodBadge: "AI Scanner for Complete Meals",
+    foodTitle1: "Tell It What You Ate,",
+    foodTitle2: "It Understands Everything.",
+    foodDesc: "Don't waste time searching ingredient by ingredient. Our AI breaks down complex dishes like a gourmet cheeseburger or a local complete in seconds.",
+    foodSearchLabel: "Smart Search:",
+    foodSearchPlaceholder: "gourmet cheeseburger",
+    foodMockHeader: "LOG MEAL",
+    foodMockSubtitle: "GOURMET CHEESEBURGER",
+    foodMockPortions: "PORTION(S)",
+    foodMockDetectedLabel: "INGREDIENTS DETECTED BY AI",
+    foodMockNoIngs: "No ingredients",
+    foodMockNoIngsDesc: "Add an ingredient to start",
+    foodMockAddIngBtn: "ADD NEW INGREDIENT",
+    foodMockMacroKcal: "KCAL",
+    foodMockMacroProte: "PROTEIN",
+    foodMockMacroCarb: "CARBS",
+    foodMockMacroGrasa: "FAT",
+    foodMockRetry: "Retry",
+    foodMockSave: "SAVE",
+    foodMockSearchTitle: "SEARCH FOOD",
+    foodMockOfflineLabel: "- in case you have no internet",
+    foodMockSearchPlaceholder: "Type food name",
+    foodMockCancel: "Cancel",
+    foodMockSaveAlt: "Save",
+    foodDeleteIngredient: "Delete ingredient",
+    // News section
+    newsBadge: "Evidence & Clinical Rigor",
+    newsTitle1: "High-Relevance",
+    newsTitle2: "Health News.",
+    newsDesc: "Clinical studies, biological mechanisms, and real, rigorous articles to boost your calorie deficit discipline without myths or falsehoods.",
+    newsNoFake: "No fake news",
+    newsVerified: "Verified scientific backing",
+    newsHeader: "HIGH-RELEVANCE HEALTH NEWS...",
+    newsSubhead: "Real articles, clinical rigor studies, and scientific support to boost your discipline.",
+    newsCard1Category: "CALORIC BALANCE • MECHANISMS",
+    newsCard1Title: "Caloric deficit, the importance of moderation and consistency",
+    newsCard1Quote: '"From these studies our motivation is born: understanding that absurd restriction only makes you sick, while constant deficit truly shapes the body."',
+    newsCard1Expand: "> EXPAND CLINICAL ANALYSIS",
+    newsCard2Category: "GLUCOSE • NUTRITION",
+    newsCard2Title: "The glycemic response of bread",
+    newsCard2Quote: '"Remember to reduce bread consumption, as it tends to be energy-dense and high in simple carbohydrates, affecting satiety and the microbiome."',
+    newsCard2Expand: "> EXPAND CLINICAL ANALYSIS",
+    // Streak section
+    streakBadge: "Streak System",
+    streakTitle1: "Consistency is",
+    streakTitle2: "Your Best Ally.",
+    streakDesc: "Don't break the chain. Log your food daily and keep the fire burning. Each week of your streak brings you closer to the full experience.",
+    streakBonusTitle: "Every 7-Day Streak",
+    streakBonusSub: "+5 STARS",
+    streakRedeemTitle: "Redeem 50 Stars",
+    streakRedeemSub: "5 DAYS OF PRO FEATURES",
+    streakCurrentLabel: "Your Current Streak",
+    streakCurrentDays: "Days",
+    streakInfo: "Log at least 3 meals a day to keep your streak.",
+    // Progress section
+    progBadge: "Deficit Analysis",
+    progTitle1: "Visualize Your",
+    progTitle2: "Daily Success.",
+    progDesc: "The app tracks every calorie consumed and burned to calculate your true deficit. Identify which days you reached your goals and which need more focus with our smart history.",
+    progSuccessTitle: "Deficit Achieved",
+    progSuccessDesc: "Days marked in green when your caloric balance is negative according to your plan.",
+    progFailTitle: "Surplus Detected",
+    progFailDesc: "Red alerts when you exceed your calorie limit, letting you adjust the rest of your week.",
+    progHeader: "Your Progress",
+    progDaysLogged: "7 Days Logged",
+    progTabCalories: "Calories",
+    progTabWeight: "Weight",
+    progAverageConsumed: "Average Consumed",
+    progAverageBurned: "Average Burned",
+    progChartTitle: "Caloric Balance",
+    progChartSubtitle: "Input vs Output Analysis",
+    progDetailTitle: "Daily Detail",
+    progWednesday: "Wednesday",
+    progTuesday: "Tuesday",
+    progMargin: "Margin",
+    progSurplus: "Surplus",
+    // Control Section
+    controlBadge: "Operational Precision",
+    controlTitle1: "Total",
+    controlTitle2: "Control",
+    controlDesc: "Monitor every variable of your health with tools designed for clinical rigor.",
+    controlHydration: "Advanced Hydration",
+    controlHydrationUnit: "Glasses",
+    controlHydrationStatus: "55% of daily goal",
+    controlMacros: "Macros Distribution",
+    controlMacrosProte: "Protein",
+    controlMacrosCarbs: "Carbs",
+    controlMacrosFats: "Fats",
+    // CTA & Pricing Section
+    ctaTitle1: "Keep it",
+    ctaTitleSimple: "simple.",
+    ctaTitle2: "Keep it",
+    ctaTitleReal: "real.",
+    ctaTitle3: "Do it with Déficit",
+    ctaMadeIn: "Made in Chile. 🇨🇱",
+    priceHeader: "Choose Your Pro Plan",
+    priceSubhead: "No ads, no subscription prompts, with up to 50 AI Coach queries and 10 smart searches.",
+    pricePlanMonthly: "Monthly",
+    priceFreeTrial: "3 free days",
+    pricePlanThreeMonths: "3 Months",
+    priceSaveLabel: "Save 20%",
+    pricePlanAnnual: "Annual",
+    priceBestValue: "Best Value",
+    priceMonthlyCalc: "($3.332 / month)",
+    priceGiftLabel: "Gift 12 months FREE to a friend! 🎁",
+    // Pre-register section
+    preBadge: "Exclusive Launch",
+    preTitle: "send us your email",
+    preTitleSub: "and get 7 free PRO days",
+    preDesc: "Leave us your email. Once your pre-registration is validated, we will contact you and send your custom courtesy access.",
+    preBtnLabel: "request code",
+    preBtnSub: "(limited time offer)",
+    preFooterInfo: "Join those mastering their calorie deficit with AI 🇨🇱",
+    preFooterPrivacy: "Your data will be processed with total confidentiality. Support and queries: ",
+    preSuccessTitle: "Pre-registration Successful! 🎉",
+    preSuccessSub: "Premium Access Secured",
+    preSuccessDesc: "We have received your details successfully. We will review your info and send you your free 7-day PRO activation code directly.",
+    preSuccessNotice: "Stay tuned to your notifications to receive your launch gift! 🎁",
+    preRegisterAnother: "+ Register another user / friend",
+    preRegisterAnotherNotice: "You can register as many people or friends as you need.",
+    playStoreStatus: "Now available on Android! 🤖",
+    appStoreStatus: "And coming soon to App Store 🍏",
+    playStoreDownload: "DOWNLOAD ON THE PLAY STORE NOW",
+    // Footer
+    footerPhrase: "Hope everything goes great!",
+    footerPrivacy: "Privacy Policy",
+    footerCopyright: "© 2026 Deficit Pro"
+  }
+};
+
 const DeficitPro = () => {
   const { pathname } = useLocation();
   const [activeScreen, setActiveScreen] = useState<"home" | "news">("home");
+  const [globalLanguage, setGlobalLanguageState] = useState<"es" | "en">(detectDefaultLanguage);
+
+  const setGlobalLanguage = (lang: "es" | "en") => {
+    setGlobalLanguageState(lang);
+    localStorage.setItem("deficitpro_lang", lang);
+  };
+
+  const mobLanguage = globalLanguage;
+  const setMobLanguage = setGlobalLanguage;
+
+  const currentT = translations[globalLanguage];
+
   const [mobCaloriesConsumed, setMobCaloriesConsumed] = useState(1539);
   const [mobCaloriesBurned, setMobCaloriesBurned] = useState(900);
   const [mobGlassesWater, setMobGlassesWater] = useState(10);
@@ -127,7 +573,9 @@ const DeficitPro = () => {
   };
 
   const handleAddIngredient = () => {
-    const names = ['Huevo Frito', 'Queso Mantecoso', 'Palta Molida', 'Tomate Picado', 'Mayonesa Casera'];
+    const esNames = ['Huevo Frito', 'Queso Mantecoso', 'Palta Molida', 'Tomate Picado', 'Mayonesa Casera'];
+    const enNames = ['Fried Egg', 'Melted Cheese', 'Mashed Avocado', 'Diced Tomato', 'Homemade Mayo'];
+    const names = globalLanguage === "es" ? esNames : enNames;
     const randomName = names[Math.floor(Math.random() * names.length)];
     const newId = Date.now();
     setIngredients(prev => [
@@ -142,6 +590,42 @@ const DeficitPro = () => {
         g: Math.floor(Math.random() * 12)
       }
     ]);
+  };
+
+  const getIngredientName = (ing: { id: number; name: string }) => {
+    if (globalLanguage === "en") {
+      switch (ing.id) {
+        case 1: return "Brioche Bun";
+        case 2: return "Angus Beef Patty";
+        case 3: return "Cheddar Cheese Slice";
+        case 4: return "Caramelized Onions";
+        case 5: return "Olive Oil (Cooking)";
+        default: {
+          if (ing.name === "Huevo Frito") return "Fried Egg";
+          if (ing.name === "Queso Mantecoso") return "Melted Cheese";
+          if (ing.name === "Palta Molida") return "Mashed Avocado";
+          if (ing.name === "Tomate Picado") return "Diced Tomato";
+          if (ing.name === "Mayonesa Casera") return "Homemade Mayo";
+          return ing.name;
+        }
+      }
+    } else {
+      switch (ing.id) {
+        case 1: return "Pan Marraqueta";
+        case 2: return "Potito (Recto de vacuno)";
+        case 3: return "Longaniza (Vienesa/Salc)";
+        case 4: return "Cebolla y Pebre";
+        case 5: return "Aceite de Oliva (Cocción)";
+        default: {
+          if (ing.name === "Fried Egg") return "Huevo Frito";
+          if (ing.name === "Melted Cheese") return "Queso Mantecoso";
+          if (ing.name === "Mashed Avocado") return "Palta Molida";
+          if (ing.name === "Diced Tomato") return "Tomate Picado";
+          if (ing.name === "Homemade Mayo") return "Mayonesa Casera";
+          return ing.name;
+        }
+      }
+    }
   };
 
   const totalCal = ingredients.reduce((sum, ing) => sum + ing.cal, 0);
@@ -253,6 +737,7 @@ const DeficitPro = () => {
               Deficit <span className="text-[#00e5ff] glow-cyan lowercase">pro</span>
             </span>
           </div>
+          
           <div className="hidden md:flex items-center gap-10 text-[10px] font-bold text-neutral-400 uppercase tracking-[0.2em]">
             <a 
               href="https://play.google.com/store/apps/details?id=app.deficitpro.android"
@@ -260,20 +745,38 @@ const DeficitPro = () => {
               rel="noopener noreferrer"
               className="hover:text-[#39ff14] transition-colors cursor-pointer text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400 font-sans"
             >
-              Descargar
+              {currentT.navDownload}
             </a>
-            <Link to="/Studio" className="hover:text-brand-emerald transition-colors">Studio</Link>
+            <Link to="/Studio" className="hover:text-brand-emerald transition-colors">{currentT.navStudio}</Link>
+            
+            {/* Global Language Switcher */}
+            <button
+              onClick={() => setGlobalLanguage(globalLanguage === "es" ? "en" : "es")}
+              className="px-2.5 py-1.5 rounded-full border border-white/10 hover:border-[#00e5ff]/30 hover:bg-[#00e5ff]/5 text-[9px] font-black uppercase tracking-widest text-[#00e5ff] transition-all cursor-pointer flex items-center gap-1 font-sans"
+              title={globalLanguage === "es" ? "Switch to English" : "Cambiar a Español"}
+            >
+              <Globe size={11} className="stroke-[2.5px]" />
+              <span>{globalLanguage === "es" ? "ES" : "EN"}</span>
+            </button>
           </div>
-          <div className="md:hidden flex gap-2">
-             <Link to="/Studio" className="text-[10px] font-bold text-neutral-400 uppercase tracking-[0.2em] border border-white/10 px-4 py-2 rounded-full">Studio</Link>
+          
+          <div className="md:hidden flex gap-2 items-center">
+             <Link to="/Studio" className="text-[10px] font-bold text-neutral-400 uppercase tracking-[0.2em] border border-white/10 px-4 py-2 rounded-full">{currentT.navStudio}</Link>
              <a 
                href="https://play.google.com/store/apps/details?id=app.deficitpro.android"
                target="_blank"
                rel="noopener noreferrer"
                className="text-[10px] font-bold text-[#39ff14] uppercase tracking-[0.2em] border border-[#39ff14]/30 bg-[#39ff14]/5 px-4 py-2 rounded-full cursor-pointer font-sans"
              >
-               descargar
+               {currentT.navDownload.toLowerCase()}
              </a>
+             <button
+               onClick={() => setGlobalLanguage(globalLanguage === "es" ? "en" : "es")}
+               className="p-2 rounded-full border border-white/10 hover:border-[#00e5ff]/30 hover:bg-[#00e5ff]/5 text-[9px] font-black uppercase tracking-widest text-[#00e5ff] transition-all cursor-pointer flex items-center justify-center font-sans"
+               title={globalLanguage === "es" ? "Switch to English" : "Cambiar a Español"}
+             >
+               <Globe size={12} className="stroke-[2.5px]" />
+             </button>
           </div>
         </div>
       </nav>
@@ -290,14 +793,18 @@ const DeficitPro = () => {
           >
             <div>
               <span className="inline-block px-3 py-1 bg-brand-emerald/10 text-brand-emerald text-[10px] font-bold uppercase tracking-[0.2em] rounded border border-brand-emerald/20 mb-6">
-                El nuevo estándar en apps de déficit calórico
+                {currentT.heroBadge}
               </span>
               <h1 className="text-4xl md:text-7xl leading-[1.1] mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white to-white/90 font-black tracking-tight">
-                Tu déficit calórico, <br className="hidden md:block" />
-                <span className="brand-logo italic text-[#00e5ff] glow-cyan">más simple</span> y con identidad chilena.
+                {currentT.heroTitleLine1} <br className="hidden md:block" />
+                {currentT.heroTitleLine2}<span className="brand-logo italic text-[#00e5ff] glow-cyan">{currentT.heroTitlePower}</span>
               </h1>
               <p className="text-base md:text-lg text-neutral-400 max-w-xl leading-relaxed font-light">
-                Déficit PRO combina minimalismo y tecnología para facilitar tu alimentación. Olvídate de lo complicado: escanea tus platos con IA y recibe la guía de un Coach IA que te habla y te motiva con el sello único de Chile. 🇨🇱
+                {currentT.heroDesc}
+              </p>
+              <p className="text-xs md:text-sm text-[#39ff14]/90 max-w-xl leading-relaxed font-semibold mt-4 tracking-wide flex items-start gap-1.5 select-none drop-shadow-[0_0_10px_rgba(57,255,20,0.15)]">
+                <span className="text-[#39ff14] mt-0.5">✦</span>
+                <span>{currentT.heroSub}</span>
               </p>
             </div>
 
@@ -307,7 +814,7 @@ const DeficitPro = () => {
                   <span className="text-xl font-bold text-neutral-400">🚀</span>
                   <span className="text-2xl md:text-3xl font-black tracking-tighter text-[#00e5ff] glow-cyan">10.000</span>
                 </div>
-                <span className="text-[9px] md:text-[10px] text-neutral-500 uppercase tracking-widest font-black mt-1">Rumbo a los 10.000 usuarios en 6 meses</span>
+                <span className="text-[9px] md:text-[10px] text-neutral-500 uppercase tracking-widest font-black mt-1">{currentT.heroUsers}</span>
               </div>
               <div className="hidden sm:block w-[1px] h-12 bg-white/10"></div>
               <div className="flex flex-col">
@@ -315,7 +822,7 @@ const DeficitPro = () => {
                   <span className="text-xl">⭐</span>
                   <span className="text-2xl md:text-3xl font-black tracking-tighter text-white">4.9/5</span>
                 </div>
-                <span className="text-[9px] md:text-[10px] text-neutral-500 uppercase tracking-widest font-black mt-1">en usuarios testers</span>
+                <span className="text-[9px] md:text-[10px] text-neutral-500 uppercase tracking-widest font-black mt-1">{currentT.heroTesters}</span>
               </div>
             </div>
 
@@ -327,7 +834,7 @@ const DeficitPro = () => {
                 className="px-8 py-5 bg-[#39ff14] text-black font-black rounded-xl hover:bg-[#5aff3d] shadow-[0_0_30px_rgba(57,255,20,0.55)] hover:shadow-[0_0_50px_rgba(57,255,20,0.9)] transition-all duration-300 uppercase tracking-wider text-[11px] md:text-xs inline-flex items-center justify-center gap-2 border-b-4 border-black/25 transform hover:-translate-y-1 active:translate-y-0 cursor-pointer font-sans text-center"
               >
                 <Download size={16} className="stroke-[3px] animate-bounce" />
-                <span>DESCARGA EN PLAYSTORE AHORA</span>
+                <span>{currentT.heroDownloadBtn}</span>
               </a>
               
               <button 
@@ -337,7 +844,7 @@ const DeficitPro = () => {
                 }}
                 className="px-8 py-5 bg-[#00e5ff]/10 hover:bg-[#00e5ff]/20 text-[#00e5ff] border border-[#00e5ff]/30 font-bold rounded-xl transition-all uppercase tracking-wider text-[11px] md:text-xs cursor-pointer font-sans"
               >
-                deja tu correo y gana 7 días gratis PRO
+                {currentT.heroPreRegBtn}
               </button>
             </div>
           </motion.div>
@@ -380,7 +887,9 @@ const DeficitPro = () => {
                     <div className="px-5 pt-3 pb-1 z-10 relative">
                       <div className="flex justify-between items-start">
                         <div className="space-y-0.5">
-                          <span className="text-[10px] text-neutral-400 font-medium tracking-tight">Hola, Cristian Lab</span>
+                          <span className="text-[10px] text-neutral-400 font-medium tracking-tight">
+                            {mobLanguage === "es" ? "Hola, Cristian Lab" : "Hello, Cristian Lab"}
+                          </span>
                           <div className="flex items-center gap-1.5">
                             <span className="text-lg font-black tracking-tight text-white leading-none">
                               Deficit <span className="text-[#00e5ff] font-display glow-cyan">Pro</span>
@@ -391,6 +900,15 @@ const DeficitPro = () => {
                               </button>
                               <button className="w-5 h-5 border border-white/10 rounded-full flex items-center justify-center text-neutral-400 hover:text-white transition-colors bg-white/5">
                                 <Settings size={11} />
+                              </button>
+                              
+                              {/* Language selector toggle button */}
+                              <button 
+                                onClick={() => setMobLanguage(mobLanguage === "es" ? "en" : "es")}
+                                className="px-1.5 h-5 border border-[#00e5ff]/40 rounded-md flex items-center justify-center text-[8.5px] font-black text-[#00e5ff] hover:bg-[#00e5ff]/10 transition-all bg-[#00e5ff]/5 cursor-pointer shadow-[0_0_6px_rgba(0,229,255,0.15)] select-none ml-0.5 font-mono"
+                                title={mobLanguage === "es" ? "Switch to English" : "Cambiar a Español"}
+                              >
+                                {mobLanguage === "es" ? "ES" : "EN"}
                               </button>
                             </div>
                           </div>
@@ -414,14 +932,14 @@ const DeficitPro = () => {
                             setMobGlassesWater(10);
                           }}
                           className="text-[#00e5ff] hover:scale-125 transition-all p-1 active:scale-90 bg-white/5 rounded-full border border-white/5 cursor-pointer shadow-[0_0_10px_rgba(0,229,255,0.15)]"
-                          title="Volver a los valores iniciales"
+                          title={mobLanguage === "es" ? "Volver a los valores iniciales" : "Reset to initial values"}
                         >
                           <ChevronLeft size={16} className="stroke-[3.5px]" />
                         </button>
                         
                         <div className="absolute left-1/2 -translate-x-1/2">
                           <div className="px-6 py-1 rounded-full border-2 border-[#00e5ff]/80 bg-[#020617] text-[10px] font-black tracking-widest text-[#00e5ff] shadow-[0_0_20px_rgba(0,229,255,0.4)] flex items-center justify-center font-display italic">
-                            HOY
+                            {mobLanguage === "es" ? "HOY" : "TODAY"}
                           </div>
                         </div>
                         <div className="w-6 h-6" /> {/* Spacer for symmetry with the screenshot */}
@@ -439,7 +957,7 @@ const DeficitPro = () => {
                               setMobCaloriesConsumed(prev => Math.max(0, prev - 150));
                             }}
                             className="text-[#faba3a] hover:scale-125 transition-all active:scale-90 cursor-pointer flex items-center justify-center drop-shadow-[0_0_8px_rgba(250,186,58,0.5)]"
-                            title="Deshacer última comida"
+                            title={mobLanguage === "es" ? "Deshacer última comida" : "Undo last meal"}
                           >
                             <Utensils size={23} className="stroke-[2px]" />
                           </button>
@@ -449,7 +967,7 @@ const DeficitPro = () => {
                               setActiveScreen("news");
                             }}
                             className="text-[#00e5ff] hover:scale-125 transition-all active:scale-90 cursor-pointer flex items-center justify-center drop-shadow-[0_0_8px_rgba(0,229,255,0.5)]"
-                            title="Ver análisis de salud"
+                            title={mobLanguage === "es" ? "Ver análisis de salud" : "View health analytics"}
                           >
                             <ClipboardList size={23} className="stroke-[2px]" />
                           </button>
@@ -476,10 +994,10 @@ const DeficitPro = () => {
                               {mobRemainingCalories}
                             </span>
                             <span className="text-[8px] text-white font-black uppercase tracking-wider mt-1">
-                              KCAL RESTANTES
+                              {mobLanguage === "es" ? "KCAL RESTANTES" : "REMAINING KCAL"}
                             </span>
                             <span className="text-[6.5px] text-neutral-400 font-bold uppercase tracking-tight opacity-75 mt-0.5 leading-none">
-                              AÚN PARA META DE HOY
+                              {mobLanguage === "es" ? "AÚN PARA META DE HOY" : "LEFT FOR TODAY'S GOAL"}
                             </span>
                           </div>
                         </div>
@@ -505,13 +1023,17 @@ const DeficitPro = () => {
                       {/* Consumed & Burned Stats Grid */}
                       <div className="grid grid-cols-2 gap-3 w-full mt-3">
                         <div className="bg-[#030919]/90 border border-white/[0.04] p-3 rounded-2xl flex flex-col items-center shadow-md">
-                          <span className="text-[8px] text-neutral-400 uppercase font-black tracking-wider leading-none mb-1.5">CONSUMIDO</span>
+                          <span className="text-[8px] text-neutral-400 uppercase font-black tracking-wider leading-none mb-1.5">
+                            {mobLanguage === "es" ? "CONSUMIDO" : "CONSUMED"}
+                          </span>
                           <span className="text-base font-black text-[#00abff] tracking-tight">
                             {mobCaloriesConsumed} <span className="text-[10px] text-[#00abff]/70 font-medium font-sans">kcal</span>
                           </span>
                         </div>
                         <div className="bg-[#030919]/90 border border-white/[0.04] p-3 rounded-2xl flex flex-col items-center shadow-md">
-                          <span className="text-[8px] text-neutral-400 uppercase font-black tracking-wider leading-none mb-1.5">QUEMADO</span>
+                          <span className="text-[8px] text-neutral-400 uppercase font-black tracking-wider leading-none mb-1.5">
+                            {mobLanguage === "es" ? "QUEMADO" : "BURNED"}
+                          </span>
                           <span className="text-base font-black text-[#39ff14] tracking-tight">
                             {mobCaloriesBurned} <span className="text-[10px] text-[#39ff14]/70 font-medium font-sans">kcal</span>
                           </span>
@@ -528,7 +1050,7 @@ const DeficitPro = () => {
                           className="bg-[#00abff] hover:bg-[#33beff] text-white py-3 px-2 rounded-full font-display font-black italic tracking-wide flex items-center justify-center gap-1.5 text-[11px] uppercase shadow-[0_4px_15px_rgba(0,171,255,0.3)] hover:shadow-[0_4px_25px_rgba(0,171,255,0.5)] hover:-translate-y-0.5 active:translate-y-0 transition-all text-center cursor-pointer border-none"
                         >
                           <Plus size={13} strokeWidth={4} />
-                          <span>COMIDA</span>
+                          <span>{mobLanguage === "es" ? "COMIDA" : "MEAL"}</span>
                         </button>
                         
                         <button 
@@ -539,7 +1061,7 @@ const DeficitPro = () => {
                           className="bg-[#39ff14] hover:bg-[#5aff3d] text-white py-3 px-2 rounded-full font-display font-black italic tracking-wide flex items-center justify-center gap-1.5 text-[11px] uppercase shadow-[0_4px_15px_rgba(57,255,20,0.3)] hover:shadow-[0_4px_25px_rgba(57,255,20,0.5)] hover:-translate-y-0.5 active:translate-y-0 transition-all text-center cursor-pointer border-none text-shadow-[0_1px_2px_rgba(0,0,0,0.5)]"
                         >
                           <Plus size={13} strokeWidth={4} />
-                          <span>EJERCICIO</span>
+                          <span>{mobLanguage === "es" ? "EJERCICIO" : "EXERCISE"}</span>
                         </button>
                       </div>
 
@@ -573,8 +1095,12 @@ const DeficitPro = () => {
 
                             <div className="space-y-0.5">
                               <div className="flex items-center gap-1.5">
-                                <span className="text-[8px] font-black text-neutral-400 tracking-wider">AGUA</span>
-                                <span className="text-[7.5px] text-neutral-500 font-bold">* 1 vaso = 250cc</span>
+                                <span className="text-[8px] font-black text-neutral-400 tracking-wider">
+                                  {mobLanguage === "es" ? "AGUA" : "WATER"}
+                                </span>
+                                <span className="text-[7.5px] text-neutral-500 font-bold">
+                                  {mobLanguage === "es" ? "* 1 vaso = 250cc" : "* 1 glass = 250cc"}
+                                </span>
                               </div>
                               
                               <div className="flex items-baseline gap-1 mt-0.5">
@@ -583,10 +1109,10 @@ const DeficitPro = () => {
                               </div>
                               
                               <div className="text-[8px] font-black text-[#0ea5e9] tracking-wider leading-none uppercase italic font-display">
-                                VASOS LOGRADOS
+                                {mobLanguage === "es" ? "VASOS LOGRADOS" : "GLASSES COMPLETED"}
                               </div>
                               
-                              <div className="inline-block mt-1 px-2 py-0.5 rounded-md bg-black/60 border border-white/5 text-[7px] font-bold text-neutral-300">
+                              <div className="inline-block mt-1 px-2 py-0.5 rounded-md bg-black/60 border border-white/5 text-[7px] font-bold text-neutral-300 font-mono">
                                 {mobGlassesWater * 250} ml
                               </div>
                             </div>
@@ -598,7 +1124,7 @@ const DeficitPro = () => {
                                 setMobGlassesWater(prev => Math.min(14, prev + 1));
                               }}
                               className="w-9 h-9 rounded-full bg-[#0ea5e9] hover:bg-[#38bdf8] flex items-center justify-center text-white shadow-md shadow-[#0ea5e9]/30 hover:scale-110 active:scale-90 transition-all cursor-pointer"
-                              title="Agregar vaso"
+                              title={mobLanguage === "es" ? "Agregar vaso" : "Add glass"}
                             >
                               <Plus size={18} strokeWidth={3} />
                             </button>
@@ -607,7 +1133,7 @@ const DeficitPro = () => {
                                 setMobGlassesWater(prev => Math.max(0, prev - 1));
                               }}
                               className="w-7 h-4 rounded-full bg-neutral-900 border border-white/5 hover:bg-neutral-800 flex items-center justify-center text-neutral-400 hover:text-white transition-all cursor-pointer text-[9px]"
-                              title="Quitar vaso"
+                              title={mobLanguage === "es" ? "Quitar vaso" : "Remove glass"}
                             >
                               <Minus size={9} strokeWidth={3} />
                             </button>
@@ -621,7 +1147,7 @@ const DeficitPro = () => {
                     {/* Header */}
                     <div className="flex justify-between items-center bg-[#030712] pb-3 border-b border-white/5 sticky top-0 z-20">
                       <h2 className="text-[12px] font-black italic tracking-tighter uppercase leading-none text-white max-w-[170px] truncate">
-                        NOTICIAS DE SALUD DE ALTA REL...
+                        {mobLanguage === "es" ? "NOTICIAS DE SALUD DE ALTA REL..." : "HIGH-RELEVANCE HEALTH NEWS..."}
                       </h2>
                       <div className="flex items-center gap-1.5">
                         <button className="w-6 h-6 rounded-full border border-white/10 flex items-center justify-center text-[10px] font-bold text-neutral-400 hover:text-white transition-colors bg-white/5">
@@ -639,14 +1165,16 @@ const DeficitPro = () => {
                     <div className="mt-4 space-y-4">
                       {/* Subtitle */}
                       <p className="text-[11px] font-semibold text-[#00e5ff] leading-normal tracking-tight">
-                        Artículos reales, estudios de rigor clínico y soporte científico para potenciar tu disciplina.
+                        {mobLanguage === "es" 
+                          ? "Artículos reales, estudios de rigor clínico y soporte científico para potenciar tu disciplina."
+                          : "Real articles, clinical rigor studies and scientific support to boost your discipline."}
                       </p>
 
                       {/* Card 1 */}
                       <div className="bg-[#0a0f1d]/90 border border-white/5 p-3.5 rounded-2xl space-y-3 shadow-lg">
                         <div className="flex items-center justify-between">
                           <span className="text-[7.5px] font-bold uppercase tracking-wider text-[#0ea5e9]">
-                            BALANCE CALÓRICO • MECANISMOS
+                            {mobLanguage === "es" ? "BALANCE CALÓRICO • MECANISMOS" : "CALORIC BALANCE • MECHANISMS"}
                           </span>
                         </div>
                         <div className="flex items-start gap-2">
@@ -654,16 +1182,20 @@ const DeficitPro = () => {
                             <ShieldCheck size={11} />
                           </div>
                           <h3 className="text-xs font-bold text-white leading-tight">
-                            Deficit calórico, la importancia de la moderación y la constancia
+                            {mobLanguage === "es" 
+                              ? "Deficit calórico, la importancia de la moderación y la constancia"
+                              : "Caloric deficit, the importance of moderation and consistency"}
                           </h3>
                         </div>
                         <div className="border-l-2 border-dashed border-neutral-700/80 pl-2.5 py-0.5">
                           <p className="text-[9.5px] text-neutral-400 font-light leading-relaxed italic">
-                            "Desde estos estudios nace nuestra motivación: comprender que la restricción absurda solo enferma, mientras que el déficit constante modela el cuerpo de verdad."
+                            {mobLanguage === "es" 
+                              ? '"Desde estos estudios nace nuestra motivación: comprender que la restricción absurda solo enferma, mientras que el déficit constante modela el cuerpo de verdad."'
+                              : '"From these studies our motivation is born: understanding that absurd restriction only makes you sick, while constant deficit truly shapes the body."'}
                           </p>
                         </div>
                         <div className="text-[8px] font-bold text-[#00e5ff] tracking-wider uppercase hover:underline cursor-pointer flex items-center gap-1">
-                          &gt; EXPANDIR ANÁLISIS CLINICO
+                          &gt; {mobLanguage === "es" ? "EXPANDIR ANÁLISIS CLINICO" : "EXPAND CLINICAL ANALYSIS"}
                         </div>
                       </div>
 
@@ -671,7 +1203,7 @@ const DeficitPro = () => {
                       <div className="bg-[#0a0f1d]/90 border border-[#ef4444]/15 p-3.5 rounded-2xl space-y-3 shadow-lg">
                         <div className="flex items-center justify-between">
                           <span className="text-[7.5px] font-bold uppercase tracking-wider text-[#0ea5e9]">
-                            GLUCOSA • NUTRICIÓN
+                            {mobLanguage === "es" ? "GLUCOSA • NUTRICIÓN" : "GLUCOSE • NUTRITION"}
                           </span>
                         </div>
                         <div className="flex items-start gap-2">
@@ -679,16 +1211,18 @@ const DeficitPro = () => {
                             <ShieldCheck size={11} />
                           </div>
                           <h3 className="text-xs font-bold text-white leading-tight">
-                            La respuesta glucémica del pan
+                            {mobLanguage === "es" ? "La respuesta glucémica del pan" : "The glycemic response of bread"}
                           </h3>
                         </div>
                         <div className="border-l-2 border-dashed border-neutral-700/80 pl-2.5 py-0.5">
                           <p className="text-[9.5px] text-neutral-400 font-light leading-relaxed italic">
-                            "Recuerda reducir el consumo de pan, este suele ser denso en energía y carbohidratos simples, afectando la saciedad y el microbioma."
+                            {mobLanguage === "es"
+                              ? '"Recuerda reducir el consumo de pan, este suele ser denso en energía y carbohidratos simples, afectando la saciedad y el microbioma."'
+                              : '"Remember to reduce bread consumption, as it tends to be energy-dense and high in simple carbohydrates, affecting satiety and the microbiome."'}
                           </p>
                         </div>
                         <div className="text-[8px] font-bold text-[#00e5ff] tracking-wider uppercase hover:underline cursor-pointer flex items-center gap-1">
-                          &gt; EXPANDIR ANÁLISIS CLINICO
+                          &gt; {mobLanguage === "es" ? "EXPANDIR ANÁLISIS CLINICO" : "EXPAND CLINICAL ANALYSIS"}
                         </div>
                       </div>
                     </div>
@@ -713,14 +1247,14 @@ const DeficitPro = () => {
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-20">
           <div className="flex-1 space-y-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-500/10 text-orange-500 text-[10px] font-bold uppercase tracking-[0.2em] rounded border border-orange-500/20">
-              <Scan size={12} /> Visual Intelligence
+              <Scan size={12} /> {currentT.scanBadge}
             </div>
-            <h2 className="text-5xl md:text-6xl font-light tracking-tighter leading-tight">
-              Reconocimiento de <br/>
-              <span className="font-bold italic text-orange-500 text-shadow-[0_0_15px_rgba(249,115,22,0.4)]">Sabor Local.</span>
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">
+              {currentT.scanTitle1} <br className="hidden md:block"/>
+              <span className="italic text-orange-500 text-shadow-[0_0_15px_rgba(249,115,22,0.45)]">{currentT.scanTitle2}</span>
             </h2>
-            <p className="text-neutral-400 text-lg leading-relaxed font-light max-w-lg">
-              Nuestra IA no solo identifica el plato! También te dice las calorías que contiene y los macros asociados a esta. Puedes agregar o modificar ingredientes.
+            <p className="text-neutral-400 text-base md:text-lg leading-relaxed font-light max-w-lg">
+              {currentT.scanDesc}
             </p>
           </div>
           <div className="flex-1 relative">
@@ -739,23 +1273,23 @@ const DeficitPro = () => {
                 ></motion.div>
               </div>
               <div className="absolute bottom-8 left-8 p-6 glass-card border-orange-500/20 backdrop-blur-xl">
-                 <div className="text-[10px] font-bold text-orange-500 uppercase tracking-widest mb-1">Detected</div>
-                 <div className="text-xl font-bold">Crema de zapallo</div>
+                 <div className="text-[10px] font-bold text-orange-500 uppercase tracking-widest mb-1">{currentT.scanDetected}</div>
+                 <div className="text-xl font-bold">{currentT.scanFoodName}</div>
                  <div className="grid grid-cols-2 gap-4 mt-3">
                    <div className="text-left">
-                     <div className="text-[10px] text-neutral-500 uppercase font-bold text-[8px]">Calorías</div>
+                     <div className="text-[10px] text-neutral-500 uppercase font-bold text-[8px]">{currentT.scanCalories}</div>
                      <div className="text-sm font-bold">210 kcal</div>
                    </div>
                    <div className="text-left">
-                     <div className="text-[10px] text-neutral-500 uppercase font-bold text-[8px]">Proteína</div>
+                     <div className="text-[10px] text-neutral-500 uppercase font-bold text-[8px]">{currentT.scanProtein}</div>
                      <div className="text-sm font-bold">4.5g</div>
                    </div>
                    <div className="text-left">
-                     <div className="text-[10px] text-neutral-500 uppercase font-bold text-[8px]">Grasas</div>
+                     <div className="text-[10px] text-neutral-500 uppercase font-bold text-[8px]">{currentT.scanFats}</div>
                      <div className="text-sm font-bold">8g</div>
                    </div>
                    <div className="text-left">
-                     <div className="text-[10px] text-neutral-500 uppercase font-bold text-[8px]">Carbohidratos</div>
+                     <div className="text-[10px] text-neutral-500 uppercase font-bold text-[8px]">{currentT.scanCarbs}</div>
                      <div className="text-sm font-bold">32g</div>
                    </div>
                  </div>
@@ -771,27 +1305,27 @@ const DeficitPro = () => {
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-10">
           <div className="flex-1 space-y-8">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-500/10 text-purple-400 text-[10px] font-bold uppercase tracking-[0.2em] rounded border border-purple-500/20">
-              <MessageSquare size={12} /> Exclusivo PRO
+              <MessageSquare size={12} /> {currentT.coachBadge}
             </div>
             <h2 className="text-5xl md:text-6xl font-light tracking-tighter leading-tight">
-              Tu Personal <br/>
-              <span className="font-bold italic text-brand-emerald text-gradient">Coach IA Chileno.</span>
+              {currentT.coachTitle1} <br/>
+              <span className="font-bold italic text-brand-emerald text-gradient">{currentT.coachTitle2}</span>
             </h2>
             <p className="text-neutral-400 text-lg leading-relaxed font-light max-w-lg">
-              Conoce a tu Coach IA, integrado con una firme y chilena personalidad. Con su motivación te entregará consejos como. 
+              {currentT.coachDesc}
             </p>
             <div className="space-y-4">
               <div className="flex items-center gap-4 text-sm font-light text-neutral-300">
                 <div className="w-1.5 h-1.5 rounded-full bg-brand-emerald shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
-                Planes de entrenamiento personalizados.
+                {currentT.coachBullet1}
               </div>
               <div className="flex items-center gap-4 text-sm font-light text-neutral-300">
                 <div className="w-1.5 h-1.5 rounded-full bg-brand-emerald shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
-                Sugerencias de almuerzos para la pega o menús completos! 
+                {currentT.coachBullet2}
               </div>
               <div className="flex items-center gap-4 text-sm font-light text-neutral-300">
                 <div className="w-1.5 h-1.5 rounded-full bg-brand-emerald shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
-                Recetas para tu fin de semana, porciones faciles de manejar.
+                {currentT.coachBullet3}
               </div>
             </div>
           </div>
@@ -812,10 +1346,10 @@ const DeficitPro = () => {
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                       <span className="font-bold text-sm tracking-tight">IA COACH <span className="text-purple-400">PRO</span></span>
-                       <span className="text-[8px] bg-purple-500/20 text-purple-400 px-1.5 py-0.5 rounded font-black">24/7</span>
+                        <span className="font-bold text-sm tracking-tight">IA COACH <span className="text-purple-400">PRO</span></span>
+                        <span className="text-[8px] bg-purple-500/20 text-purple-400 px-1.5 py-0.5 rounded font-black">24/7</span>
                     </div>
-                    <span className="text-[9px] text-neutral-500 font-bold uppercase tracking-widest">Consultas hoy: 2/20</span>
+                    <span className="text-[9px] text-neutral-500 font-bold uppercase tracking-widest">{currentT.coachActiveConsults}</span>
                   </div>
                 </div>
                 <div className="text-neutral-500"><ChevronRight size={18} className="rotate-90" /></div>
@@ -829,7 +1363,7 @@ const DeficitPro = () => {
                   </div>
                   <div className="p-4 bg-[#141d33] border border-white/5 rounded-2xl rounded-tl-none space-y-2">
                     <p className="text-sm font-light leading-relaxed">
-                      Buena máquina! Estoy aquí para ayudarte con consejos y entrenamientos. Vamos con todo!
+                      {currentT.coachMsgAi}
                     </p>
                     <span className="text-[9px] text-neutral-500 italic">12:20</span>
                   </div>
@@ -840,7 +1374,7 @@ const DeficitPro = () => {
                     <User size={14} className="text-brand-emerald" />
                   </div>
                   <div className="p-4 bg-brand-card border border-white/5 rounded-2xl rounded-tr-none">
-                    <p className="text-sm font-light">Hola! Quiero una rutina ligera, me duele la muñeca. También quiero un plato para la cena de hoy.</p>
+                    <p className="text-sm font-light">{currentT.coachMsgUser}</p>
                   </div>
                 </div>
               </div>
@@ -851,7 +1385,7 @@ const DeficitPro = () => {
                   <Camera size={18} />
                 </div>
                 <div className="flex-1 bg-[#141d33] border border-white/5 rounded-xl px-4 flex items-center text-xs text-neutral-500 font-light italic">
-                  Pregunta sobre dietas, ejercicios...
+                  {currentT.coachInputPlaceholder}
                 </div>
                 <div className="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center text-white shadow-lg shadow-purple-600/20">
                   <ChevronRight size={18} />
@@ -875,7 +1409,7 @@ const DeficitPro = () => {
             <div className="w-[300px] h-[600px] md:w-[340px] md:h-[680px] border border-white/10 rounded-[3.5rem] overflow-hidden shadow-2xl bg-[#030712] relative scale-90 sm:scale-100 flex flex-col">
               <div className="p-8 pb-6 flex justify-between items-center bg-[#030712]">
                 <h2 className="text-2xl font-black italic tracking-tighter uppercase leading-none">
-                  <span className="text-orange-500">DESAFÍOS</span> <span className="text-purple-500">DIARIOS</span>
+                  <span className="text-orange-500">{globalLanguage === "es" ? "DESAFÍOS" : "DAILY"}</span> <span className="text-purple-500">{globalLanguage === "es" ? "DIARIOS" : "CHALLENGES"}</span>
                 </h2>
                 <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-neutral-600 text-xs hover:text-white transition-colors cursor-pointer">✕</div>
               </div>
@@ -883,7 +1417,7 @@ const DeficitPro = () => {
               <div className="flex-1 overflow-y-auto px-6 pb-10 space-y-4">
                 <div className="pt-2 pb-6 border-t border-white/5">
                   <p className="text-[10px] text-neutral-400 leading-relaxed font-light">
-                    Completa estos objetivos diarios para ganar <span className="text-amber-500 font-bold">★</span> estrellas y canjearlas por acceso a funciones exclusivas. ¡Motívate y cumple tus metas cada día!
+                    {currentT.chalSub}
                   </p>
                 </div>
                 
@@ -901,8 +1435,8 @@ const DeficitPro = () => {
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-lg font-black italic tracking-tighter mb-0.5">Hidratación Completa</h4>
-                    <p className="text-[8px] font-black text-brand-emerald tracking-widest uppercase mb-4 opacity-80">BEBE TODOS TUS VASOS DE AGUA.</p>
+                    <h4 className="text-lg font-black italic tracking-tighter mb-0.5">{currentT.chalItem1Title}</h4>
+                    <p className="text-[8px] font-black text-brand-emerald tracking-widest uppercase mb-4 opacity-80">{currentT.chalItem1Desc}</p>
                     <div className="h-2 w-full bg-neutral-900 rounded-full overflow-hidden mb-3 relative">
                       <motion.div 
                         initial={{ width: 0 }}
@@ -912,8 +1446,8 @@ const DeficitPro = () => {
                       ></motion.div>
                     </div>
                     <div className="flex justify-between items-center text-[9px] font-black italic uppercase">
-                       <span className="text-neutral-500 tracking-tighter">7 / 13 VASOS</span>
-                       <span className="text-brand-emerald tracking-tighter flex items-center gap-1">¡COMPLETADO! +1 <Star size={10} className="fill-brand-emerald" /></span>
+                       <span className="text-neutral-500 tracking-tighter">{currentT.chalItem1Status}</span>
+                       <span className="text-brand-emerald tracking-tighter flex items-center gap-1">{currentT.chalItem1Complete} <Star size={10} className="fill-brand-emerald" /></span>
                     </div>
                   </div>
                 </motion.div>
@@ -930,8 +1464,8 @@ const DeficitPro = () => {
                     <Star size={24} className="text-amber-500 fill-amber-500 opacity-60" />
                   </div>
                   <div>
-                    <h4 className="text-lg font-black italic tracking-tighter mb-0.5">Nutrición Constante</h4>
-                    <p className="text-[8px] font-black text-orange-500 tracking-widest uppercase mb-4 opacity-80">REGISTRA AL MENOS 3 COMIDAS.</p>
+                    <h4 className="text-lg font-black italic tracking-tighter mb-0.5">{currentT.chalItem2Title}</h4>
+                    <p className="text-[8px] font-black text-orange-500 tracking-widest uppercase mb-4 opacity-80">{currentT.chalItem2Desc}</p>
                     <div className="h-2 w-full bg-neutral-900 rounded-full overflow-hidden mb-3">
                       <motion.div 
                         initial={{ width: 0 }}
@@ -940,8 +1474,8 @@ const DeficitPro = () => {
                       ></motion.div>
                     </div>
                     <div className="flex justify-between items-center text-[9px] font-black italic uppercase">
-                       <span className="text-neutral-500 tracking-tighter">3 / 3 COMIDAS</span>
-                       <span className="text-brand-emerald tracking-tighter flex items-center gap-1">¡COMPLETADO! +1 <Star size={10} className="fill-brand-emerald" /></span>
+                       <span className="text-neutral-500 tracking-tighter">{currentT.chalItem2Status}</span>
+                       <span className="text-brand-emerald tracking-tighter flex items-center gap-1">{currentT.chalItem2Complete} <Star size={10} className="fill-brand-emerald" /></span>
                     </div>
                   </div>
                 </motion.div>
@@ -958,8 +1492,8 @@ const DeficitPro = () => {
                     <Star size={24} className="text-amber-500 fill-amber-500 opacity-60" />
                   </div>
                   <div>
-                    <h4 className="text-lg font-black italic tracking-tighter mb-0.5">Desafío Especial</h4>
-                    <p className="text-[8px] font-black text-purple-500 tracking-widest uppercase mb-4 opacity-80">USA EL SCANNER IA.</p>
+                    <h4 className="text-lg font-black italic tracking-tighter mb-0.5">{currentT.chalItem3Title}</h4>
+                    <p className="text-[8px] font-black text-purple-500 tracking-widest uppercase mb-4 opacity-80">{currentT.chalItem3Desc}</p>
                     <div className="h-2 w-full bg-neutral-900 rounded-full overflow-hidden mb-3">
                       <motion.div 
                         initial={{ width: 0 }}
@@ -968,14 +1502,14 @@ const DeficitPro = () => {
                       ></motion.div>
                     </div>
                     <div className="flex justify-between items-center text-[9px] font-black italic uppercase">
-                       <span className="text-neutral-500 tracking-tighter">2 / 1</span>
-                       <span className="text-brand-emerald tracking-tighter flex items-center gap-1">¡COMPLETADO! +1 <Star size={10} className="fill-brand-emerald" /></span>
+                       <span className="text-neutral-500 tracking-tighter">{currentT.chalItem3Status}</span>
+                       <span className="text-brand-emerald tracking-tighter flex items-center gap-1">{currentT.chalItem3Complete} <Star size={10} className="fill-brand-emerald" /></span>
                     </div>
                   </div>
                 </motion.div>
 
                 <button className="w-full bg-blue-500 text-black py-5 rounded-2xl font-black italic tracking-tighter uppercase text-sm mt-4 shadow-lg shadow-blue-500/20 active:scale-95 transition-transform">
-                   Cerrar
+                   {currentT.chalCloseBtn}
                 </button>
               </div>
             </div>
@@ -983,20 +1517,20 @@ const DeficitPro = () => {
 
           <div className="order-1 lg:order-2 space-y-8">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/10 text-amber-500 text-[10px] font-bold uppercase tracking-[0.2em] rounded border border-amber-500/20">
-              <Trophy size={12} /> Gamificación Inteligente
+              <Trophy size={12} /> {currentT.chalBadge}
             </div>
             <h2 className="text-5xl md:text-6xl font-light tracking-tighter leading-tight">
-              Gana Estrellas. <br/>
-              <span className="font-bold italic text-brand-emerald">Desbloquea lo PRO.</span>
+              {currentT.chalTitle1} <br/>
+              <span className="font-bold italic text-brand-emerald">{currentT.chalTitle2}</span>
             </h2>
             <p className="text-neutral-400 text-lg leading-relaxed font-light max-w-lg">
-              Queremos que el hábito sea divertido. Cumple tus objetivos diarios para ganar estrellas y desbloquear funciones Premium de forma totalmente gratuita. ¡Tu esfuerzo se premia!
+              {currentT.chalDesc}
             </p>
             
             <div className="space-y-6 pt-4">
               <div className="flex items-center gap-3">
                 <div className="h-[2px] w-8 bg-[#00e5ff] shadow-[0_0_8px_#00e5ff]"></div>
-                <h3 className="text-xl font-black uppercase tracking-[0.13em] text-[#00e5ff] glow-cyan italic">★ FUNCIONES PRO ★</h3>
+                <h3 className="text-xl font-black uppercase tracking-[0.13em] text-[#00e5ff] glow-cyan italic">{currentT.proFeaturesTitle}</h3>
                 <div className="h-[2px] flex-1 bg-neutral-800"></div>
               </div>
               
@@ -1005,15 +1539,15 @@ const DeficitPro = () => {
                 <div className="p-6 bg-[#040813]/60 border border-white/5 rounded-2xl group hover:border-[#00e5ff]/35 transition-all shadow-xl hover:shadow-[#00e5ff]/5 flex flex-col justify-between">
                    <div>
                      <div className="text-[#00e5ff] font-black mb-2.5 flex items-center gap-2 uppercase tracking-widest text-xs">
-                        <Sparkles size={14} className="animate-pulse" /> SCAN IA
+                        <Sparkles size={14} className="animate-pulse" /> {currentT.proScanTitle}
                      </div>
                      <p className="text-xs text-neutral-300 leading-relaxed font-normal">
-                        Tómale una foto a tu alimento o sube una foto de la galería.
+                        {currentT.proScanDesc}
                      </p>
                    </div>
                    <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[10px]">
-                      <span className="text-neutral-500 font-bold uppercase tracking-wider">Límites diarios</span>
-                      <span className="text-[#00e5ff] font-black uppercase tracking-wider bg-[#00e5ff]/5 px-2.5 py-1 rounded border border-[#00e5ff]/20">5 Intentos Diarios</span>
+                      <span className="text-neutral-500 font-bold uppercase tracking-wider">{currentT.proScanLimitsLabel}</span>
+                      <span className="text-[#00e5ff] font-black uppercase tracking-wider bg-[#00e5ff]/5 px-2.5 py-1 rounded border border-[#00e5ff]/20">{currentT.proScanLimitsVal}</span>
                    </div>
                 </div>
 
@@ -1021,20 +1555,20 @@ const DeficitPro = () => {
                 <div className="p-6 bg-[#040813]/60 border border-white/5 rounded-2xl group hover:border-purple-500/30 transition-all shadow-xl hover:shadow-purple-500/5 flex flex-col justify-between">
                    <div>
                      <div className="text-purple-400 font-black mb-2.5 flex items-center gap-2 uppercase tracking-widest text-xs">
-                        <MessageSquare size={14} /> COACH IA
+                        <MessageSquare size={14} /> {currentT.proCoachTitle}
                      </div>
                      <p className="text-xs text-neutral-300 leading-relaxed font-normal">
-                        Disfruta del mejor entrenador, elige su estilo <span className="text-purple-300 underline underline-offset-2">chileno-neutro</span> para guiar tus metas.
+                        {currentT.proCoachDesc}
                      </p>
                    </div>
                    <div className="mt-4 pt-3 border-t border-white/5 flex flex-col gap-1.5 text-[10px]">
                       <div className="flex justify-between items-center text-neutral-500">
-                        <span className="uppercase tracking-wider font-bold">Gratuita</span>
-                        <span className="font-bold">2 Intentos</span>
+                        <span className="uppercase tracking-wider font-bold">{currentT.proCoachFreeLabel}</span>
+                        <span className="font-bold">{currentT.proCoachFreeVal}</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-purple-400 uppercase tracking-widest font-black">Versión PRO</span>
-                        <span className="text-purple-400 font-black uppercase tracking-wider bg-purple-500/10 px-2.5 py-1 rounded border border-purple-500/20">50 Intentos</span>
+                        <span className="text-purple-400 uppercase tracking-widest font-black">{currentT.proCoachProLabel}</span>
+                        <span className="text-purple-400 font-black uppercase tracking-wider bg-purple-500/10 px-2.5 py-1 rounded border border-purple-500/20">{currentT.proCoachProVal}</span>
                       </div>
                    </div>
                 </div>
@@ -1043,20 +1577,20 @@ const DeficitPro = () => {
                 <div className="p-6 bg-[#040813]/60 border border-white/5 rounded-2xl group hover:border-amber-400/30 transition-all shadow-xl hover:shadow-amber-500/5 flex flex-col justify-between">
                    <div>
                      <div className="text-amber-500 font-black mb-2.5 flex items-center gap-2 uppercase tracking-widest text-xs">
-                        <Zap size={14} /> Búsqueda IA Inteligente
+                        <Zap size={14} /> {currentT.proSearchTitle}
                      </div>
                      <p className="text-xs text-neutral-300 leading-relaxed font-normal">
-                        Nuestra novedad: escríbele a la IA todo lo que comiste y lo desglosará, además puedes quitar o agregar ingredientes de forma simple.
+                        {currentT.proSearchDesc}
                      </p>
                    </div>
                    <div className="mt-4 pt-3 border-t border-white/5 flex flex-col gap-1.5 text-[10px]">
                       <div className="flex justify-between items-center text-neutral-500">
-                        <span className="uppercase tracking-wider font-bold">Gratuita</span>
-                        <span className="font-bold">2 Intentos</span>
+                        <span className="uppercase tracking-wider font-bold">{currentT.proSearchFreeLabel}</span>
+                        <span className="font-bold">{currentT.proSearchFreeVal}</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-amber-400 uppercase tracking-widest font-black">Versión PRO</span>
-                        <span className="text-amber-400 font-black uppercase tracking-wider bg-amber-500/10 px-2.5 py-1 rounded border border-amber-500/20">10 Intentos</span>
+                        <span className="text-amber-400 uppercase tracking-widest font-black">{currentT.proSearchProLabel}</span>
+                        <span className="text-amber-400 font-black uppercase tracking-wider bg-amber-500/10 px-2.5 py-1 rounded border border-amber-500/20">{currentT.proSearchProVal}</span>
                       </div>
                    </div>
                 </div>
@@ -1065,15 +1599,15 @@ const DeficitPro = () => {
                 <div className="p-6 bg-[#040813]/60 border border-white/5 rounded-2xl group hover:border-brand-emerald/30 transition-all shadow-xl hover:shadow-emerald-500/5 flex flex-col justify-between">
                    <div>
                      <div className="text-brand-emerald font-black mb-2.5 flex items-center gap-2 uppercase tracking-widest text-xs">
-                        <Ban size={14} /> Cero Publicidad
+                        <Ban size={14} /> {currentT.proAdsTitle}
                      </div>
                      <p className="text-xs text-neutral-300 leading-relaxed font-normal">
-                        Elimina por completo las publicidades de la aplicación y todos los molestos mensajes en pantalla solicitando suscribirte o de apoyo al equipo.
+                        {currentT.proAdsDesc}
                      </p>
                    </div>
                    <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[10px]">
-                      <span className="text-neutral-500 font-bold uppercase tracking-wider">Experiencia PRO</span>
-                      <span className="text-brand-emerald font-black uppercase tracking-wider bg-brand-emerald/5 px-2.5 py-1 rounded border border-brand-emerald/20">100% Ininterrumpido</span>
+                      <span className="text-neutral-500 font-bold uppercase tracking-wider">{currentT.proAdsLabel}</span>
+                      <span className="text-brand-emerald font-black uppercase tracking-wider bg-brand-emerald/5 px-2.5 py-1 rounded border border-brand-emerald/20">{currentT.proAdsVal}</span>
                    </div>
                 </div>
               </div>
@@ -1093,26 +1627,26 @@ const DeficitPro = () => {
             className="flex-1 space-y-10"
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 text-blue-400 text-[10px] font-bold uppercase tracking-[0.2em] rounded border border-blue-500/20">
-              <Brain size={12} /> Scanner IA de Comida Completa
+              <Brain size={12} /> {currentT.foodBadge}
             </div>
-            <h2 className="text-5xl md:text-6xl font-light tracking-tighter leading-tight">
-              Dile lo que comiste, <br/>
-              <span className="font-bold italic text-blue-400">Ella Entiende Todo.</span>
+            <h2 className="text-5xl md:text-6xl font-light tracking-tighter leading-tight text-white">
+              {currentT.foodTitle1} <br/>
+              <span className="font-bold italic text-blue-400">{currentT.foodTitle2}</span>
             </h2>
             <p className="text-neutral-400 text-lg leading-relaxed font-light max-w-lg">
-              No pierdas tiempo buscando ingrediente por ingrediente. Nuestra IA descompone platos complejos como un completo o un sánguche de potito en segundos.
+              {currentT.foodDesc}
             </p>
             
             <div className="space-y-6">
               <div className="glass-card p-6 border-white/5 bg-white/2">
-                <p className="text-xs font-bold text-neutral-500 mb-2 uppercase italic tracking-widest">Búsqueda Inteligente:</p>
+                <p className="text-xs font-bold text-neutral-500 mb-2 uppercase italic tracking-widest">{currentT.foodSearchLabel}</p>
                 <div className="bg-neutral-900 border border-brand-emerald/30 rounded-xl p-4 flex items-center gap-4">
                   <motion.div 
                     animate={{ opacity: [0.5, 1, 0.5] }}
                     transition={{ duration: 2, repeat: Infinity }}
                     className="w-2 h-2 rounded-full bg-brand-emerald"
                   ></motion.div>
-                   <span className="text-sm font-medium italic">"sánguche de potito"</span>
+                   <span className="text-sm font-medium italic">"{currentT.foodSearchPlaceholder}"</span>
                 </div>
               </div>
             </div>
@@ -1127,30 +1661,30 @@ const DeficitPro = () => {
             {/* Food Log Mockup */}
             <div className="w-full max-w-[360px] bg-[#030712] rounded-[3.5rem] border-8 border-neutral-800 shadow-2xl relative overflow-hidden flex flex-col">
               <div className="p-8 pb-4 flex justify-between items-center bg-[#030712] border-b border-white/5">
-                <h2 className="text-2xl font-black italic tracking-tighter uppercase leading-none">REGISTRAR COMIDA</h2>
+                <h2 className="text-2xl font-black italic tracking-tighter uppercase leading-none">{currentT.foodMockHeader}</h2>
                 <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-neutral-600 text-xs">✕</div>
               </div>
 
               <div className="flex-1 overflow-y-auto px-6 pt-6 space-y-8 scrollbar-hide">
                 <div className="space-y-1">
-                  <h3 className="text-3xl font-black italic tracking-tighter uppercase text-white leading-tight">SÁNGUCHE DE POTITO</h3>
+                  <h3 className="text-3xl font-black italic tracking-tighter uppercase text-white leading-tight">{currentT.foodMockSubtitle}</h3>
                 </div>
 
                 <div className="flex justify-between items-center">
-                  <h4 className="text-2xl font-black italic tracking-tighter uppercase">PORCIÓN(ES)</h4>
+                  <h4 className="text-2xl font-black italic tracking-tighter uppercase">{currentT.foodMockPortions}</h4>
                   <div className="w-14 h-16 bg-[#111827] border border-white/10 rounded-2xl flex items-center justify-center text-2xl font-black italic">1</div>
                 </div>
 
                 <div className="space-y-4">
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-neutral-500 italic">INGREDIENTES DETECTADOS POR IA</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-neutral-500 italic">{currentT.foodMockDetectedLabel}</span>
                     <Info size={12} className="text-neutral-600" />
                   </div>
                   
                   {ingredients.length === 0 ? (
                     <div className="text-center py-6 border-2 border-dashed border-white/5 rounded-2xl">
-                      <p className="text-neutral-500 text-xs uppercase tracking-widest font-bold">Sin ingredientes</p>
-                      <p className="text-[10px] text-neutral-600 mt-1">Agrega un ingrediente para comenzar</p>
+                      <p className="text-neutral-500 text-xs uppercase tracking-widest font-bold">{currentT.foodMockNoIngs}</p>
+                      <p className="text-[10px] text-neutral-600 mt-1">{currentT.foodMockNoIngsDesc}</p>
                     </div>
                   ) : (
                     ingredients.map((ing) => (
@@ -1163,7 +1697,7 @@ const DeficitPro = () => {
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                              <Zap size={16} className="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
-                             <span className="text-base font-bold text-white tracking-tight">{ing.name}</span>
+                             <span className="text-base font-bold text-white tracking-tight">{getIngredientName(ing)}</span>
                           </div>
                           <div className="flex items-center gap-3">
                             <div className="flex items-baseline gap-1">
@@ -1205,16 +1739,16 @@ const DeficitPro = () => {
                     onClick={handleAddIngredient}
                     className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-neutral-500 italic hover:text-white transition-colors pt-2 cursor-pointer bg-transparent border-none"
                   >
-                    <span className="text-sm">+</span> AGREGAR NUEVO INGREDIENTE
+                    <span className="text-sm">+</span> {currentT.foodMockAddIngBtn}
                   </button>
                 </div>
 
                 <div className="grid grid-cols-4 gap-2 pt-6">
                   {[
-                    { label: 'KCAL', val: `${totalCal}`, glow: 'rgba(56,189,248,0.2)', bg: '#082f49' },
-                    { label: 'PROTE', val: `${totalP} g`, glow: 'rgba(16,185,129,0.2)', bg: '#064e3b' },
-                    { label: 'CARB', val: `${totalC} g`, glow: 'rgba(245,158,11,0.2)', bg: '#451a03' },
-                    { label: 'GRASA', val: `${totalG} g`, glow: 'rgba(157,23,77,0.2)', bg: '#500724' }
+                    { label: currentT.foodMockMacroKcal, val: `${totalCal}`, glow: 'rgba(56,189,248,0.2)', bg: '#082f49' },
+                    { label: currentT.foodMockMacroProte, val: `${totalP} g`, glow: 'rgba(16,185,129,0.2)', bg: '#064e3b' },
+                    { label: currentT.foodMockMacroCarb, val: `${totalC} g`, glow: 'rgba(245,158,11,0.2)', bg: '#451a03' },
+                    { label: currentT.foodMockMacroGrasa, val: `${totalG} g`, glow: 'rgba(157,23,77,0.2)', bg: '#500724' }
                   ].map((macro, i) => (
                     <div 
                       key={i} 
@@ -1230,26 +1764,26 @@ const DeficitPro = () => {
 
                 <div className="pb-10 pt-4 space-y-4">
                   <div className="flex gap-3">
-                    <button className="flex-1 bg-neutral-900 py-5 rounded-2xl font-black italic uppercase tracking-tighter border border-white/10">Reintentar</button>
-                    <button className="flex-1 bg-blue-500 text-black py-5 rounded-2xl font-black italic uppercase tracking-tighter shadow-lg shadow-blue-500/30">GUARDAR</button>
+                    <button className="flex-1 bg-neutral-900 py-5 rounded-2xl font-black italic uppercase tracking-tighter border border-white/10">{currentT.foodMockRetry}</button>
+                    <button className="flex-1 bg-blue-500 text-black py-5 rounded-2xl font-black italic uppercase tracking-tighter shadow-lg shadow-blue-500/30">{currentT.foodMockSave}</button>
                   </div>
                   
                   <div className="space-y-3 pt-4">
                     <div className="flex items-center gap-2">
-                       <span className="text-[9px] font-black text-blue-400 uppercase tracking-widest italic">BUSCAR ALIMENTO</span>
-                       <span className="text-[7px] text-neutral-500 uppercase font-bold italic">- por si no tienes internet</span>
+                       <span className="text-[9px] font-black text-blue-400 uppercase tracking-widest italic">{currentT.foodMockSearchTitle}</span>
+                       <span className="text-[7px] text-neutral-500 uppercase font-bold italic">{currentT.foodMockOfflineLabel}</span>
                     </div>
                     <div className="bg-neutral-800/50 border border-white/5 rounded-2xl px-6 py-4 flex items-center gap-4">
                        <Search size={18} className="text-neutral-500" />
                        <div className="flex items-center gap-2 text-neutral-500 text-sm italic font-medium">
-                          <span className="text-xl">📝</span> Escribir nombre del alimento
+                          <span className="text-xl">📝</span> {currentT.foodMockSearchPlaceholder}
                        </div>
                     </div>
                   </div>
 
                   <div className="flex gap-3">
-                    <button className="flex-1 bg-neutral-900 py-5 rounded-2xl font-black italic uppercase tracking-tighter border border-white/10 text-neutral-500">Cancelar</button>
-                    <button className="flex-1 bg-[#1e293b] py-5 rounded-2xl font-black italic uppercase tracking-tighter text-neutral-400">Guardar</button>
+                    <button className="flex-1 bg-neutral-900 py-5 rounded-2xl font-black italic uppercase tracking-tighter border border-white/10 text-neutral-500">{currentT.foodMockCancel}</button>
+                    <button className="flex-1 bg-[#1e293b] py-5 rounded-2xl font-black italic uppercase tracking-tighter text-neutral-400">{currentT.foodMockSaveAlt}</button>
                   </div>
                 </div>
               </div>
@@ -1272,14 +1806,14 @@ const DeficitPro = () => {
             className="flex-1 space-y-8"
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#ef4444]/15 text-[#ef4444] text-[10px] font-bold uppercase tracking-[0.2em] rounded border border-[#ef4444]/25">
-              <Newspaper size={12} /> Evidencia & Rigor Científico
+              <Newspaper size={12} /> {currentT.newsBadge}
             </div>
             <h2 className="text-5xl md:text-6xl font-light tracking-tighter leading-tight text-white">
-              Noticias de Salud de <br/>
-              <span className="font-bold italic text-[#00e5ff] glow-cyan">Alta Relevancia.</span>
+              {currentT.newsTitle1} <br/>
+              <span className="font-bold italic text-[#00e5ff] glow-cyan">{currentT.newsTitle2}</span>
             </h2>
             <p className="text-neutral-400 text-lg leading-relaxed font-light max-w-lg">
-              Estudios clínicos, mecanismos biológicos y artículos reales de rigor para potenciar tu disciplina de déficit calórico sin mitos ni falsedades.
+              {currentT.newsDesc}
             </p>
             
             <div className="flex gap-4 pt-2">
@@ -1288,8 +1822,8 @@ const DeficitPro = () => {
                   <ShieldCheck size={24} />
                 </div>
                 <div>
-                  <h4 className="text-[10px] font-black uppercase text-neutral-400 tracking-wider">Sin fake news</h4>
-                  <p className="text-sm text-white font-medium mt-1">Soporte científico verificado</p>
+                  <h4 className="text-[10px] font-black uppercase text-neutral-400 tracking-wider">{currentT.newsNoFake}</h4>
+                  <p className="text-sm text-white font-medium mt-1">{currentT.newsVerified}</p>
                 </div>
               </div>
             </div>
@@ -1307,7 +1841,7 @@ const DeficitPro = () => {
               {/* Header inside mockup */}
               <div className="flex justify-between items-center bg-[#030712] pb-3 border-b border-white/5">
                 <h2 className="text-[12px] font-black italic tracking-tighter uppercase leading-none text-white">
-                  NOTICIAS DE SALUD DE ALTA REL...
+                  {currentT.newsHeader}
                 </h2>
                 <div className="flex items-center gap-1.5">
                   <div className="w-6 h-6 rounded-full border border-white/10 flex items-center justify-center text-[10px] font-bold text-neutral-400 bg-white/5">
@@ -1321,7 +1855,7 @@ const DeficitPro = () => {
 
               {/* Subheading text */}
               <p className="text-[12px] font-semibold text-[#00e5ff] leading-normal tracking-tight">
-                Artículos reales, estudios de rigor clínico y soporte científico para potenciar tu disciplina.
+                {currentT.newsSubhead}
               </p>
 
               {/* News cards stack */}
@@ -1330,7 +1864,7 @@ const DeficitPro = () => {
                 <div className="bg-[#0a0f1d] border border-white/5 p-4 rounded-2xl space-y-3 shadow-lg hover:border-white/10 transition-colors text-left">
                   <div className="flex items-center justify-between">
                     <span className="text-[8px] font-bold uppercase tracking-wider text-[#0ea5e9]">
-                      BALANCE CALÓRICO • MECANISMOS
+                      {currentT.newsCard1Category}
                     </span>
                   </div>
                   <div className="flex items-start gap-2">
@@ -1338,16 +1872,16 @@ const DeficitPro = () => {
                       <ShieldCheck size={11} />
                     </div>
                     <h3 className="text-xs font-bold text-white leading-tight">
-                      Deficit calórico, la importancia de la moderación y la constancia
+                      {currentT.newsCard1Title}
                     </h3>
                   </div>
                   <div className="border-l-2 border-dashed border-neutral-700/80 pl-2.5 py-0.5">
                     <p className="text-[10px] text-neutral-400 font-light leading-relaxed italic">
-                      "Desde estos estudios nace nuestra motivación: comprender que la restricción absurda solo enferma, mientras que el déficit constante modela el cuerpo de verdad."
+                      {currentT.newsCard1Quote}
                     </p>
                   </div>
                   <div className="text-[8.5px] font-bold text-[#00e5ff] tracking-wider uppercase hover:underline cursor-pointer">
-                    &gt; EXPANDIR ANÁLISIS CLÍNICO
+                    {currentT.newsCard1Expand}
                   </div>
                 </div>
 
@@ -1355,7 +1889,7 @@ const DeficitPro = () => {
                 <div className="bg-[#0a0f1d] border border-white/5 p-4 rounded-2xl space-y-3 shadow-lg hover:border-white/10 transition-colors text-left">
                   <div className="flex items-center justify-between">
                     <span className="text-[8px] font-bold uppercase tracking-wider text-[#0ea5e9]">
-                      GLUCOSA • NUTRICIÓN
+                      {currentT.newsCard2Category}
                     </span>
                   </div>
                   <div className="flex items-start gap-2">
@@ -1363,16 +1897,16 @@ const DeficitPro = () => {
                       <ShieldCheck size={11} />
                     </div>
                     <h3 className="text-xs font-bold text-white leading-tight">
-                      La respuesta glucémica del pan
+                      {currentT.newsCard2Title}
                     </h3>
                   </div>
                   <div className="border-l-2 border-dashed border-neutral-700/80 pl-2.5 py-0.5">
                     <p className="text-[10px] text-neutral-400 font-light leading-relaxed italic">
-                      "Recuerda reducir el consumo de pan, este suele ser denso en energía y carbohidratos simples, afectando la saciedad y el microbioma."
+                      {currentT.newsCard2Quote}
                     </p>
                   </div>
                   <div className="text-[8.5px] font-bold text-[#00e5ff] tracking-wider uppercase hover:underline cursor-pointer">
-                    &gt; EXPANDIR ANÁLISIS CLÍNICO
+                    {currentT.newsCard2Expand}
                   </div>
                 </div>
               </div>
@@ -1389,14 +1923,14 @@ const DeficitPro = () => {
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-20">
           <div className="flex-1 space-y-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-orange/10 text-orange-500 text-[10px] font-bold uppercase tracking-[0.2em] rounded border border-orange-500/20">
-              <Flame size={12} className="fill-orange-500" /> Sistema de Rachas
+              <Flame size={12} className="fill-orange-500" /> {currentT.streakBadge}
             </div>
             <h2 className="text-5xl md:text-6xl font-light tracking-tighter leading-tight">
-              La Consistencia es <br/>
-              <span className="font-bold italic text-orange-500 brightness-125">Tu Mejor Aliada.</span>
+              {currentT.streakTitle1} <br/>
+              <span className="font-bold italic text-orange-500 brightness-125">{currentT.streakTitle2}</span>
             </h2>
             <p className="text-neutral-400 text-lg leading-relaxed font-light max-w-lg">
-              No rompas la cadena. Registra tus alimentos diariamente y mantén el fuego encendido. Cada semana de racha te acerca más a la experiencia completa.
+              {currentT.streakDesc}
             </p>
             
             <div className="grid gap-6">
@@ -1408,9 +1942,9 @@ const DeficitPro = () => {
                   <Flame size={32} className="fill-orange-500" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-lg leading-tight uppercase tracking-tight">Cada 7 Días de Racha</h4>
+                  <h4 className="font-bold text-lg leading-tight uppercase tracking-tight">{currentT.streakBonusTitle}</h4>
                   <div className="flex items-center gap-2 mt-1">
-                    <span className="text-orange-500 text-sm font-bold uppercase tracking-widest">+5 ESTRELLAS</span>
+                    <span className="text-orange-500 text-sm font-bold uppercase tracking-widest">{currentT.streakBonusSub}</span>
                     <Star size={14} className="fill-amber-500 text-amber-500" />
                   </div>
                 </div>
@@ -1424,9 +1958,9 @@ const DeficitPro = () => {
                   <Star size={32} className="fill-amber-500" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-lg leading-tight uppercase tracking-tight">Canjea 50 Estrellas</h4>
+                  <h4 className="font-bold text-lg leading-tight uppercase tracking-tight">{currentT.streakRedeemTitle}</h4>
                   <div className="flex items-center gap-2 mt-1">
-                    <span className="text-amber-500 text-sm font-bold uppercase tracking-widest">5 DÍAS DE FUNCIONES PRO</span>
+                    <span className="text-amber-500 text-sm font-bold uppercase tracking-widest">{currentT.streakRedeemSub}</span>
                     <Zap size={14} className="text-brand-emerald" />
                   </div>
                 </div>
@@ -1450,9 +1984,9 @@ const DeficitPro = () => {
                 </div>
                 
                 <div className="space-y-2">
-                  <h3 className="text-center text-xs font-bold uppercase tracking-[0.4em] text-neutral-500 italic">Tu Racha Actual</h3>
+                  <h3 className="text-center text-xs font-bold uppercase tracking-[0.4em] text-neutral-500 italic">{currentT.streakCurrentLabel}</h3>
                   <div className="text-6xl font-black italic tracking-tighter text-shadow-[0_0_30px_rgba(249,115,22,0.4)]">
-                    9 <span className="text-2xl not-italic uppercase tracking-widest text-neutral-500">Días</span>
+                    9 <span className="text-2xl not-italic uppercase tracking-widest text-neutral-500">{currentT.streakCurrentDays}</span>
                   </div>
                 </div>
 
@@ -1467,7 +2001,7 @@ const DeficitPro = () => {
                   ))}
                 </div>
 
-                <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold pt-4">Registra al menos 3 alimentos al día para mantener tu racha.</p>
+                <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold pt-4">{currentT.streakInfo}</p>
               </div>
             </div>
           </div>
@@ -1479,14 +2013,14 @@ const DeficitPro = () => {
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row-reverse items-center gap-20">
           <div className="flex-1 space-y-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-emerald/10 text-brand-emerald text-[10px] font-bold uppercase tracking-[0.2em] rounded border border-brand-emerald/20">
-              <TrendingUp size={12} /> Análisis de Déficit
+              <TrendingUp size={12} /> {currentT.progBadge}
             </div>
             <h2 className="text-5xl md:text-6xl font-light tracking-tighter leading-tight">
-              Visualiza tu <br/>
-              <span className="font-bold italic text-brand-emerald text-gradient">Éxito Diario.</span>
+              {currentT.progTitle1} <br/>
+              <span className="font-bold italic text-brand-emerald text-gradient">{currentT.progTitle2}</span>
             </h2>
             <p className="text-neutral-400 text-lg leading-relaxed font-light max-w-lg">
-              La app registra cada caloría consumida y quemada para calcular tu déficit real. Identifica qué días cumpliste tus metas y cuáles requieren más atención con nuestro historial inteligente.
+              {currentT.progDesc}
             </p>
             <div className="grid gap-6">
               <div className="flex items-start gap-4">
@@ -1494,8 +2028,8 @@ const DeficitPro = () => {
                   <CheckCircle2 size={16} />
                 </div>
                 <div>
-                  <h4 className="font-bold uppercase tracking-widest text-xs mb-1">Déficit Logrado</h4>
-                  <p className="text-[10px] text-neutral-500 font-light">Días marcados en verde cuando tu balance calórico es negativo según tu plan.</p>
+                  <h4 className="font-bold uppercase tracking-widest text-xs mb-1">{currentT.progSuccessTitle}</h4>
+                  <p className="text-[10px] text-neutral-500 font-light">{currentT.progSuccessDesc}</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -1503,8 +2037,8 @@ const DeficitPro = () => {
                   <Flame size={16} />
                 </div>
                 <div>
-                  <h4 className="font-bold uppercase tracking-widest text-xs mb-1">Exceso Detectado</h4>
-                  <p className="text-[10px] text-neutral-500 font-light">Alertas en rojo cuando superas el límite calórico, permitiéndote ajustar el resto de tu semana.</p>
+                  <h4 className="font-bold uppercase tracking-widest text-xs mb-1">{currentT.progFailTitle}</h4>
+                  <p className="text-[10px] text-neutral-500 font-light">{currentT.progFailDesc}</p>
                 </div>
               </div>
             </div>
@@ -1519,9 +2053,9 @@ const DeficitPro = () => {
                       <div className="w-8 h-8 rounded-lg bg-neutral-800 flex items-center justify-center">
                          <ChevronRight size={16} className="rotate-180 text-neutral-400" />
                       </div>
-                      <h3 className="text-xl font-display font-black tracking-tighter italic uppercase">Tu Progreso</h3>
+                      <h3 className="text-xl font-display font-black tracking-tighter italic uppercase">{currentT.progHeader}</h3>
                    </div>
-                   <div className="text-[8px] font-bold text-neutral-500 uppercase tracking-widest border-l border-white/10 pl-3">7 Días Registrados</div>
+                   <div className="text-[8px] font-bold text-neutral-500 uppercase tracking-widest border-l border-white/10 pl-3">{currentT.progDaysLogged}</div>
                 </div>
 
                 <div className="px-6 space-y-6 mt-4">
@@ -1529,11 +2063,11 @@ const DeficitPro = () => {
                    <div className="flex bg-[#111827] rounded-xl p-1 gap-1">
                       <div className="flex-1 bg-brand-card p-2 rounded-lg flex items-center justify-center gap-2 border border-white/10">
                          <TrendingUp size={12} className="text-brand-emerald" />
-                         <span className="text-[10px] font-bold uppercase tracking-widest">Calorías</span>
+                         <span className="text-[10px] font-bold uppercase tracking-widest">{currentT.progTabCalories}</span>
                       </div>
                       <div className="flex-1 p-2 rounded-lg flex items-center justify-center gap-2 opacity-40">
                          <Star size={12} />
-                         <span className="text-[10px] font-bold uppercase tracking-widest">Peso</span>
+                         <span className="text-[10px] font-bold uppercase tracking-widest">{currentT.progTabWeight}</span>
                       </div>
                    </div>
 
@@ -1542,14 +2076,14 @@ const DeficitPro = () => {
                       <div className="glass-card p-4 border-blue-500/10">
                          <div className="flex items-center gap-2 mb-2">
                            <TrendingUp size={12} className="text-blue-400" />
-                           <span className="text-[8px] font-bold text-neutral-500 uppercase tracking-tighter">Promedio Consumido</span>
+                           <span className="text-[8px] font-bold text-neutral-500 uppercase tracking-tighter">{currentT.progAverageConsumed}</span>
                          </div>
                          <div className="text-2xl font-black italic tracking-tighter">1233 <span className="text-[10px] not-italic text-neutral-500">kcal</span></div>
                       </div>
                       <div className="glass-card p-4 border-brand-emerald/10">
                          <div className="flex items-center gap-2 mb-2">
                            <TrendingDown size={12} className="text-brand-emerald" />
-                           <span className="text-[8px] font-bold text-neutral-500 uppercase tracking-tighter">Promedio Quemado</span>
+                           <span className="text-[8px] font-bold text-neutral-500 uppercase tracking-tighter">{currentT.progAverageBurned}</span>
                          </div>
                          <div className="text-2xl font-black italic tracking-tighter">428 <span className="text-[10px] not-italic text-neutral-500">kcal</span></div>
                       </div>
@@ -1559,8 +2093,8 @@ const DeficitPro = () => {
                    <div className="glass-card p-4 border-white/5 relative overflow-hidden">
                       <div className="flex justify-between items-end mb-4">
                          <div>
-                            <h4 className="text-[10px] font-black uppercase tracking-widest text-brand-emerald italic">Balance Calórico</h4>
-                            <p className="text-[8px] text-neutral-500 uppercase font-bold italic">Análisis Entrada vs Salida</p>
+                            <h4 className="text-[10px] font-black uppercase tracking-widest text-brand-emerald italic">{currentT.progChartTitle}</h4>
+                            <p className="text-[8px] text-neutral-500 uppercase font-bold italic">{currentT.progChartSubtitle}</p>
                          </div>
                       </div>
                       <div className="h-40 w-full">
@@ -1610,17 +2144,17 @@ const DeficitPro = () => {
 
                    {/* Daily Detail List */}
                    <div className="space-y-3 pb-8">
-                      <h4 className="text-[10px] font-black uppercase tracking-widest mb-4">Detalle Diario</h4>
+                      <h4 className="text-[10px] font-black uppercase tracking-widest mb-4">{currentT.progDetailTitle}</h4>
                       
                       {/* Day 1 (Exito) */}
                       <div className="flex items-center gap-4 bg-brand-card/50 p-4 rounded-2xl border border-white/5 relative overflow-hidden group">
                          <div className="absolute left-0 top-0 bottom-0 w-1 bg-brand-emerald"></div>
                          <div className="w-10 h-10 rounded-xl bg-neutral-900 border border-white/5 flex flex-col items-center justify-center">
-                            <span className="text-[8px] text-neutral-500 font-bold uppercase tracking-tighter">Abr</span>
+                            <span className="text-[8px] text-neutral-500 font-bold uppercase tracking-tighter">{globalLanguage === "es" ? "Abr" : "Apr"}</span>
                             <span className="text-base font-black italic tracking-tighter leading-none mt-1">29</span>
                          </div>
                          <div className="flex-1">
-                            <h5 className="text-[10px] font-black uppercase tracking-tighter flex items-center gap-2">Miércoles <CheckCircle2 size={10} className="text-brand-emerald" /></h5>
+                            <h5 className="text-[10px] font-black uppercase tracking-tighter flex items-center gap-2">{currentT.progWednesday} <CheckCircle2 size={10} className="text-brand-emerald" /></h5>
                             <div className="flex gap-2 mt-1">
                                <span className="text-[8px] bg-blue-500/10 text-blue-400 px-1 py-0.5 rounded font-bold">+2630</span>
                                <span className="text-[8px] bg-brand-emerald/10 text-brand-emerald px-1 py-0.5 rounded font-bold">-1055</span>
@@ -1628,7 +2162,7 @@ const DeficitPro = () => {
                          </div>
                          <div className="text-right">
                             <div className="text-xs font-black text-brand-emerald italic leading-tight tracking-tighter">+1994</div>
-                            <div className="text-[8px] text-neutral-500 font-bold uppercase tracking-widest">Margen</div>
+                            <div className="text-[8px] text-neutral-500 font-bold uppercase tracking-widest">{currentT.progMargin}</div>
                          </div>
                       </div>
 
@@ -1636,11 +2170,11 @@ const DeficitPro = () => {
                       <div className="flex items-center gap-4 bg-red-500/5 p-4 rounded-2xl border border-red-500/10 relative overflow-hidden group">
                          <div className="absolute left-0 top-0 bottom-0 w-1 bg-red-500"></div>
                          <div className="w-10 h-10 rounded-xl bg-neutral-900 border border-red-500/10 flex flex-col items-center justify-center">
-                            <span className="text-[8px] text-neutral-500 font-bold uppercase tracking-tighter">Abr</span>
+                            <span className="text-[8px] text-neutral-500 font-bold uppercase tracking-tighter">{globalLanguage === "es" ? "Abr" : "Apr"}</span>
                             <span className="text-base font-black italic tracking-tighter leading-none mt-1">28</span>
                          </div>
                          <div className="flex-1">
-                            <h5 className="text-[10px] font-black uppercase tracking-tighter flex items-center gap-2 text-red-400">Martes <Flame size={10} /></h5>
+                            <h5 className="text-[10px] font-black uppercase tracking-tighter flex items-center gap-2 text-red-400">{currentT.progTuesday} <Flame size={10} /></h5>
                             <div className="flex gap-2 mt-1">
                                <span className="text-[8px] bg-red-400/20 text-red-400 px-1 py-0.5 rounded font-bold">+3100</span>
                                <span className="text-[8px] bg-brand-emerald/10 text-brand-emerald px-1 py-0.5 rounded font-bold">-250</span>
@@ -1648,7 +2182,7 @@ const DeficitPro = () => {
                          </div>
                          <div className="text-right">
                             <div className="text-xs font-black text-red-500 italic leading-tight tracking-tighter">-450</div>
-                            <div className="text-[8px] text-neutral-500 font-bold uppercase tracking-widest leading-none">Exceso</div>
+                            <div className="text-[8px] text-neutral-500 font-bold uppercase tracking-widest leading-none">{currentT.progSurplus}</div>
                          </div>
                       </div>
                    </div>
