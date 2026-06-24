@@ -296,14 +296,19 @@ const translations = {
     priceHeader: "Elige tu Plan Pro",
     priceSubhead: "Sin anuncios, sin alertas solicitando suscribirte o apoyo al equipo, con hasta 50 consultas de Coach IA y 10 de búsqueda inteligente.",
     pricePlanMonthly: "Mensual",
+    priceMonthlyVal: "$4.990 CLP",
     priceFreeTrial: "3 días gratis",
     pricePlanThreeMonths: "3 Meses",
+    priceThreeMonthsVal: "$12.000 CLP",
     priceSaveLabel: "Ahorra 20%",
     pricePlanAnnual: "Anual",
+    priceAnnualVal: "$39.990 CLP",
     priceBestValue: "Mejor Valor",
     priceMonthlyCalc: "($3.332 / mes)",
     priceGiftLabel: "¡Regala 12 meses GRATIS a un amigo/a! 🎁",
+    priceGiftNotice: "* El código de regalo será entregado 15 días después de la compra para evitar fraudes.",
     // Pre-register section
+    preRegistering: "Registrando...",
     preBadge: "Lanzamiento Exclusivo",
     preTitle: "envíanos tu correo",
     preTitleSub: "y recibe 7 días PRO",
@@ -503,14 +508,19 @@ const translations = {
     priceHeader: "Choose Your Pro Plan",
     priceSubhead: "No ads, no subscription prompts, with up to 50 AI Coach queries and 10 smart searches.",
     pricePlanMonthly: "Monthly",
+    priceMonthlyVal: "$4.99 USD",
     priceFreeTrial: "3 free days",
     pricePlanThreeMonths: "3 Months",
+    priceThreeMonthsVal: "$12.99 USD",
     priceSaveLabel: "Save 20%",
     pricePlanAnnual: "Annual",
+    priceAnnualVal: "$39.99 USD",
     priceBestValue: "Best Value",
-    priceMonthlyCalc: "($3.332 / month)",
+    priceMonthlyCalc: "($3.33 / month)",
     priceGiftLabel: "Gift 12 months FREE to a friend! 🎁",
+    priceGiftNotice: "* The gift code will be delivered 15 days after purchase to prevent fraud.",
     // Pre-register section
+    preRegistering: "Registering...",
     preBadge: "Exclusive Launch",
     preTitle: "send us your email",
     preTitleSub: "and get 7 free PRO days",
@@ -736,6 +746,16 @@ const DeficitPro = () => {
             <span className="brand-logo text-xl">
               Deficit <span className="text-[#00e5ff] glow-cyan lowercase">pro</span>
             </span>
+            
+            {/* Global Language Switcher */}
+            <button
+              onClick={() => setGlobalLanguage(globalLanguage === "es" ? "en" : "es")}
+              className="ml-1 px-2.5 py-1.5 rounded-full border border-white/10 hover:border-[#00e5ff]/30 hover:bg-[#00e5ff]/5 text-[9px] font-black uppercase tracking-widest text-[#00e5ff] transition-all cursor-pointer flex items-center gap-1 font-sans"
+              title={globalLanguage === "es" ? "Switch to English" : "Cambiar a Español"}
+            >
+              <Globe size={11} className="stroke-[2.5px]" />
+              <span>{globalLanguage === "es" ? "ES" : "EN"}</span>
+            </button>
           </div>
           
           <div className="hidden md:flex items-center gap-10 text-[10px] font-bold text-neutral-400 uppercase tracking-[0.2em]">
@@ -748,16 +768,6 @@ const DeficitPro = () => {
               {currentT.navDownload}
             </a>
             <Link to="/Studio" className="hover:text-brand-emerald transition-colors">{currentT.navStudio}</Link>
-            
-            {/* Global Language Switcher */}
-            <button
-              onClick={() => setGlobalLanguage(globalLanguage === "es" ? "en" : "es")}
-              className="px-2.5 py-1.5 rounded-full border border-white/10 hover:border-[#00e5ff]/30 hover:bg-[#00e5ff]/5 text-[9px] font-black uppercase tracking-widest text-[#00e5ff] transition-all cursor-pointer flex items-center gap-1 font-sans"
-              title={globalLanguage === "es" ? "Switch to English" : "Cambiar a Español"}
-            >
-              <Globe size={11} className="stroke-[2.5px]" />
-              <span>{globalLanguage === "es" ? "ES" : "EN"}</span>
-            </button>
           </div>
           
           <div className="md:hidden flex gap-2 items-center">
@@ -770,13 +780,6 @@ const DeficitPro = () => {
              >
                {currentT.navDownload.toLowerCase()}
              </a>
-             <button
-               onClick={() => setGlobalLanguage(globalLanguage === "es" ? "en" : "es")}
-               className="p-2 rounded-full border border-white/10 hover:border-[#00e5ff]/30 hover:bg-[#00e5ff]/5 text-[9px] font-black uppercase tracking-widest text-[#00e5ff] transition-all cursor-pointer flex items-center justify-center font-sans"
-               title={globalLanguage === "es" ? "Switch to English" : "Cambiar a Español"}
-             >
-               <Globe size={12} className="stroke-[2.5px]" />
-             </button>
           </div>
         </div>
       </nav>
@@ -2196,13 +2199,13 @@ const DeficitPro = () => {
 
       {/* Control Total Section */}
       <section className="py-12 px-12 max-w-7xl mx-auto border-t border-brand-border">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-20">
+         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-20">
           <div>
-            <span className="text-brand-emerald text-[10px] font-bold uppercase tracking-[0.3em]">Operational Precision</span>
-            <h2 className="text-4xl font-light uppercase tracking-tighter mt-4">Control <span className="font-bold italic">Total</span></h2>
+            <span className="text-brand-emerald text-[10px] font-bold uppercase tracking-[0.3em]">{currentT.controlBadge}</span>
+            <h2 className="text-4xl font-light uppercase tracking-tighter mt-4">{currentT.controlTitle1} <span className="font-bold italic">{currentT.controlTitle2}</span></h2>
           </div>
           <p className="text-neutral-400 max-w-xs text-sm leading-relaxed font-light">
-            Monitorea cada variable de tu saludo con herramientas diseñadas para el rigor científico.
+            {currentT.controlDesc}
           </p>
         </div>
         
@@ -2213,7 +2216,7 @@ const DeficitPro = () => {
           transition={{ staggerChildren: 0.15 }}
           className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"
         >
-          <FeatureCard title="Hidratación Avanzada" icon={Droplets}>
+          <FeatureCard title={currentT.controlHydration} icon={Droplets}>
             <div className="flex justify-center mb-6">
               {/* Specialized Hydration Visualization */}
               <div className="relative w-16 h-28">
@@ -2230,16 +2233,16 @@ const DeficitPro = () => {
               </div>
             </div>
             <div className="text-center">
-              <p className="text-4xl font-black italic tracking-tighter">7/13 <span className="text-xs font-bold text-neutral-500 uppercase tracking-widest ml-1">Vasos</span></p>
-              <div className="mt-2 text-[8px] font-black text-blue-400 uppercase tracking-widest opacity-80">55% de la meta diaria</div>
+              <p className="text-4xl font-black italic tracking-tighter">7/13 <span className="text-xs font-bold text-neutral-500 uppercase tracking-widest ml-1">{currentT.controlHydrationUnit}</span></p>
+              <div className="mt-2 text-[8px] font-black text-blue-400 uppercase tracking-widest opacity-80">{currentT.controlHydrationStatus}</div>
             </div>
           </FeatureCard>
 
-          <FeatureCard title="Distribución Macros" icon={Brain}>
+          <FeatureCard title={currentT.controlMacros} icon={Brain}>
             <div className="space-y-5">
               <div className="space-y-2">
                 <div className="flex justify-between text-[10px] font-black uppercase text-neutral-400 tracking-tighter italic">
-                  <span>Proteína</span>
+                  <span>{currentT.controlMacrosProte}</span>
                   <span className="text-brand-emerald">125g / 150g</span>
                 </div>
                 <div className="h-1.5 w-full bg-neutral-800/50 rounded-full overflow-hidden">
@@ -2252,7 +2255,7 @@ const DeficitPro = () => {
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between text-[10px] font-black uppercase text-neutral-400 tracking-tighter italic">
-                   <span>Carbos</span>
+                   <span>{currentT.controlMacrosCarbs}</span>
                    <span className="text-blue-400">180g / 220g</span>
                 </div>
                 <div className="h-1.5 w-full bg-neutral-800/50 rounded-full overflow-hidden">
@@ -2265,7 +2268,7 @@ const DeficitPro = () => {
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between text-[10px] font-black uppercase text-neutral-400 tracking-tighter italic">
-                   <span>Grasas</span>
+                   <span>{currentT.controlMacrosFats}</span>
                    <span className="text-amber-500">45g / 65g</span>
                 </div>
                 <div className="h-1.5 w-full bg-neutral-800/50 rounded-full overflow-hidden">
@@ -2287,11 +2290,11 @@ const DeficitPro = () => {
         <div className="max-w-4xl mx-auto space-y-16">
           <div className="space-y-6">
             <h2 className="text-4xl md:text-5xl font-light tracking-tighter uppercase italic leading-tight">
-              Hazlo <span className="font-bold text-brand-emerald not-italic text-shadow-[0_0_20px_rgba(16,185,129,0.3)]">simple.</span> Hazlo <span className="font-bold text-brand-emerald not-italic text-shadow-[0_0_20px_rgba(16,185,129,0.3)]">real.</span> <br/>
-              Hazlo con Déficit <span className="brand-logo lowercase text-[#00e5ff]">pro</span>
+              {currentT.ctaTitle1} <span className="font-bold text-brand-emerald not-italic text-shadow-[0_0_20px_rgba(16,185,129,0.3)]">{currentT.ctaTitleSimple}</span> {currentT.ctaTitle2} <span className="font-bold text-brand-emerald not-italic text-shadow-[0_0_20px_rgba(16,185,129,0.3)]">{currentT.ctaTitleReal}</span> <br/>
+              {currentT.ctaTitle3} <span className="brand-logo lowercase text-[#00e5ff]">pro</span>
             </h2>
             <p className="text-neutral-400 text-lg leading-relaxed font-light italic">
-              Made in Chile. 🇨🇱
+              {currentT.ctaMadeIn}
             </p>
           </div>
 
@@ -2307,9 +2310,9 @@ const DeficitPro = () => {
               variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
               className="text-center mb-8"
             >
-              <h3 className="text-3xl font-display font-black tracking-tighter italic uppercase mb-4">Elige tu Plan Pro</h3>
+              <h3 className="text-3xl font-display font-black tracking-tighter italic uppercase mb-4">{currentT.priceHeader}</h3>
               <p className="text-neutral-400 text-sm font-light leading-relaxed">
-                Sin anuncios, sin alertas solicitando suscribirte o apoyo al equipo, con hasta 50 consultas de Coach IA y 10 de búsqueda inteligente.
+                {currentT.priceSubhead}
               </p>
             </motion.div>
 
@@ -2324,10 +2327,10 @@ const DeficitPro = () => {
                   <Calendar size={24} />
                 </div>
                 <div>
-                  <h4 className="font-black text-lg tracking-tighter uppercase italic">Mensual</h4>
+                  <h4 className="font-black text-lg tracking-tighter uppercase italic">{currentT.pricePlanMonthly}</h4>
                   <div className="flex items-center gap-2">
-                    <span className="text-blue-400 font-bold text-lg leading-tight">$4.990 CLP</span>
-                    <span className="text-[10px] text-neutral-500 font-bold uppercase tracking-widest pl-2 border-l border-white/10">3 días gratis</span>
+                    <span className="text-blue-400 font-bold text-lg leading-tight">{currentT.priceMonthlyVal}</span>
+                    <span className="text-[10px] text-neutral-500 font-bold uppercase tracking-widest pl-2 border-l border-white/10">{currentT.priceFreeTrial}</span>
                   </div>
                 </div>
               </div>
@@ -2345,10 +2348,10 @@ const DeficitPro = () => {
                   <Star size={24} className="fill-purple-400" />
                 </div>
                 <div>
-                  <h4 className="font-black text-lg tracking-tighter uppercase italic">3 Meses</h4>
+                  <h4 className="font-black text-lg tracking-tighter uppercase italic">{currentT.pricePlanThreeMonths}</h4>
                   <div className="flex items-center gap-2">
-                    <span className="text-blue-400 font-bold text-lg leading-tight">$12.000 CLP</span>
-                    <span className="text-[10px] text-brand-emerald font-bold uppercase tracking-widest pl-2 border-l border-white/10 italic">Ahorra 20%</span>
+                    <span className="text-blue-400 font-bold text-lg leading-tight">{currentT.priceThreeMonthsVal}</span>
+                    <span className="text-[10px] text-brand-emerald font-bold uppercase tracking-widest pl-2 border-l border-white/10 italic">{currentT.priceSaveLabel}</span>
                   </div>
                 </div>
               </div>
@@ -2362,26 +2365,34 @@ const DeficitPro = () => {
               className="glass-card p-6 border-[#00e5ff]/35 bg-[#00e5ff]/5 flex items-center justify-between group cursor-pointer relative"
             >
               <div className="absolute -top-3 right-8 bg-orange-500 text-black text-[8px] font-black uppercase px-3 py-1 rounded-full tracking-widest shadow-[0_0_15px_rgba(249,115,22,0.5)]">
-                Mejor Valor
+                {currentT.priceBestValue}
               </div>
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-2xl bg-amber-500/20 flex items-center justify-center text-amber-500 border border-amber-500/30">
                   <Star size={24} className="fill-amber-500" />
                 </div>
                 <div className="text-left">
-                  <h4 className="font-black text-lg tracking-tighter uppercase italic">Anual</h4>
+                  <h4 className="font-black text-lg tracking-tighter uppercase italic">{currentT.pricePlanAnnual}</h4>
                   <div className="flex items-center gap-2">
-                    <span className="text-blue-400 font-bold text-lg leading-tight">$39.990 CLP</span>
-                    <span className="text-[10px] text-neutral-500 font-bold uppercase tracking-widest pl-2 border-l border-white/10">($3.332 / mes)</span>
+                    <span className="text-blue-400 font-bold text-lg leading-tight">{currentT.priceAnnualVal}</span>
+                    <span className="text-[10px] text-neutral-500 font-bold uppercase tracking-widest pl-2 border-l border-white/10">{currentT.priceMonthlyCalc}</span>
                   </div>
                   <div className="flex items-center gap-1.5 mt-1.5 text-[9px] font-black uppercase tracking-wider text-brand-emerald">
                      <Gift size={11} className="text-brand-emerald" />
-                     <span>¡Regala 12 meses GRATIS a un amigo/a! 🎁</span>
+                     <span>{currentT.priceGiftLabel}</span>
                   </div>
                 </div>
               </div>
               <ChevronRight className="text-neutral-600 group-hover:text-white transition-colors" />
             </motion.div>
+
+            {/* Price Gift Notice */}
+            <motion.p 
+              variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
+              className="text-[10px] text-[#ef4444] font-bold tracking-tight italic text-center pt-2 px-4"
+            >
+              {currentT.priceGiftNotice}
+            </motion.p>
           </motion.div>
 
           {/* Pre-Register Section */}
@@ -2398,14 +2409,14 @@ const DeficitPro = () => {
 
                 <div className="text-center space-y-3">
                   <span className="px-3 py-1 bg-[#00e5ff]/10 text-[#00e5ff] text-[10px] font-bold uppercase tracking-[0.2em] rounded-full border border-[#00e5ff]/20">
-                    Lanzamiento Exclusivo
+                    {currentT.preBadge}
                   </span>
                   <h3 className="text-2xl md:text-3xl font-display font-black tracking-tight uppercase italic leading-[1.1]">
-                    envíanos tu correo <br/>
-                    <span className="text-[#00e5ff] glow-cyan">y recibe 7 días PRO</span>
+                    {currentT.preTitle} <br/>
+                    <span className="text-[#00e5ff] glow-cyan">{currentT.preTitleSub}</span>
                   </h3>
                   <p className="text-neutral-400 text-xs font-light max-w-md mx-auto">
-                    Déjanos tu correo. Una vez validado tu pre-registro, te contactaremos y enviaremos tu acceso exclusivo de cortesía de forma 100% personalizada.
+                    {currentT.preDesc}
                   </p>
                 </div>
 
@@ -2447,19 +2458,19 @@ const DeficitPro = () => {
                     className="w-full py-4 bg-[#00e5ff] text-black font-black rounded-2xl hover:bg-[#33ebff] shadow-[0_0_30px_rgba(0,229,255,0.3)] hover:shadow-[0_0_50px_rgba(0,229,255,0.5)] transition-all uppercase tracking-[0.1em] text-sm glow-cyan border-b-4 border-black/20 transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex flex-col items-center justify-center gap-0.5"
                   >
                     {preRegSending ? (
-                      <span>Registrando...</span>
+                      <span>{currentT.preRegistering}</span>
                     ) : (
                       <>
-                        <span className="text-base font-black">solicitar código</span>
-                        <span className="text-[10px] lowercase font-medium tracking-normal opacity-80">(promoción por tiempo limitado)</span>
+                        <span className="text-base font-black">{currentT.preBtnLabel}</span>
+                        <span className="text-[10px] lowercase font-medium tracking-normal opacity-80">{currentT.preBtnSub}</span>
                       </>
                     )}
                   </button>
                 </form>
 
                 <div className="text-center space-y-2">
-                  <p className="text-[9px] text-neutral-500 uppercase tracking-widest font-black italic">Únete a los chilenos que dominan su déficit calórico con IA 🇨🇱</p>
-                  <p className="text-[9px] text-neutral-600 block">Tus datos serán procesados con total confidencialidad. Soporte y consultas: <a href="mailto:deficitpro.soporte@gmail.com" className="text-[#00e5ff] hover:underline">deficitpro.soporte@gmail.com</a></p>
+                  <p className="text-[9px] text-neutral-500 uppercase tracking-widest font-black italic">{currentT.preFooterInfo}</p>
+                  <p className="text-[9px] text-neutral-600 block">{currentT.preFooterPrivacy}<a href="mailto:deficitpro.soporte@gmail.com" className="text-[#00e5ff] hover:underline">deficitpro.soporte@gmail.com</a></p>
                 </div>
               </motion.div>
             ) : (
@@ -2478,20 +2489,20 @@ const DeficitPro = () => {
 
                 <div className="space-y-3">
                   <h3 className="text-2xl md:text-3xl font-display font-black tracking-tight text-white uppercase italic leading-none">
-                    ¡Pre-registro Exitoso! 🎉
+                    {currentT.preSuccessTitle}
                   </h3>
                   <p className="text-brand-emerald text-xs font-black uppercase tracking-widest italic">
-                    Acceso Premium Asegurado
+                    {currentT.preSuccessSub}
                   </p>
                   
                   <div className="bg-[#1e293b]/50 border border-white/5 rounded-2xl p-6 text-center space-y-3 max-w-md mx-auto">
                     <p className="text-xs text-neutral-300 font-medium leading-relaxed">
-                      Hemos recibido tus datos con éxito. Revisaremos tu información y te enviaremos el código de activación de 7 días PRO gratis directamente de forma 100% personalizada.
+                      {currentT.preSuccessDesc}
                     </p>
                   </div>
                   
                   <p className="text-[10px] text-neutral-500 italic pt-2">
-                    ¡Mantente atento/a a tus notificaciones para recibir tu regalo de lanzamiento! 🎁
+                    {currentT.preSuccessNotice}
                   </p>
                 </div>
 
@@ -2512,10 +2523,10 @@ const DeficitPro = () => {
                     }}
                     className="w-full py-4 bg-brand-emerald text-black font-black rounded-2xl hover:bg-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_35px_rgba(16,185,129,0.5)] transition-all uppercase tracking-[0.12em] text-xs border-b-4 border-black/20 transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer flex items-center justify-center gap-2"
                   >
-                    <span>+ Registrar otro usuario / amigo</span>
+                    <span>{currentT.preRegisterAnother}</span>
                   </button>
                   <p className="text-[9px] text-neutral-500 italic mt-1">
-                    Puedes registrar tantas personas o amigos como necesites.
+                    {currentT.preRegisterAnotherNotice}
                   </p>
                 </div>
               </motion.div>
@@ -2523,7 +2534,7 @@ const DeficitPro = () => {
 
             {/* Soon on Play Store Indicators & Google Play Download Button */}
             <div className="flex flex-col items-center gap-6 pt-8 text-center border-t border-white/5 mt-8">
-              <p className="text-xs text-[#39ff14] uppercase tracking-widest font-black animate-pulse">¡Ya disponible en Android! 🤖</p>
+              <p className="text-xs text-[#39ff14] uppercase tracking-widest font-black animate-pulse">{currentT.playStoreStatus}</p>
               
               <a 
                 href="https://play.google.com/store/apps/details?id=app.deficitpro.android"
@@ -2532,10 +2543,10 @@ const DeficitPro = () => {
                 className="px-14 py-6 sm:px-16 sm:py-7 md:px-20 md:py-8 bg-[#39ff14] text-black font-black rounded-2xl hover:bg-[#5aff3d] shadow-[0_0_40px_rgba(57,255,20,0.65)] hover:shadow-[0_0_65px_rgba(57,255,20,1)] transition-all duration-300 uppercase tracking-widest text-xs md:text-sm lg:text-base inline-flex items-center justify-center gap-3 border-b-4 border-black/25 transform hover:-translate-y-1 active:translate-y-0 cursor-pointer font-sans text-center"
               >
                 <Download size={22} className="stroke-[3.5px] animate-bounce" />
-                <span>DESCARGA EN PLAYSTORE AHORA</span>
+                <span>{currentT.playStoreDownload}</span>
               </a>
 
-              <p className="text-[10px] text-neutral-500 uppercase tracking-[0.3em] font-black italic opacity-60">Y pronto en App Store 🍏</p>
+              <p className="text-[10px] text-neutral-500 uppercase tracking-[0.3em] font-black italic opacity-60">{currentT.appStoreStatus}</p>
             </div>
           </div>
         </div>
@@ -2544,7 +2555,7 @@ const DeficitPro = () => {
       {/* Footer Accents */}
       <footer className="px-12 py-10 border-t border-brand-border">
         <div className="max-w-7xl mx-auto mb-10 text-center">
-            <p className="brand-logo text-xl text-neutral-500 italic opacity-40">¡Que nos vaiga bien!</p>
+            <p className="brand-logo text-xl text-neutral-500 italic opacity-40">{currentT.footerPhrase}</p>
         </div>
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
           <div className="flex items-center gap-3">
@@ -2553,10 +2564,10 @@ const DeficitPro = () => {
                    <div className="w-1.5 h-1.5 bg-brand-emerald rounded-full"></div>
                 </div>
              </div>
-             <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-neutral-500">© 2026 Deficit Pro</span>
+             <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-neutral-500">{currentT.footerCopyright}</span>
           </div>
           <div className="flex gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-neutral-600">
-            <Link to="/Politicas" className="hover:text-brand-emerald cursor-pointer transition-all">Política de Privacidad</Link>
+            <Link to="/Politicas" className="hover:text-brand-emerald cursor-pointer transition-all">{currentT.footerPrivacy}</Link>
           </div>
           <div className="flex gap-6">
             <div className="w-8 h-8 rounded-full border border-brand-border flex items-center justify-center hover:border-brand-emerald/30 transition-colors cursor-pointer">
