@@ -413,7 +413,7 @@ const translations = {
     foodBadge: "AI Scanner for Complete Meals",
     foodTitle1: "Tell It What You Ate,",
     foodTitle2: "It Understands Everything.",
-    foodDesc: "Don't waste time searching ingredient by ingredient. Our AI breaks down complex dishes like a gourmet cheeseburger or a local complete in seconds.",
+    foodDesc: "Don't waste time searching ingredient by ingredient. Our AI breaks down complex dishes like a gourmet cheeseburger or a loaded hot dog in seconds.",
     foodSearchLabel: "Smart Search:",
     foodSearchPlaceholder: "gourmet cheeseburger",
     foodMockHeader: "LOG MEAL",
